@@ -25,16 +25,16 @@
 
 /* Keypad Port Configurations */
 //#define KEYPAD_ROW_PORT_ID                PORTB_ID
-#define KEYPAD_ROW_1_PIN_ID          GPIO_PB5
-#define KEYPAD_ROW_2_PIN_ID          GPIO_PB5
-#define KEYPAD_ROW_3_PIN_ID          GPIO_PB5
-#define KEYPAD_ROW_4_PIN_ID          GPIO_PB5
+#define KEYPAD_ROW_1_PIN_ID          GPIO_PB0
+#define KEYPAD_ROW_2_PIN_ID          GPIO_PB1
+#define KEYPAD_ROW_3_PIN_ID          GPIO_PB2
+#define KEYPAD_ROW_4_PIN_ID          GPIO_PB3
 
-#define KEYPAD_COL_1_PIN_ID          GPIO_PB5
+#define KEYPAD_COL_1_PIN_ID          GPIO_PB4
 #define KEYPAD_COL_2_PIN_ID          GPIO_PB5
-#define KEYPAD_COL_3_PIN_ID          GPIO_PB5
+#define KEYPAD_COL_3_PIN_ID          GPIO_PB6
 #if (KEYPAD_NUM_COLS == 4)
-#define KEYPAD_COL_4_PIN_ID          GPIO_PB5
+#define KEYPAD_COL_4_PIN_ID          GPIO_PB7
 #endif
 /* Keypad button logic configurations */
 #define KEYPAD_BUTTON_PRESSED            LOGIC_LOW
@@ -48,9 +48,7 @@
  * Description :
  * Get the Keypad pressed button
  */
-uint8 KEYPAD_getPressedKey(void);
+uint8 KEYPAD_getPressedKey(uint);
 
 #endif /* KEYPAD_H_ */
-#if 0
 
-#endif
