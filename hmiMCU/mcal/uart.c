@@ -62,26 +62,17 @@ void UART_sendByte(const uint8 a_data) {
 	UDR_REG.byte = a_data;
 
 }
-sint16 UART_recieveByte(void) {
-	/* RXC flag is set when the UART receive data so wait until this flag is set to one */
-
-	while (!UCSRA_REG.bits.rxc) {
-	/*
-		_delay_ms(1);
-		g_elapsedCount++;
-		if (g_elapsedCount >= g_timeOutCount) {
-			g_elapsedCount=0;
-			return UART_TIMEOUT_ERROR_CODE;
-		}*/
-
-	}
-
-	/*
-	 * Read the received data from the Rx buffer (UDR)
-	 * The RXC flag will be cleared after read the data
-	 */
-	return UDR_REG.byte;
+sint16 UART_receiveByte(uint32 timeout_us) {
+    uint32 count = 0;
+    while (!UCSRA_REG.bits.rxc) {
+        if (count++ >= timeout_us) {
+            return -1;  // Return -1 on timeout
+        }
+        _delay_us(1);  // Delay in microseconds to avoid busy looping
+    }
+    return UDR_REG.byte;  // Return the received byte
 }
+
 
 void UART_sendString(const uint8 *Str)
 {

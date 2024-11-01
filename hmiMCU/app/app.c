@@ -8,16 +8,16 @@
 #include"../hal/ctrl.h"
 #include "../hal/lcd.h"
 #include "../hal/keypad.h"
-uint8 g_stateMachine = SET_PASSWORD;
 
+void Get_password(uint8 a_pass[]);
 typedef enum {
 	SET_PASSWORD, OPEN_DOOR, CLOSEDOOR, ALERT
 } STATEMACHINE;
+uint8 g_stateMachine = SET_PASSWORD;
 int main() {
 
 	LCD_init();
 	CTRL_init();
-	uint8 l_key;
 
 	for (;;) {
 		switch (g_stateMachine) {
@@ -31,16 +31,34 @@ int main() {
 			LCD_displayStringRowColumn(1, 0, "same pass");
 			Get_password(l_2ndInpass);
 
+			LCD_clearScreen();
+			LCD_moveCursor(0, 0);
+
+			uint8 *ptr = l_1stInpass;
+			while (*ptr!='\0') {
+				LCD_intgerToString(*ptr);
+				ptr++;
+			}
+
+			LCD_moveCursor(1, 0);
+			 ptr = l_2ndInpass;
+			while (*ptr!='\0') {
+				LCD_intgerToString(*ptr);
+				ptr++;
+			}
+			 CTRL_checkPass(l_1stInpass, l_2ndInpass);
+			g_stateMachine++;
+
 			break;
 		};
 
 	}
 }
 
-void Get_password(uint8 a_pass[6]) {
-	a_pass[5] = '/0';
+void Get_password(uint8 *a_pass) {
+	a_pass[5] = '\0';
 	uint8 l_key = KEYPAD_getPressedKey(1);
-	while (l_key == 'N') {
+	while (l_key == 'N'|| l_key>9) {
 		l_key = KEYPAD_getPressedKey(1);
 	}
 	/* Store the first pressed key in the password array */
@@ -51,7 +69,7 @@ void Get_password(uint8 a_pass[6]) {
 	/* Loop to capture the remaining 4 characters of the password */
 	for (uint8 i = 1; i < 5; i++) {
 		/* Wait until a new key is pressed */
-		while (l_key == 'N') {
+		while (l_key == 'N'|| l_key>9) {
 			l_key = KEYPAD_getPressedKey(1);
 		}
 
