@@ -43,17 +43,17 @@ KEYPAD_COL_3_PIN_ID, KEYPAD_COL_4_PIN_ID };
 
 uint8 KEYPAD_getPressedKey(uint8 a_noChecks ) {
 	uint8 col, row;
-	GPIO_ARR_setupPinDirection(KEYPAD_ROW_1_PIN_ID, PIN_INPUT);
-	GPIO_ARR_setupPinDirection(KEYPAD_ROW_2_PIN_ID, PIN_INPUT);
-	GPIO_ARR_setupPinDirection(KEYPAD_ROW_3_PIN_ID, PIN_INPUT);
-	GPIO_ARR_setupPinDirection(KEYPAD_ROW_4_PIN_ID, PIN_INPUT);
+	GPIO_ARR_setPinDirection(KEYPAD_ROW_1_PIN_ID, PIN_INPUT);
+	GPIO_ARR_setPinDirection(KEYPAD_ROW_2_PIN_ID, PIN_INPUT);
+	GPIO_ARR_setPinDirection(KEYPAD_ROW_3_PIN_ID, PIN_INPUT);
+	GPIO_ARR_setPinDirection(KEYPAD_ROW_4_PIN_ID, PIN_INPUT);
 
-	GPIO_ARR_setupPinDirection(KEYPAD_COL_1_PIN_ID, PIN_INPUT);
-	GPIO_ARR_setupPinDirection(KEYPAD_COL_2_PIN_ID, PIN_INPUT);
-	GPIO_ARR_setupPinDirection(KEYPAD_COL_3_PIN_ID, PIN_INPUT);
+	GPIO_ARR_setPinDirection(KEYPAD_COL_1_PIN_ID, PIN_INPUT);
+	GPIO_ARR_setPinDirection(KEYPAD_COL_2_PIN_ID, PIN_INPUT);
+	GPIO_ARR_setPinDirection(KEYPAD_COL_3_PIN_ID, PIN_INPUT);
 
 #if(KEYPAD_NUM_COLS == 4)
-	GPIO_ARR_setupPinDirection(KEYPAD_COL_4_PIN_ID, PIN_INPUT);
+	GPIO_ARR_setPinDirection(KEYPAD_COL_4_PIN_ID, PIN_INPUT);
 #endif
 	for (int l_checkCount = 0; l_checkCount < a_noChecks; l_checkCount++) {
 		for (row = 0; row < KEYPAD_NUM_ROWS; row++) /* loop for rows */
@@ -62,7 +62,7 @@ uint8 KEYPAD_getPressedKey(uint8 a_noChecks ) {
 			 * Each time setup the direction for all keypad port as input pins,
 			 * except this row will be output pin
 			 */
-			GPIO_ARR_setupPinDirection(g_row_pins[row], PIN_OUTPUT);
+			GPIO_ARR_setPinDirection(g_row_pins[row], PIN_OUTPUT);
 
 			/* Set/Clear the row output pin */
 			GPIO_ARR_setPinState(g_row_pins[row],
@@ -80,7 +80,7 @@ uint8 KEYPAD_getPressedKey(uint8 a_noChecks ) {
 #endif
 				}
 			}
-			GGPIO_ARR_setupPinDirection(g_row_pins[row], PIN_INPUT);
+			GPIO_ARR_setPinDirection(g_row_pins[row], PIN_INPUT);
 
 			_delay_ms(10); /* Add small delay to fix CPU load issue in proteus */
 		}

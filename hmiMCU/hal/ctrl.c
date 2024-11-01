@@ -19,7 +19,7 @@ uint8 CTRL_init() {
 	for (int i = 0; i < 50; i++) {
 		UART_sendByte(CTRL_HANDSHAKE);
 
-		l_byteRecieved = (uint8) UART_recieveByte(l_byteRecieved);
+		l_byteRecieved = (uint8) UART_recieveByte();
 		if (l_byteRecieved == CTRL_HANDSHAKE)
 			return CTRL_CONNECTION_SUCSSES;
 	}
