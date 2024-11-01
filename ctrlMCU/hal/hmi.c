@@ -24,7 +24,7 @@ uint8 HMI_init() {
 	UART_init(&uartConfig);
 
 
-	while (1) {
+	for(uint16 i ; i<=65000;i++) {
 
 		l_byteRecieved = (uint8) UART_recieveByte();
 

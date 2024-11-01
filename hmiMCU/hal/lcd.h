@@ -30,14 +30,14 @@
  *
  * The RS pin selects between sending commands (RS=0) and data (RS=1) to the LCD.
  */
-#define LCD_RS GPIO_PA1
+#define LCD_RS GPIO_PC0
 
 /**
  * @brief GPIO pin connected to the Enable (E) pin of the LCD.
  *
  * The E pin is used to latch data on the data pins when transitioning from high to low.
  */
-#define LCD_E   GPIO_PA2
+#define LCD_E   GPIO_PC1
 #ifdef LCD_8_BIT_MODE
 /**
  * @brief The ID of the GPIO port used for data transmission to the LCD.
@@ -45,7 +45,7 @@
  * This should correspond to the microcontroller port where the LCD's data lines (D0-D7) are connected.
  */
 
-#define LCD_DATA_PORT PORTC_ID
+#define LCD_DATA_PORT PORTA_ID
 #else
 /**
  * @brief The ID of the GPIO pins used for data transmission to the LCD.

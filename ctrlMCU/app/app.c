@@ -9,8 +9,7 @@
 #include "../hal/lcd.h"
 int main(){
 LCD_init();
-LCD_displayChar('M');
-LCD_displayChar(HMI_init());
+HMI_init();
 for(;;);
 }
 

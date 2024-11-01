@@ -41,13 +41,12 @@ KEYPAD_COL_3_PIN_ID, KEYPAD_COL_4_PIN_ID };
  *                      Functions Definitions                                  *
  *******************************************************************************/
 
-uint8 KEYPAD_getPressedKey(uint8 a_noChecks ) {
+uint8 KEYPAD_getPressedKey(uint16 a_noChecks) {
 	uint8 col, row;
 	GPIO_ARR_setPinDirection(KEYPAD_ROW_1_PIN_ID, PIN_INPUT);
 	GPIO_ARR_setPinDirection(KEYPAD_ROW_2_PIN_ID, PIN_INPUT);
 	GPIO_ARR_setPinDirection(KEYPAD_ROW_3_PIN_ID, PIN_INPUT);
 	GPIO_ARR_setPinDirection(KEYPAD_ROW_4_PIN_ID, PIN_INPUT);
-
 	GPIO_ARR_setPinDirection(KEYPAD_COL_1_PIN_ID, PIN_INPUT);
 	GPIO_ARR_setPinDirection(KEYPAD_COL_2_PIN_ID, PIN_INPUT);
 	GPIO_ARR_setPinDirection(KEYPAD_COL_3_PIN_ID, PIN_INPUT);
@@ -55,7 +54,7 @@ uint8 KEYPAD_getPressedKey(uint8 a_noChecks ) {
 #if(KEYPAD_NUM_COLS == 4)
 	GPIO_ARR_setPinDirection(KEYPAD_COL_4_PIN_ID, PIN_INPUT);
 #endif
-	for (int l_checkCount = 0; l_checkCount < a_noChecks; l_checkCount++) {
+	for (uint16 l_checkCount = 0; l_checkCount < a_noChecks; l_checkCount++) {
 		for (row = 0; row < KEYPAD_NUM_ROWS; row++) /* loop for rows */
 		{
 			/* 
@@ -85,7 +84,7 @@ uint8 KEYPAD_getPressedKey(uint8 a_noChecks ) {
 			_delay_ms(10); /* Add small delay to fix CPU load issue in proteus */
 		}
 	}
-	return'N';
+	return 'N';
 }
 
 #if (KEYPAD_NUM_COLS == 3)

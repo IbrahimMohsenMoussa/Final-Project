@@ -21,7 +21,7 @@ uint8 CTRL_init() {
 
 		    };
 	UART_init(&uartConfig);
-	while(1)
+	for(uint16 i ; i<50000;i++)
 	{
 		UART_sendByte(CTRL_HANDSHAKE);
 
