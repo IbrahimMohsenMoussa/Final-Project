@@ -34,7 +34,7 @@ void LCD_sendCommand(uint8 a_lcdCommand) {
 	_delay_us(LCD_TA_DELAY_US); /* Delay for timing */
 
 #ifdef LCD_8_BIT_MODE
-    GPIO_writePort(LCD_DATA_PORT, a_lcdChar);  /* Send character to data port */
+    GPIO_writePort(LCD_DATA_PORT, a_lcdCommand);  /* Send character to data port */
     _delay_us(LCD_TA_DELAY_US);          /* Delay for timing */
     GPIO_ARR_setPinState(LCD_E, LOW);    /* Disable the LCD to latch the character */
     _delay_us(LCD_TA_DELAY_US);          /* Delay for timing */

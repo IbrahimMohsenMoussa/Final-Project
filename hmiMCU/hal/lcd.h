@@ -22,9 +22,9 @@
  *  @brief LCD configuration either 8 bit or 4 bit .
  *  if 8 bit uncomment the macro definition below if 4 bit leave it as is
  *
-#define LCD_8_BIT_MODE
-**/
 
+**/
+#define LCD_8_BIT_MODE
 /**
  * @brief GPIO pin connected to the Register Select (RS) pin of the LCD.
  *

@@ -7,9 +7,10 @@
 
 #ifndef HAL_HMI_H_
 #define HAL_HMI_H_
-#define CTRL_HANDSHAKE 0x20
-#define CTRL_CONNECTION_SUCSSES 1
-#define CTRL_CONNECTION_FAIL 0
+#include"../common/std_types.h"
+#define CTRL_HANDSHAKE 'L'
+#define CTRL_CONNECTION_SUCSSES 'O'
+#define CTRL_CONNECTION_FAIL 'Q'
 
-
+uint8 HMI_init();
 #endif /* HAL_HMI_H_ */

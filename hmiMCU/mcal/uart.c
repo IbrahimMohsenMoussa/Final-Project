@@ -14,7 +14,7 @@ static uint16 g_elapsedCount = 0;
 void UART_init(const UART_ConfigType *const a_config) {
 
 	uint16 l_ubbrVal = 0;
-	g_timeOutCount = 2 * a_config->timeoutMs;
+	g_timeOutCount =  a_config->timeoutMs;
 	/* Calculate the UBRR value for 2x transmission speed */
 	l_ubbrVal = (uint16) (((F_CPU / (a_config->baudRate * 8UL))) - 1);
 
@@ -66,9 +66,11 @@ sint16 UART_recieveByte(void) {
 	/* RXC flag is set when the UART receive data so wait until this flag is set to one */
 
 	while (!UCSRA_REG.bits.rxc) {
-		/*_delay_us(500);
+	/*
+		_delay_ms(1);
 		g_elapsedCount++;
 		if (g_elapsedCount >= g_timeOutCount) {
+			g_elapsedCount=0;
 			return UART_TIMEOUT_ERROR_CODE;
 		}*/
 
