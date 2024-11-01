@@ -11,6 +11,10 @@
 #define CTRL_HANDSHAKE 'L'
 #define CTRL_CONNECTION_SUCSSES 'O'
 #define CTRL_CONNECTION_FAIL 'q'
+#define CTRL_WAIT_PASS 'p'
+
+#define CTRL_PASSMATCH 'M'
+#define CTRL_PASSNOTMATCH 'm'
 
 uint8 CTRL_init();
 #endif /* HAL_CTRL_H_ */

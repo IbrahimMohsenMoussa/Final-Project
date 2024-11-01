@@ -41,19 +41,16 @@ KEYPAD_COL_3_PIN_ID, KEYPAD_COL_4_PIN_ID };
  *                      Functions Definitions                                  *
  *******************************************************************************/
 
-uint8 KEYPAD_getPressedKey(uint16 a_noChecks) {
-	uint8 col, row;
-	GPIO_ARR_setPinDirection(KEYPAD_ROW_1_PIN_ID, PIN_INPUT);
-	GPIO_ARR_setPinDirection(KEYPAD_ROW_2_PIN_ID, PIN_INPUT);
-	GPIO_ARR_setPinDirection(KEYPAD_ROW_3_PIN_ID, PIN_INPUT);
-	GPIO_ARR_setPinDirection(KEYPAD_ROW_4_PIN_ID, PIN_INPUT);
-	GPIO_ARR_setPinDirection(KEYPAD_COL_1_PIN_ID, PIN_INPUT);
-	GPIO_ARR_setPinDirection(KEYPAD_COL_2_PIN_ID, PIN_INPUT);
-	GPIO_ARR_setPinDirection(KEYPAD_COL_3_PIN_ID, PIN_INPUT);
 
-#if(KEYPAD_NUM_COLS == 4)
-	GPIO_ARR_setPinDirection(KEYPAD_COL_4_PIN_ID, PIN_INPUT);
-#endif
+static uint8 KEYPAD_getPressedKeyPrivate (uint16 a_noChecks) {
+	uint8 col, row;
+	/* Configure all rows and columns as input initially */
+	    for (row = 0; row < KEYPAD_NUM_ROWS; row++) {
+	        GPIO_ARR_setPinDirection(g_row_pins[row], PIN_INPUT);
+	    }
+	    for (col = 0; col < KEYPAD_NUM_COLS; col++) {
+	        GPIO_ARR_setPinDirection(g_col_pins[col], PIN_INPUT);
+	    }
 	for (uint16 l_checkCount = 0; l_checkCount < a_noChecks; l_checkCount++) {
 		for (row = 0; row < KEYPAD_NUM_ROWS; row++) /* loop for rows */
 		{
@@ -86,6 +83,25 @@ uint8 KEYPAD_getPressedKey(uint16 a_noChecks) {
 	}
 	return 'N';
 }
+
+uint8 KEYPAD_getPressedKey(uint16 a_noChecks){
+
+	 static uint8 lastPressedKey = 'N'; // Track last pressed key
+	    uint8 currentKey = KEYPAD_getPressedKeyPrivate(a_noChecks);
+
+	    /* If a key is detected and it's different from the last pressed key */
+	    if (currentKey != 'N' && currentKey != lastPressedKey) {
+	        lastPressedKey = currentKey;
+	        return currentKey;
+	    } else if (currentKey == 'N') {
+	        /* If no key is pressed, reset lastPressedKey to detect new press */
+	        lastPressedKey = 'N';
+	    }
+
+	    /* Return 'N' if no new key press is detected */
+	    return 'N';
+}
+
 
 #if (KEYPAD_NUM_COLS == 3)
 /*

@@ -177,6 +177,7 @@ uint8 LCD_displayString(const char* str);
  */
 void LCD_moveCursor(uint8 a_lcdRow, uint8 a_lcdCol);
 void LCD_intgerToString( int);
+void LCD_clearScreen(void);
 /*******************************************************************************
  *                               Data Types                                    *
  *******************************************************************************/
