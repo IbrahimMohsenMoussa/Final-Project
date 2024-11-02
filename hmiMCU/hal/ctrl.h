@@ -12,7 +12,7 @@
 #define CTRL_CONNECTION_SUCSSES 'O'
 #define CTRL_CONNECTION_FAIL 'q'
 #define CTRL_WAIT_PASS 'p'
-
+#define HMI_PASSMATCH 'M'
 #define CTRL_PASSMATCH 'M'
 #define CTRL_PASSNOTMATCH 'm'
 #define HMI_ACK 0xf

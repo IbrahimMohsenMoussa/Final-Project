@@ -65,10 +65,10 @@ void UART_sendByte(const uint8 a_data) {
 sint16 UART_receiveByte(uint32 timeout_us) {
     uint32 count = 0;
     while (!UCSRA_REG.bits.rxc) {
-        if (count++ >= timeout_us) {
+        /*if (count++ >= timeout_us) {
             return -1;  // Return -1 on timeout
         }
-        _delay_us(1);  // Delay in microseconds to avoid busy looping
+        _delay_us(1); */ // Delay in microseconds to avoid busy looping
     }
     return UDR_REG.byte;  // Return the received byte
 }
@@ -102,13 +102,13 @@ void UART_receiveString(uint8 *Str)
 	uint8 i = 0;
 
 	/* Receive the first byte */
-	Str[i] = UART_recieveByte();
+	Str[i] = UART_receiveByte(1000);
 
 	/* Receive the whole string until the '#' */
 	while(Str[i] != '#')
 	{
 		i++;
-		Str[i] = UART_recieveByte();
+		Str[i] = UART_receiveByte(1000);
 	}
 
 	/* After receiving the whole string plus the '#', replace the '#' with '\0' */

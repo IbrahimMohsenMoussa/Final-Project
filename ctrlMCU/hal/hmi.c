@@ -25,7 +25,7 @@ uint8 HMI_handShake(uint8 a_command) {
 }
 
 uint8 HMI_command() {
-	uint8 byte = UART_recieveByte();
+	uint8 byte = UART_receiveByte(10000);
 
 	return byte;
 }
@@ -38,14 +38,14 @@ uint8 HMI_init() {
 	};
 	UART_init(&uartConfig);
 
-	return HMI_handShake(HMI_HANDSHAKE);
+UART_sendByte(HMI_READY);
+return (UART_receiveByte(7)==HMI_READY)? HMI_CONNECTION_SUCSSES: HMI_CONNECTION_FAIL;
 }
 uint8 HMI_ready(){
-	uint8 byte=UART_recieveByte() ;
-while (byte==-1){
-UART_sendByte(HMI_READY);
-byte=UART_recieveByte() ;
-}
+	//UART_sendByte(HMI_READY);
+	LCD_displayString("wait com");
+	uint8 byte=UART_receiveByte(10000) ;
+
 return byte;
 
 }
@@ -54,13 +54,16 @@ void HMI_checkPass() {
     uint8 l_pass2[6] = {0};
 
     /* Signal readiness to receive passwords */
-    UART_sendByte(HMI_READY);
+   // UART_sendByte(HMI_READY);
 
     /* Wait for CTRL_WAIT_PASS signal */
-    if (UART_receiveByte(1000) != CTRL_WAIT_PASS) return;
+  /*  while (UART_receiveByte(1000) != HMI_WAIT_PASS){
+    	LCD_displayString("wait CP");
+    } ;*/
     UART_sendByte(HMI_ACK);
 
     /* Receive the first password */
+
     UART_receiveString(l_pass1);
     UART_sendByte(HMI_ACK);  // Acknowledge receipt of first password
 
@@ -70,7 +73,10 @@ void HMI_checkPass() {
 
     /* Check if passwords match */
     for (uint8 i = 0; i < 5; i++) {
+    	LCD_moveCursor(1,0);
+    	LCD_intgerToString(l_pass1[i]);
         if (l_pass1[i] != l_pass2[i]) {
+
             UART_sendByte(HMI_PASSNOTMATCH);
             return;  // Exit early if passwords don't match
         }

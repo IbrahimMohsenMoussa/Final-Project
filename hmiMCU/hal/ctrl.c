@@ -26,28 +26,38 @@ static uint8 CTRL_handShake(uint8 a_command) {
 uint8 CTRL_init() {
 
 	UART_ConfigType uartConfig = { .baudRate = 9600, .parity =
-			UART_PARITY_DISABLED, .stopBit = UART_STOP_BIT_1, .charSize =
-			UART_CHAR_SIZE_8, .asyncMode = LOGIC_LOW, .timeoutMs = 200
+				UART_PARITY_DISABLED, .stopBit = UART_STOP_BIT_1, .charSize =
+				UART_CHAR_SIZE_8, .asyncMode = LOGIC_LOW, .timeoutMs = 200
 
-	};
+		};
 	UART_init(&uartConfig);
 
-	return CTRL_handShake(CTRL_HANDSHAKE);
+	//return CTRL_handShake(CTRL_HANDSHAKE);
+	if (UART_receiveByte(7)==HMI_READY){
+		UART_sendByte(HMI_READY);
+		return CTRL_CONNECTION_SUCSSES;
+
+	}
+	return CTRL_CONNECTION_FAIL;
 }
 uint8 CTRL_checkPass(uint8 *a_pass1, uint8 *a_pass2) {
-	while(UART_recieveByte()!=HMI_READY);
-    /* Inform the HMI ECU that it will be sending passwords */
+    /* Wait until HMI signals readiness */
+    //while (UART_receiveByte(1000) != HMI_READY);
+
+    /* Inform HMI of password transmission */
     UART_sendByte(CTRL_WAIT_PASS);
-    while(UART_recieveByte()!=HMI_ACK);
+    if (UART_receiveByte(1000) != HMI_ACK) return COMM_ERROR;
+
     /* Send first password */
     UART_sendString(a_pass1);
-    while(UART_recieveByte()!=HMI_ACK);
+    if (UART_receiveByte(1000) != HMI_ACK) return COMM_ERROR;
 
     /* Send second password */
     UART_sendString(a_pass2);
-    while(UART_recieveByte()!=HMI_ACK);
+    if (UART_receiveByte(1000) != HMI_ACK) return COMM_ERROR;
 
-    /* Receive result from HMI */
-    return UART_recieveByte();
+    /* Receive the result from HMI */
+    return UART_receiveByte(1000);  // Expect HMI_PASSMATCH or HMI_PASSNOTMATCH
 }
+
 

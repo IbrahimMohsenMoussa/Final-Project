@@ -30,7 +30,7 @@ int main() {
                 for (uint8 i = 0; i < 5; i++) {
                     LCD_intgerToString(g_pass2[i]);
                 }
-
+for(;;);
                 break;
             default:
                 LCD_displayStringRowColumn(0, 0, "Unknown Command");
