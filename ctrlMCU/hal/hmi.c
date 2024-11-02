@@ -15,31 +15,22 @@
 
 char g_pass1[6];
 char g_pass2[6];
-static void HMI_recievePassword(uint8*a_pass){
-	uint8 i =0;
-	a_pass[i]= UART_receiveByte(1);
+static void HMI_recievePassword(uint8 *a_pass) {
+	uint8 i = 0;
+	a_pass[i] = UART_receiveByte();
 	UART_sendByte(HMI_ACK);
 	i++;
-	while(i<5){
+	while (i < 5) {
 
-		a_pass[i]= UART_receiveByte(1);
+		a_pass[i] = UART_receiveByte();
 		UART_sendByte(HMI_ACK);
 		i++;
 	}
-	a_pass[5]='\0';
-}
-uint8 HMI_handShake(uint8 a_command) {
-	uint8 l_byteReceived = 0;
-	l_byteReceived = UART_receiveByte(1000);  // Wait for command with timeout
-	if (l_byteReceived == a_command) {
-		UART_sendByte(HMI_CONNECTION_SUCSSES); // Send acknowledgment
-		return HMI_CONNECTION_SUCSSES;
-	}
-	return HMI_CONNECTION_FAIL;
+	a_pass[5] = '\0';
 }
 
 uint8 HMI_command() {
-	uint8 byte = UART_receiveByte(10000);
+	uint8 byte = UART_receiveByte();
 
 	return byte;
 }
@@ -53,19 +44,19 @@ uint8 HMI_init() {
 	UART_init(&uartConfig);
 
 	UART_sendByte(HMI_READY);
-	return (UART_receiveByte(7) == HMI_READY) ?
+	return (UART_receiveByte() == HMI_READY) ?
 	HMI_CONNECTION_SUCSSES :
 												HMI_CONNECTION_FAIL;
 }
 uint8 HMI_ready() {
 	//UART_sendByte(HMI_READY);
 	LCD_displayString("wait com");
-	uint8 byte = UART_receiveByte(10000);
+	uint8 byte = UART_receiveByte();
 
 	return byte;
 
 }
-void HMI_checkPass() {
+void HMI_checkPassMatch() {
 	uint8 l_pass1[6] = { 0 };
 	uint8 l_pass2[6] = { 0 };
 
@@ -105,6 +96,4 @@ void HMI_checkPass() {
 	LCD_displayStringRowColumn(0, 0, "success");
 
 }
-
-
 

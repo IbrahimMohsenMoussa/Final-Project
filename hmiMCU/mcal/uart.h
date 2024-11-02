@@ -50,7 +50,7 @@ typedef struct {
     boolean asyncMode;              /**< TRUE for asynchronous, FALSE for synchronous */
     uint16 timeoutMs;
 } UART_ConfigType;
-sint16 UART_receiveByte(uint32 timeout_us) ;
+sint16 UART_receiveByte( ) ;
 void UART_init(const UART_ConfigType *const a_config);
 void UART_sendByte(const uint8 a_data);
 sint16 UART_recieveByte(uint32);

@@ -18,6 +18,7 @@
 #define HMI_ACK 'A'
 #define HMI_READY 'R'
 #define COMM_ERROR 'E'
-uint8 CTRL_checkPass(uint8 *a_pass1, uint8 *a_pass2);
+#define COMM_SUCSSES 'S'
+uint8 CTRL_checkPassMatch(uint8 *a_pass1, uint8 *a_pass2);
 uint8 CTRL_init();
 #endif /* HAL_CTRL_H_ */

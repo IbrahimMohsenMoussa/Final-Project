@@ -10,7 +10,7 @@
 #include <util/delay.h>
 
 static uint16 g_timeOutCount = 0;
-static uint16 g_elapsedCount = 0;
+
 void UART_init(const UART_ConfigType *const a_config) {
 
 	uint16 l_ubbrVal = 0;
@@ -62,17 +62,13 @@ void UART_sendByte(const uint8 a_data) {
 	UDR_REG.byte = a_data;
 
 }
-sint16 UART_receiveByte(uint32 timeout_us) {
-    uint32 count = 0;
+sint16 UART_receiveByte() {
+
     while (!UCSRA_REG.bits.rxc) {
-        /*if (count++ >= timeout_us) {
-            return -1;  // Return -1 on timeout
-        }
-        _delay_us(1); */ // Delay in microseconds to avoid busy looping
+
     }
     return UDR_REG.byte;  // Return the received byte
 }
-
 
 void UART_sendString(const uint8 *Str)
 {

@@ -3,8 +3,7 @@
 #include "../mcal/uart.h"
 #include<util/delay.h>
 
-extern char g_pass1[6];
-extern char g_pass2[6];
+
 
 int main() {
     LCD_init();
@@ -16,7 +15,7 @@ int main() {
 
         switch (l_receivedCommand) {
             case HMI_WAIT_PASS:
-                HMI_checkPass();
+                HMI_checkPassMatch();
 
                 /* Display the first received password */
                 LCD_clearScreen();
