@@ -5,78 +5,79 @@
 void Get_password(uint8 a_pass[]);
 
 typedef enum {
-    SET_PASSWORD, OPEN_DOOR, CLOSEDOOR, ALERT
+	SET_PASSWORD, OPEN_DOOR, CLOSEDOOR, ALERT, IDLE,CHANGE_PASSWORD
 } STATEMACHINE;
 
 uint8 g_stateMachine = SET_PASSWORD;
 
 int main() {
-    LCD_init();
-    CTRL_init();
+	LCD_init();
+	CTRL_init();
 
-    for (;;) {
-        switch (g_stateMachine) {
-            case SET_PASSWORD:
-                LCD_displayStringRowColumn(0, 0, "Enter Pass:");
+	for (;;) {
 
-                uint8 l_1stInpass[6] = {0};
-                uint8 l_2ndInpass[6] = {0};
+		switch (g_stateMachine) {
+		case SET_PASSWORD:
+			LCD_clearScreen();
+			LCD_displayStringRowColumn(0, 0, "Enter Pass:");
 
-                /* Capture the first password */
-                Get_password(l_1stInpass);
+			uint8 l_1stInpass[6] = { 0 };
+			uint8 l_2ndInpass[6] = { 0 };
 
-                /* Confirm and re-enter password */
-                LCD_clearScreen();
-                LCD_displayStringRowColumn(0, 0, "Re-enter Pass:");
-                Get_password(l_2ndInpass);
+			/* Capture the first password */
+			Get_password(l_1stInpass);
 
-                /* Display passwords for debug */
-                LCD_clearScreen();
-                LCD_displayStringRowColumn(0, 0, "1st:");
-                for (uint8 i = 0; i < 5; i++) {
-                    LCD_intgerToString(l_1stInpass[i]);
-                }
+			/* Confirm and re-enter password */
+			LCD_clearScreen();
+			LCD_displayStringRowColumn(0, 0, "Re-enter Pass:");
+			Get_password(l_2ndInpass);
 
-                LCD_moveCursor(1, 0);
-                LCD_displayString("2nd:");
-                for (uint8 i = 0; i < 5; i++) {
-                    LCD_intgerToString(l_2ndInpass[i]);
-                }
+			/* Send and check passwords */
+			if (CTRL_checkPassMatch(l_1stInpass, l_2ndInpass) == HMI_PASSMATCH) {
+				 g_stateMachine = IDLE;
+				LCD_displayString("Pass match!");
 
-                /* Send and check passwords */
-                if (CTRL_checkPassMatch(l_1stInpass, l_2ndInpass) == HMI_PASSMATCH) {
-                   // g_stateMachine = OPEN_DOOR;
-                    LCD_displayString("Pass match!");
-                    // Passwords matched
-                } else {
-                    LCD_clearScreen();
-                    LCD_displayString("Pass Mismatch!");
-                    _delay_ms(1000);
-                }
-                break;
-            default:
-                LCD_displayStringRowColumn(0, 0, "Invalid State");
-                break;
-        }
-    }
+			} else {
+				LCD_clearScreen();
+				LCD_displayString("Pass Mismatch!");
+				LCD_displayStringRowColumn(0, 0, "Retry");
+				_delay_ms(500);
+			}
+			break;
+		case IDLE:
+			LCD_clearScreen();
+			LCD_displayStringRowColumn(0, 0, "+ : Open Door");
+			LCD_displayStringRowColumn(1, 0, "- : Change Pass");
+			uint8 idle_key =KEYPAD_getPressedKey(20);
+			if (idle_key=='+'){
+				g_stateMachine = OPEN_DOOR;
+			}else if (idle_key=='-'){
+				g_stateMachine = CHANGE_PASSWORD;
+			}
+			break;
+		default:
+			LCD_displayStringRowColumn(0, 0, "Invalid State");
+			break;
+		}
+	}
 }
 
 /* Captures a 5-character password and stores it in a_pass */
 void Get_password(uint8 *a_pass) {
-    a_pass[5] = '\0';  // Null-terminate the password string
+	a_pass[5] = '\0';  // Null-terminate the password string
 
-    uint8 l_key = 'N';
-    for (uint8 i = 0; i < 5; i++) {
-        /* Wait for a valid key press */
-        while (l_key == 'N' || l_key > 9) {
-            l_key = KEYPAD_getPressedKey(1);
-        }
+	uint8 l_key = 'N';
+	for (uint8 i = 0; i < 5; i++) {
+		/* Wait for a valid key press */
+		while (l_key == 'N' || l_key > 9) {
+			l_key = KEYPAD_getPressedKey(1);
+		}
 
-        /* Store the new key press and display '*' */
-        a_pass[i] = l_key;
-        LCD_moveCursor(1, i + 11);  // Adjust position if necessary
-        LCD_displayChar('*');
+		/* Store the new key press and display '*' */
+		a_pass[i] = l_key;
+		LCD_moveCursor(1, i + 11);  // Adjust position if necessary
+		LCD_displayChar('*');
 
-        l_key = 'N';  // Reset l_key for the next input
-    }
+		l_key = 'N';  // Reset l_key for the next input
+	}
 }
