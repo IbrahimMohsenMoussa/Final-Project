@@ -31,13 +31,13 @@ uint8 CTRL_init() {
 	UART_init(&uartConfig);
 
 	//return CTRL_handShake(CTRL_HANDSHAKE);
-	if (UART_receiveByte() == HMI_READY) {
+/*	if (UART_receiveByte() == HMI_READY) {
 
 		UART_sendByte(HMI_READY);
 		return CTRL_CONNECTION_SUCSSES;
 
 	}
-	return CTRL_CONNECTION_FAIL;
+	return CTRL_CONNECTION_FAIL;*/
 }
 uint8 CTRL_checkPassMatch(uint8 *a_pass1, uint8 *a_pass2) {
 

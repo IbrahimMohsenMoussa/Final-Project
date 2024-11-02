@@ -29,6 +29,7 @@ static void HMI_recievePassword(uint8 *a_pass) {
 }
 
 uint8 HMI_command() {
+
 	uint8 byte = UART_receiveByte();
 
 	return byte;
@@ -42,10 +43,10 @@ uint8 HMI_init() {
 	};
 	UART_init(&uartConfig);
 
-	UART_sendByte(HMI_READY);
+	/*UART_sendByte(HMI_READY);
 	return (UART_receiveByte() == HMI_READY) ?
 	HMI_CONNECTION_SUCSSES :
-												HMI_CONNECTION_FAIL;
+												HMI_CONNECTION_FAIL;*/
 }
 uint8 HMI_ready() {
 	//UART_sendByte(HMI_READY);
