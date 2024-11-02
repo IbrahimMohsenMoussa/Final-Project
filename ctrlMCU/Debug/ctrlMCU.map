@@ -559,7 +559,7 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
                 0x008000c6                _edata = .
                 0x008000c6                PROVIDE (__data_end, .)
 
-.bss            0x008000c6       0x14
+.bss            0x008000c6       0x12
                 0x008000c6                PROVIDE (__bss_start, .)
  *(.bss)
  .bss           0x008000c6        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5/crtm32.o
@@ -603,22 +603,20 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
                 0x008000c8        0x2 ./mcal/timer_0.o
  .bss.g_timeOutCount
                 0x008000ca        0x2 ./mcal/uart.o
- .bss.g_elapsedCount
-                0x008000cc        0x2 ./mcal/uart.o
  *(COMMON)
- COMMON         0x008000ce        0xc ./hal/hmi.o
-                0x008000ce                g_pass1
-                0x008000d4                g_pass2
-                0x008000da                PROVIDE (__bss_end, .)
+ COMMON         0x008000cc        0xc ./hal/hmi.o
+                0x008000cc                g_pass1
+                0x008000d2                g_pass2
+                0x008000d8                PROVIDE (__bss_end, .)
                 0x00003b74                __data_load_start = LOADADDR (.data)
                 0x00003bda                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x008000da        0x0
-                0x008000da                PROVIDE (__noinit_start, .)
+.noinit         0x008000d8        0x0
+                0x008000d8                PROVIDE (__noinit_start, .)
  *(.noinit*)
-                0x008000da                PROVIDE (__noinit_end, .)
-                0x008000da                _end = .
-                0x008000da                PROVIDE (__heap_start, .)
+                0x008000d8                PROVIDE (__noinit_end, .)
+                0x008000d8                _end = .
+                0x008000d8                PROVIDE (__heap_start, .)
 
 .eeprom         0x00810000        0x0
  *(.eeprom*)
@@ -636,7 +634,7 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
 .signature
  *(.signature*)
 
-.stab           0x00000000     0x3f54
+.stab           0x00000000     0x3f48
  *(.stab)
  .stab          0x00000000      0xc30 ./mcal/gpio.o
  .stab          0x00000c30      0x6b4 ./mcal/icu.o
@@ -645,24 +643,24 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
                                 0x8c4 (size before relaxing)
  .stab          0x000016c8      0x33c ./mcal/twi.o
                                 0x588 (size before relaxing)
- .stab          0x00001a04      0x468 ./mcal/uart.o
-                                0x90c (size before relaxing)
- .stab          0x00001e6c      0x288 ./hal/buzzer.o
+ .stab          0x00001a04      0x45c ./mcal/uart.o
+                                0x900 (size before relaxing)
+ .stab          0x00001e60      0x288 ./hal/buzzer.o
                                 0x294 (size before relaxing)
- .stab          0x000020f4      0x324 ./hal/dcMotor.o
+ .stab          0x000020e8      0x324 ./hal/dcMotor.o
                                 0x3a8 (size before relaxing)
- .stab          0x00002418      0x30c ./hal/external_eeprom.o
+ .stab          0x0000240c      0x30c ./hal/external_eeprom.o
                                 0x3a8 (size before relaxing)
- .stab          0x00002724      0x51c ./hal/hmi.o
+ .stab          0x00002718      0x51c ./hal/hmi.o
                                 0x744 (size before relaxing)
- .stab          0x00002c40      0xed0 ./hal/lcd.o
+ .stab          0x00002c34      0xed0 ./hal/lcd.o
                                0x11b8 (size before relaxing)
- .stab          0x00003b10      0x444 ./app/app.o
+ .stab          0x00003b04      0x444 ./app/app.o
                                 0x5dc (size before relaxing)
 
-.stabstr        0x00000000     0x4398
+.stabstr        0x00000000     0x4382
  *(.stabstr)
- .stabstr       0x00000000     0x4398 ./mcal/gpio.o
+ .stabstr       0x00000000     0x4382 ./mcal/gpio.o
 
 .stab.excl
  *(.stab.excl)

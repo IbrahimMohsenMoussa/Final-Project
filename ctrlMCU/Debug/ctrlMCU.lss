@@ -7,29 +7,29 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
   1 .data         00000066  00800060  00003b74  00003c08  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  2 .bss          00000014  008000c6  008000c6  00003c6e  2**0
+  2 .bss          00000012  008000c6  008000c6  00003c6e  2**0
                   ALLOC
-  3 .stab         00003f54  00000000  00000000  00003c70  2**2
+  3 .stab         00003f48  00000000  00000000  00003c70  2**2
                   CONTENTS, READONLY, DEBUGGING
-  4 .stabstr      00004398  00000000  00000000  00007bc4  2**0
+  4 .stabstr      00004382  00000000  00000000  00007bb8  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_aranges 00000160  00000000  00000000  0000bf5c  2**0
+  5 .debug_aranges 00000160  00000000  00000000  0000bf3a  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_pubnames 0000018f  00000000  00000000  0000c0bc  2**0
+  6 .debug_pubnames 0000018f  00000000  00000000  0000c09a  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_info   00002045  00000000  00000000  0000c24b  2**0
+  7 .debug_info   00002045  00000000  00000000  0000c229  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_abbrev 00001101  00000000  00000000  0000e290  2**0
+  8 .debug_abbrev 00001101  00000000  00000000  0000e26e  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_line   00000f82  00000000  00000000  0000f391  2**0
+  9 .debug_line   00000f82  00000000  00000000  0000f36f  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_frame  00000180  00000000  00000000  00010314  2**2
+ 10 .debug_frame  00000180  00000000  00000000  000102f4  2**2
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_str    000002c2  00000000  00000000  00010494  2**0
+ 11 .debug_str    000002c2  00000000  00000000  00010474  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_loc    0000088e  00000000  00000000  00010756  2**0
+ 12 .debug_loc    0000088e  00000000  00000000  00010736  2**0
                   CONTENTS, READONLY, DEBUGGING
- 13 .debug_ranges 00000050  00000000  00000000  00010fe4  2**0
+ 13 .debug_ranges 00000050  00000000  00000000  00010fc4  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -108,7 +108,7 @@ Disassembly of section .text:
      15e:	1d 92       	st	X+, r1
 
 00000160 <.do_clear_bss_start>:
-     160:	aa 3d       	cpi	r26, 0xDA	; 218
+     160:	a8 3d       	cpi	r26, 0xD8	; 216
      162:	b1 07       	cpc	r27, r17
      164:	e1 f7       	brne	.-8      	; 0x15e <.do_clear_bss_loop>
      166:	0e 94 3b 1c 	call	0x3876	; 0x3876 <main>
@@ -4550,7 +4550,7 @@ uint8 TWI_getStatus(void)
 #include <util/delay.h>
 
 static uint16 g_timeOutCount = 0;
-static uint16 g_elapsedCount = 0;
+
 void UART_init(const UART_ConfigType *const a_config) {
     1f2c:	df 93       	push	r29
     1f2e:	cf 93       	push	r28
@@ -5758,7 +5758,7 @@ void HMI_checkPassMatch() {
     264e:	f3 1f       	adc	r31, r19
     2650:	80 81       	ld	r24, Z
     2652:	fa 01       	movw	r30, r20
-    2654:	e2 53       	subi	r30, 0x32	; 50
+    2654:	e4 53       	subi	r30, 0x34	; 52
     2656:	ff 4f       	sbci	r31, 0xFF	; 255
     2658:	80 83       	st	Z, r24
 		g_pass2[i] = l_pass2[i];
@@ -5775,7 +5775,7 @@ void HMI_checkPassMatch() {
     266e:	f3 1f       	adc	r31, r19
     2670:	80 81       	ld	r24, Z
     2672:	fa 01       	movw	r30, r20
-    2674:	ec 52       	subi	r30, 0x2C	; 44
+    2674:	ee 52       	subi	r30, 0x2E	; 46
     2676:	ff 4f       	sbci	r31, 0xFF	; 255
     2678:	80 83       	st	Z, r24
 		if (l_pass1[i] != l_pass2[i]) {
@@ -8694,7 +8694,7 @@ int main() {
     38c2:	88 2f       	mov	r24, r24
     38c4:	90 e0       	ldi	r25, 0x00	; 0
     38c6:	fc 01       	movw	r30, r24
-    38c8:	e2 53       	subi	r30, 0x32	; 50
+    38c8:	e4 53       	subi	r30, 0x34	; 52
     38ca:	ff 4f       	sbci	r31, 0xFF	; 255
     38cc:	80 81       	ld	r24, Z
     38ce:	88 2f       	mov	r24, r24
@@ -8732,7 +8732,7 @@ int main() {
     38f8:	88 2f       	mov	r24, r24
     38fa:	90 e0       	ldi	r25, 0x00	; 0
     38fc:	fc 01       	movw	r30, r24
-    38fe:	ec 52       	subi	r30, 0x2C	; 44
+    38fe:	ee 52       	subi	r30, 0x2E	; 46
     3900:	ff 4f       	sbci	r31, 0xFF	; 255
     3902:	80 81       	ld	r24, Z
     3904:	88 2f       	mov	r24, r24
