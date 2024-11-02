@@ -45,7 +45,7 @@ int main() {
 
                 /* Send and check passwords */
                 if (CTRL_checkPass(l_1stInpass, l_2ndInpass) == HMI_PASSMATCH) {
-                    g_stateMachine = OPEN_DOOR;
+                   // g_stateMachine = OPEN_DOOR;
                     LCD_displayString("Pass match!");
                     // Passwords matched
                 } else {

@@ -61,16 +61,17 @@ void HMI_checkPass() {
     	LCD_displayString("wait CP");
     } ;*/
     UART_sendByte(HMI_ACK);
-
+    LCD_displayStringRowColumn(0,0,"ACK comm ");
     /* Receive the first password */
 
     UART_receiveString(l_pass1);
-    UART_sendByte(HMI_ACK);  // Acknowledge receipt of first password
 
+    UART_sendByte(HMI_ACK);  // Acknowledge receipt of first password
+    LCD_displayStringRowColumn(0,0,"pass1");
     /* Receive the second password */
     UART_receiveString(l_pass2);
     UART_sendByte(HMI_ACK);  // Acknowledge receipt of second password
-
+    LCD_displayStringRowColumn(0,0,"pass2");
     /* Check if passwords match */
     for (uint8 i = 0; i < 5; i++) {
     	LCD_moveCursor(1,0);
@@ -78,6 +79,7 @@ void HMI_checkPass() {
         if (l_pass1[i] != l_pass2[i]) {
 
             UART_sendByte(HMI_PASSNOTMATCH);
+            LCD_displayStringRowColumn(0,0,"passMiss");
             return;  // Exit early if passwords don't match
         }
     }
@@ -85,6 +87,7 @@ void HMI_checkPass() {
 
     /* If passwords match, confirm success */
     UART_sendByte(HMI_PASSMATCH);
+    LCD_displayStringRowColumn(0,0,"success");
     for (uint8 i = 0; i < 6; i++) {
           g_pass1[i] = l_pass1[i];
           g_pass2[i] = l_pass2[i];

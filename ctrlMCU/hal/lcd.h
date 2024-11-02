@@ -192,4 +192,5 @@ typedef enum {
     EXCEEDMAXCOLUMNS /**< Indicates that the operation exceeded the maximum column limit of the LCD. */
 } LCD_ERROR;
 void LCD_displayStringRowColumn(uint8 row, uint8 col, const char *Str);
+void LCD_clearScreen();
 #endif /* LCD_H_ */

@@ -15,9 +15,9 @@
 #define HMI_WAIT_PASS 'p'
 #define HMI_PASSMATCH 'M'
 #define HMI_PASSNOTMATCH 'm'
-#define HMI_ACK 0xf
-#define HMI_READY 0xe
-#define COMM_ERROR 0xee
+#define HMI_ACK 'A'
+#define HMI_READY 'R'
+#define COMM_ERROR 'E'
 uint8 HMI_init();
 uint8  HMI_command();
 uint8 HMI_ready();

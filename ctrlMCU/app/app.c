@@ -1,6 +1,7 @@
 #include"../hal/hmi.h"
 #include "../hal/lcd.h"
 #include "../mcal/uart.h"
+#include<util/delay.h>
 
 extern char g_pass1[6];
 extern char g_pass2[6];
@@ -29,8 +30,9 @@ int main() {
                 LCD_displayString("Pass2:");
                 for (uint8 i = 0; i < 5; i++) {
                     LCD_intgerToString(g_pass2[i]);
+
                 }
-for(;;);
+_delay_ms(5000);
                 break;
             default:
                 LCD_displayStringRowColumn(0, 0, "Unknown Command");

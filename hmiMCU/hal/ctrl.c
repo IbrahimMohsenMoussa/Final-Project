@@ -47,7 +47,7 @@ uint8 CTRL_checkPass(uint8 *a_pass1, uint8 *a_pass2) {
     /* Inform HMI of password transmission */
     UART_sendByte(CTRL_WAIT_PASS);
     if (UART_receiveByte(1000) != HMI_ACK) return COMM_ERROR;
-
+_delay_ms(1);
     /* Send first password */
     UART_sendString(a_pass1);
     if (UART_receiveByte(1000) != HMI_ACK) return COMM_ERROR;
