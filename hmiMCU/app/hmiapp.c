@@ -5,12 +5,13 @@
 void Get_password(uint8 a_pass[]);
 
 typedef enum {
-	SET_PASSWORD, OPEN_DOOR, CLOSEDOOR, ALERT, IDLE,CHANGE_PASSWORD
+	SET_PASSWORD, OPEN_DOOR, CLOSEDOOR, ALERT, IDLE, CHANGE_PASSWORD
 } STATEMACHINE;
 
 uint8 g_stateMachine = SET_PASSWORD;
-
+uint8 Check_password();
 int main() {
+	uint8 trys = 0;
 	LCD_init();
 	CTRL_init();
 
@@ -34,7 +35,7 @@ int main() {
 
 			/* Send and check passwords */
 			if (CTRL_checkPassMatch(l_1stInpass, l_2ndInpass) == HMI_PASSMATCH) {
-				 g_stateMachine = IDLE;
+				g_stateMachine = IDLE;
 				LCD_displayString("Pass match!");
 
 			} else {
@@ -48,12 +49,34 @@ int main() {
 			LCD_clearScreen();
 			LCD_displayStringRowColumn(0, 0, "+ : Open Door");
 			LCD_displayStringRowColumn(1, 0, "- : Change Pass");
-			uint8 idle_key =KEYPAD_getPressedKey(20);
-			if (idle_key=='+'){
+			uint8 idle_key = KEYPAD_getPressedKey(20);
+			if (idle_key == '+') {
 				g_stateMachine = OPEN_DOOR;
-			}else if (idle_key=='-'){
+			} else if (idle_key == '-') {
 				g_stateMachine = CHANGE_PASSWORD;
 			}
+			break;
+		case OPEN_DOOR:
+			if (trys >= 3) {
+				g_stateMachine = ALERT;
+				trys = 0;
+				break;
+			}
+			if (Check_password() == HMI_PASSMATCH) {
+				LCD_clearScreen();
+				LCD_displayString("OPENING DOOR!");
+				_delay_ms(1000);
+				trys = 0;
+				g_stateMachine = IDLE;
+			} else {
+				LCD_clearScreen();
+				LCD_displayString("WRONG PASSWORD");
+				trys++;
+			}
+			break;
+		case ALERT:
+			LCD_clearScreen();
+			LCD_displayString("-----HARAMY-----");
 			break;
 		default:
 			LCD_displayStringRowColumn(0, 0, "Invalid State");
@@ -80,4 +103,12 @@ void Get_password(uint8 *a_pass) {
 
 		l_key = 'N';  // Reset l_key for the next input
 	}
+}
+uint8 Check_password() {
+	uint8 l_pass[6];
+	LCD_clearScreen();
+	LCD_displayStringRowColumn(0, 0, "Enter Pass:");
+	Get_password(l_pass);
+	return CTRL_checkPass(l_pass);
+
 }

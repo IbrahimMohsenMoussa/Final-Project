@@ -12,6 +12,7 @@
 #define CTRL_CONNECTION_SUCSSES 'O'
 #define CTRL_CONNECTION_FAIL 'q'
 #define CTRL_WAIT_PASS 'p'
+#define CTRL_WAIT_PASS_MEM 'U'
 #define HMI_PASSMATCH 'M'
 #define CTRL_PASSMATCH 'M'
 #define CTRL_PASSNOTMATCH 'm'
@@ -19,6 +20,7 @@
 #define HMI_READY 'R'
 #define COMM_ERROR 'E'
 #define COMM_SUCSSES 'S'
+uint8 CTRL_checkPass(uint8 *a_pass);
 uint8 CTRL_checkPassMatch(uint8 *a_pass1, uint8 *a_pass2);
 uint8 CTRL_init();
 #endif /* HAL_CTRL_H_ */

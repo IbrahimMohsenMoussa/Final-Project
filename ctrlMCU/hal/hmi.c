@@ -10,9 +10,8 @@
 #include "hmi.h"
 #include"lcd.h"
 
-
 #include<util/delay.h>
-
+#include "../hal/external_eeprom.h"
 uint8 g_pass[6];
 
 static void HMI_recievePassword(uint8 *a_pass) {
@@ -56,10 +55,9 @@ uint8 HMI_ready() {
 	return byte;
 
 }
-uint8 * HMI_checkPassMatch() {
+uint8* HMI_checkPassMatch() {
 	uint8 l_pass1[6] = { 0 };
 	uint8 l_pass2[6] = { 0 };
-
 
 	UART_sendByte(HMI_ACK);
 
@@ -76,7 +74,6 @@ uint8 * HMI_checkPassMatch() {
 	/* Check if passwords match */
 	for (uint8 i = 0; i < 5; i++) {
 
-
 		if (l_pass1[i] != l_pass2[i]) {
 
 			UART_sendByte(HMI_PASSNOTMATCH);
@@ -87,9 +84,41 @@ uint8 * HMI_checkPassMatch() {
 
 	/* If passwords match, confirm success */
 	UART_sendByte(HMI_PASSMATCH);
-for(uint8 i =0 ; i<5;i++){
-	g_pass[i]=l_pass1[i];
+	for (uint8 i = 0; i < 5; i++) {
+		g_pass[i] = l_pass1[i];
+	}
+	return g_pass;
 }
-return g_pass;
+void HMI_checkPass() {
+	uint8 l_pass[6] = { 0 };
+
+	UART_sendByte(HMI_ACK);
+	HMI_recievePassword(l_pass);
+
+	UART_sendByte(HMI_ACK);  // Acknowledge receipt of  password
+	for (uint8 i = 0; i < 5; i++) {
+
+			if (l_pass[i] != MEM_getPassElem(i)) {
+
+				UART_sendByte(HMI_PASSNOTMATCH);
+				LCD_displayStringRowColumn(0, 0, "passMiss");
+				return ;  // Exit early if passwords don't match
+			}
+		}
+	UART_sendByte(HMI_PASSMATCH);
 }
 
+uint8 MEM_getPassElem(uint8 a_passIndex) {
+	uint8 byte;
+
+	EEPROM_readByte(0xf + a_passIndex, &byte);
+	return byte;
+
+}
+void MEM_savePass(uint8 *a_pass) {
+
+	for (uint8 i = 0; i < 5; i++) {
+		EEPROM_writeByte(0xf + i, a_pass[i]);
+		_delay_ms(10);
+	}
+}

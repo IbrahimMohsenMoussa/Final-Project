@@ -32,6 +32,7 @@ uint8 CTRL_init() {
 
 	//return CTRL_handShake(CTRL_HANDSHAKE);
 	if (UART_receiveByte() == HMI_READY) {
+
 		UART_sendByte(HMI_READY);
 		return CTRL_CONNECTION_SUCSSES;
 
@@ -57,5 +58,14 @@ uint8 CTRL_checkPassMatch(uint8 *a_pass1, uint8 *a_pass2) {
 
 	/* Receive the result from HMI */
 	return UART_receiveByte();  // Expect HMI_PASSMATCH or HMI_PASSNOTMATCH
+}
+uint8 CTRL_checkPass(uint8 *a_pass){
+	UART_sendByte(CTRL_WAIT_PASS_MEM);
+	if (UART_receiveByte() != HMI_ACK)
+			return COMM_ERROR;
+	UART_sendPass(a_pass);
+	if (UART_receiveByte() != HMI_ACK)
+			return COMM_ERROR;
+	return UART_receiveByte();
 }
 
