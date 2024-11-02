@@ -12,8 +12,22 @@
 #include"../common/std_types.h"
 
 #include<util/delay.h>
+
 char g_pass1[6];
 char g_pass2[6];
+static void HMI_recievePassword(uint8*a_pass){
+	uint8 i =0;
+	a_pass[i]= UART_receiveByte(1);
+	UART_sendByte(HMI_ACK);
+	i++;
+	while(i<5){
+
+		a_pass[i]= UART_receiveByte(1);
+		UART_sendByte(HMI_ACK);
+		i++;
+	}
+	a_pass[5]='\0';
+}
 uint8 HMI_handShake(uint8 a_command) {
 	uint8 l_byteReceived = 0;
 	l_byteReceived = UART_receiveByte(1000);  // Wait for command with timeout
@@ -65,12 +79,12 @@ void HMI_checkPass() {
 	LCD_displayStringRowColumn(0, 0, "ACK comm ");
 	/* Receive the first password */
 
-	UART_receiveString(l_pass1);
+	HMI_recievePassword(l_pass1);
 
 	UART_sendByte(HMI_ACK);  // Acknowledge receipt of first password
 	LCD_displayStringRowColumn(0, 0, "pass1");
 	/* Receive the second password */
-	UART_receiveString(l_pass2);
+	HMI_recievePassword(l_pass2);
 	UART_sendByte(HMI_ACK);  // Acknowledge receipt of second password
 	LCD_displayStringRowColumn(0, 0, "pass2");
 	/* Check if passwords match */
@@ -91,4 +105,6 @@ void HMI_checkPass() {
 	LCD_displayStringRowColumn(0, 0, "success");
 
 }
+
+
 
