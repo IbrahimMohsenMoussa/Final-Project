@@ -21,7 +21,7 @@
 uint8 HMI_init();
 uint8  HMI_command();
 uint8 HMI_ready();
-void HMI_checkPassMatch();
-extern char g_pass1[6];
-extern char g_pass2[6];
+uint8* HMI_checkPassMatch();
+extern uint8 g_pass[6];
+
 #endif /* HAL_HMI_H_ */

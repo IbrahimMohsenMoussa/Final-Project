@@ -68,7 +68,7 @@ LOAD ./hal/ctrl.o
 LOAD ./hal/dcMotor.o
 LOAD ./hal/keypad.o
 LOAD ./hal/lcd.o
-LOAD ./app/app.o
+LOAD ./app/hmiapp.o
 LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
 LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a
 LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
@@ -248,7 +248,7 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
  .text          0x00000172        0x0 ./hal/dcMotor.o
  .text          0x00000172        0x0 ./hal/keypad.o
  .text          0x00000172        0x0 ./hal/lcd.o
- .text          0x00000172        0x0 ./app/app.o
+ .text          0x00000172        0x0 ./app/hmiapp.o
  .text          0x00000172        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_divmodhi4.o)
  .text          0x00000172        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_udivmodsi4.o)
  .text          0x00000172        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
@@ -425,10 +425,10 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
  .text.LCD_clearScreen
                 0x000038b0       0x14 ./hal/lcd.o
                 0x000038b0                LCD_clearScreen
- .text.main     0x000038c4      0x210 ./app/app.o
+ .text.main     0x000038c4      0x210 ./app/hmiapp.o
                 0x000038c4                main
  .text.Get_password
-                0x00003ad4       0x7e ./app/app.o
+                0x00003ad4       0x7e ./app/hmiapp.o
                 0x00003ad4                Get_password
  .text.libgcc   0x00003b52       0x26 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_divmodhi4.o)
                 0x00003b52                __divmodhi4
@@ -490,7 +490,7 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
  .data          0x00800060        0x0 ./hal/dcMotor.o
  .data          0x00800060        0x0 ./hal/keypad.o
  .data          0x00800060        0x0 ./hal/lcd.o
- .data          0x00800060       0x4e ./app/app.o
+ .data          0x00800060       0x4e ./app/hmiapp.o
  .data          0x008000ae        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_divmodhi4.o)
  .data          0x008000ae        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_udivmodsi4.o)
  .data          0x008000ae        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
@@ -547,7 +547,7 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
  .bss           0x008000d0        0x0 ./hal/dcMotor.o
  .bss           0x008000d0        0x0 ./hal/keypad.o
  .bss           0x008000d0        0x0 ./hal/lcd.o
- .bss           0x008000d0        0x0 ./app/app.o
+ .bss           0x008000d0        0x0 ./app/hmiapp.o
  .bss           0x008000d0        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_divmodhi4.o)
  .bss           0x008000d0        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_udivmodsi4.o)
  .bss           0x008000d0        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
@@ -578,7 +578,7 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
  .bss.g_timeOutCount
                 0x008000d4        0x2 ./mcal/uart.o
  .bss.g_stateMachine
-                0x008000d6        0x1 ./app/app.o
+                0x008000d6        0x1 ./app/hmiapp.o
                 0x008000d6                g_stateMachine
  *(COMMON)
                 0x008000d7                PROVIDE (__bss_end, .)
@@ -627,12 +627,12 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
                                 0x7f8 (size before relaxing)
  .stab          0x00002988      0xef4 ./hal/lcd.o
                                0x11b8 (size before relaxing)
- .stab          0x0000387c      0x564 ./app/app.o
+ .stab          0x0000387c      0x564 ./app/hmiapp.o
                                 0x6fc (size before relaxing)
 
-.stabstr        0x00000000     0x420a
+.stabstr        0x00000000     0x420d
  *(.stabstr)
- .stabstr       0x00000000     0x420a ./mcal/gpio.o
+ .stabstr       0x00000000     0x420d ./mcal/gpio.o
 
 .stab.excl
  *(.stab.excl)

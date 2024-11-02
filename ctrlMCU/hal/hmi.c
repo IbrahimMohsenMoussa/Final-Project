@@ -9,12 +9,12 @@
 #include "../mcal/uart.h"
 #include "hmi.h"
 #include"lcd.h"
-#include"../common/std_types.h"
+
 
 #include<util/delay.h>
 
-char g_pass1[6];
-char g_pass2[6];
+uint8 g_pass[6];
+
 static void HMI_recievePassword(uint8 *a_pass) {
 	uint8 i = 0;
 	a_pass[i] = UART_receiveByte();
@@ -56,44 +56,40 @@ uint8 HMI_ready() {
 	return byte;
 
 }
-void HMI_checkPassMatch() {
+uint8 * HMI_checkPassMatch() {
 	uint8 l_pass1[6] = { 0 };
 	uint8 l_pass2[6] = { 0 };
 
-	/* Signal readiness to receive passwords */
-	// UART_sendByte(HMI_READY);
-	/* Wait for CTRL_WAIT_PASS signal */
-	/*  while (UART_receiveByte(1000) != HMI_WAIT_PASS){
-	 LCD_displayString("wait CP");
-	 } ;*/
+
 	UART_sendByte(HMI_ACK);
-	LCD_displayStringRowColumn(0, 0, "ACK comm ");
+
 	/* Receive the first password */
 
 	HMI_recievePassword(l_pass1);
 
 	UART_sendByte(HMI_ACK);  // Acknowledge receipt of first password
-	LCD_displayStringRowColumn(0, 0, "pass1");
+
 	/* Receive the second password */
 	HMI_recievePassword(l_pass2);
 	UART_sendByte(HMI_ACK);  // Acknowledge receipt of second password
-	LCD_displayStringRowColumn(0, 0, "pass2");
+
 	/* Check if passwords match */
 	for (uint8 i = 0; i < 5; i++) {
 
-		g_pass1[i] = l_pass1[i];
-		g_pass2[i] = l_pass2[i];
+
 		if (l_pass1[i] != l_pass2[i]) {
 
 			UART_sendByte(HMI_PASSNOTMATCH);
 			LCD_displayStringRowColumn(0, 0, "passMiss");
-			return;  // Exit early if passwords don't match
+			return NULL_PTR;  // Exit early if passwords don't match
 		}
 	}
 
 	/* If passwords match, confirm success */
 	UART_sendByte(HMI_PASSMATCH);
-	LCD_displayStringRowColumn(0, 0, "success");
-
+for(uint8 i =0 ; i<5;i++){
+	g_pass[i]=l_pass1[i];
+}
+return g_pass;
 }
 
