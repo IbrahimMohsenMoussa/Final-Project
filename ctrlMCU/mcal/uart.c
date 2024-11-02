@@ -83,7 +83,7 @@ void UART_sendString(const uint8 *Str)
 	{
 		UART_sendByte(Str[i]);
 		i++;
-	}
+	}UART_sendByte('#');
 	/************************* Another Method *************************
 	while(*Str != '\0')
 	{
