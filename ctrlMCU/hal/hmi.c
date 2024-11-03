@@ -9,7 +9,7 @@
 #include "../mcal/uart.h"
 #include "hmi.h"
 #include"lcd.h"
-
+#include"dcMotor.h"
 #include<util/delay.h>
 #include "../hal/external_eeprom.h"
 uint8 g_pass[6];
@@ -28,12 +28,6 @@ static void HMI_recievePassword(uint8 *a_pass) {
 	a_pass[5] = '\0';
 }
 
-uint8 HMI_command() {
-
-	uint8 byte = UART_receiveByte();
-
-	return byte;
-}
 uint8 HMI_init() {
 
 	UART_ConfigType uartConfig = { .baudRate = 9600, .parity =
@@ -42,17 +36,17 @@ uint8 HMI_init() {
 
 	};
 	UART_init(&uartConfig);
-
+	DcMotor_init();
 	/*UART_sendByte(HMI_READY);
-	return (UART_receiveByte() == HMI_READY) ?
-	HMI_CONNECTION_SUCSSES :
-												HMI_CONNECTION_FAIL;*/
+	 return (UART_receiveByte() == HMI_READY) ?
+	 HMI_CONNECTION_SUCSSES :
+	 HMI_CONNECTION_FAIL;*/
 }
 uint8 HMI_ready() {
 	//UART_sendByte(HMI_READY);
 	LCD_displayString("wait com");
 	uint8 byte = UART_receiveByte();
-
+	LCD_clearScreen();
 	return byte;
 
 }
@@ -99,13 +93,13 @@ void HMI_checkPass() {
 	UART_sendByte(HMI_ACK);  // Acknowledge receipt of  password
 	for (uint8 i = 0; i < 5; i++) {
 
-			if (l_pass[i] != MEM_getPassElem(i)) {
+		if (l_pass[i] != MEM_getPassElem(i)) {
 
-				UART_sendByte(HMI_PASSNOTMATCH);
-				LCD_displayStringRowColumn(0, 0, "passMiss");
-				return ;  // Exit early if passwords don't match
-			}
+			UART_sendByte(HMI_PASSNOTMATCH);
+			LCD_displayStringRowColumn(0, 0, "passMiss");
+			return;  // Exit early if passwords don't match
 		}
+	}
 	UART_sendByte(HMI_PASSMATCH);
 }
 
@@ -122,4 +116,16 @@ void MEM_savePass(uint8 *a_pass) {
 		EEPROM_writeByte(0xf + i, a_pass[i]);
 		_delay_ms(10);
 	}
+}
+
+void OpenDoor() {
+	DcMotor_OnForTime(ACW, 200, 15);
+	UART_sendByte(HMI_OPEN_DOOR);
+
+}
+
+void CloseDoor() {
+	DcMotor_OnForTime(CW, 200, 15);
+	UART_sendByte(HMI_OPEN_DOOR);
+
 }

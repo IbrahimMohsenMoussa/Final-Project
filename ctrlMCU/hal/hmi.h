@@ -19,13 +19,17 @@
 #define HMI_READY 'R'
 #define COMM_ERROR 'E'
 #define HMI_WAIT_PASS_MEM 'U'
+#define HMI_OPEN_DOOR 'D'
+#define HMI_CLOSE_DOOR 'd'
 uint8 HMI_init();
 uint8  HMI_command();
 uint8 HMI_ready();
 uint8* HMI_checkPassMatch();
+
 void HMI_checkPass();
 uint8 MEM_getPassElem(uint8 a_passIndex);
 void MEM_savePass(uint8 *a_pass);
 extern uint8 g_pass[6];
-
+void OpenDoor();
+void CloseDoor();
 #endif /* HAL_HMI_H_ */

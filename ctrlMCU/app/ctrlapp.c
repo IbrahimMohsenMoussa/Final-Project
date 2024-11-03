@@ -1,12 +1,13 @@
 #include"../hal/hmi.h"
 #include "../hal/lcd.h"
 #include "../hal/external_eeprom.h"
-
+#include "../hal/dcMotor.h"
 #include<util/delay.h>
 
 int main() {
 	LCD_init();
 	HMI_init();
+  DcMotor_init();
 	uint8 *l_ptr2pass;
 	for (;;) {
 		/* Wait for command from HMI */
@@ -32,7 +33,12 @@ int main() {
 			HMI_checkPass();
 
 			break;
-
+		case HMI_OPEN_DOOR:
+			OpenDoor();
+			break;
+		case HMI_CLOSE_DOOR:
+			CloseDoor();
+			break;
 		default:
 			LCD_displayStringRowColumn(0, 0, "Unknown Command");
 			break;

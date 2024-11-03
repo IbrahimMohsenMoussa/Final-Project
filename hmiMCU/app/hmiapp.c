@@ -65,7 +65,7 @@ int main() {
 			if (Check_password() == HMI_PASSMATCH) {
 				LCD_clearScreen();
 				LCD_displayString("OPENING DOOR!");
-				_delay_ms(1000);
+				CTRL_openDoor();
 				trys = 0;
 				g_stateMachine = IDLE;
 			} else {

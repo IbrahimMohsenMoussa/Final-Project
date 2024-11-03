@@ -20,7 +20,6 @@ static uint8 UART_sendPass(uint8 *a_pass) {
 	return COMM_SUCSSES;
 }
 
-
 uint8 CTRL_init() {
 
 	UART_ConfigType uartConfig = { .baudRate = 9600, .parity =
@@ -31,13 +30,13 @@ uint8 CTRL_init() {
 	UART_init(&uartConfig);
 
 	//return CTRL_handShake(CTRL_HANDSHAKE);
-/*	if (UART_receiveByte() == HMI_READY) {
+	/*	if (UART_receiveByte() == HMI_READY) {
 
-		UART_sendByte(HMI_READY);
-		return CTRL_CONNECTION_SUCSSES;
+	 UART_sendByte(HMI_READY);
+	 return CTRL_CONNECTION_SUCSSES;
 
-	}
-	return CTRL_CONNECTION_FAIL;*/
+	 }
+	 return CTRL_CONNECTION_FAIL;*/
 }
 uint8 CTRL_checkPassMatch(uint8 *a_pass1, uint8 *a_pass2) {
 
@@ -59,13 +58,28 @@ uint8 CTRL_checkPassMatch(uint8 *a_pass1, uint8 *a_pass2) {
 	/* Receive the result from HMI */
 	return UART_receiveByte();  // Expect HMI_PASSMATCH or HMI_PASSNOTMATCH
 }
-uint8 CTRL_checkPass(uint8 *a_pass){
+uint8 CTRL_checkPass(uint8 *a_pass) {
 	UART_sendByte(CTRL_WAIT_PASS_MEM);
 	if (UART_receiveByte() != HMI_ACK)
-			return COMM_ERROR;
+		return COMM_ERROR;
 	UART_sendPass(a_pass);
 	if (UART_receiveByte() != HMI_ACK)
-			return COMM_ERROR;
+		return COMM_ERROR;
 	return UART_receiveByte();
 }
 
+uint8 CTRL_openDoor() {
+	UART_sendByte(CTRL_OPEN_DOOR);
+	if (UART_receiveByte() != HMI_ACK)
+		return COMM_ERROR;
+	return COMM_SUCSSES;
+}
+uint8 CTRL_closeDoor() {
+	UART_sendByte(CTRL_OPEN_DOOR);
+	if (UART_receiveByte() != HMI_ACK)
+		return COMM_ERROR;
+	if (UART_receiveByte() != CTRL_OPEN_DOOR)
+		return COMM_ERROR;
+	return COMM_SUCSSES;
+
+}
