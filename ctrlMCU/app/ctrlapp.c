@@ -7,7 +7,7 @@
 int main() {
 	LCD_init();
 	HMI_init();
-  DcMotor_init();
+	DcMotor_init();
 	uint8 *l_ptr2pass;
 	for (;;) {
 		/* Wait for command from HMI */

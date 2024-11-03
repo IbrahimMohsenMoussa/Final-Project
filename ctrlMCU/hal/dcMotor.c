@@ -10,8 +10,9 @@
 #include"../common/std_types.h"
 #include"../common/common_Macros.h"
 #include"../mcal/timer_2.h"
-static uint8 g_ticks;
-static uint32 g_sec;
+#include<util/delay.h>
+static volatile uint8 g_ticks;
+static volatile uint32 g_sec;
 Timer0_Config timer0_config = { .mode = TIMER0_MODE_FAST_PWM, .clockSource =
 		TIMER0_PRESCALER_1024, .compareOutputMode = TIMER0_COMPARE_CLEAR,.interrupt= FALSE , .tick =
 		255, .intialCount = 0
@@ -72,6 +73,7 @@ void DcMotor_OnForTime(DCMOTOR_STATE a_state, uint8 a_speed,uint16 a_time){
 	Timer2_resume();
 	while (g_sec<=a_time){
 		DcMotor_rotate(a_state,a_speed);
+		_delay_ms(10);
 	}
 	DcMotor_rotate(STOP,0);
 	Reset_Timer2Conter();

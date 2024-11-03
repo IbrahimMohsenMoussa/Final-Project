@@ -126,6 +126,6 @@ void OpenDoor() {
 
 void CloseDoor() {
 	DcMotor_OnForTime(CW, 200, 15);
-	UART_sendByte(HMI_OPEN_DOOR);
+	UART_sendByte(HMI_CLOSE_DOOR);
 
 }
