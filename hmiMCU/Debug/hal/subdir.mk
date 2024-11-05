@@ -4,23 +4,17 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
-../hal/buzzer.c \
 ../hal/ctrl.c \
-../hal/dcMotor.c \
 ../hal/keypad.c \
 ../hal/lcd.c 
 
 OBJS += \
-./hal/buzzer.o \
 ./hal/ctrl.o \
-./hal/dcMotor.o \
 ./hal/keypad.o \
 ./hal/lcd.o 
 
 C_DEPS += \
-./hal/buzzer.d \
 ./hal/ctrl.d \
-./hal/dcMotor.d \
 ./hal/keypad.d \
 ./hal/lcd.d 
 

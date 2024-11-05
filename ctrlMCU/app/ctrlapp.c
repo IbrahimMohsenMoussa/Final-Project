@@ -3,14 +3,18 @@
 #include "../hal/external_eeprom.h"
 #include "../hal/dcMotor.h"
 #include<util/delay.h>
+#include "../hal/pir.h"
+
 
 int main() {
 	LCD_init();
 	HMI_init();
-	DcMotor_init();
+
+
 	uint8 *l_ptr2pass;
 	for (;;) {
 		/* Wait for command from HMI */
+		LCD_intgerToString(PIR_read());
 		uint8 l_receivedCommand = HMI_ready();
 
 		switch (l_receivedCommand) {
@@ -35,6 +39,7 @@ int main() {
 			break;
 		case HMI_OPEN_DOOR:
 			OpenDoor();
+			 waitForPeople();
 			break;
 		case HMI_CLOSE_DOOR:
 			CloseDoor();

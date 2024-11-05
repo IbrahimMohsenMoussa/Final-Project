@@ -22,9 +22,11 @@
 #define COMM_SUCSSES 'S'
 #define CTRL_OPEN_DOOR 'D'
 #define CTRL_close_DOOR 'd'
+#define HMI_PIR 'I'
 uint8 CTRL_checkPass(uint8 *a_pass);
 uint8 CTRL_checkPassMatch(uint8 *a_pass1, uint8 *a_pass2);
 uint8 CTRL_openDoor();
 uint8 CTRL_closeDoor();
 uint8 CTRL_init();
+uint8 CTRL_waitForPir();
 #endif /* HAL_CTRL_H_ */

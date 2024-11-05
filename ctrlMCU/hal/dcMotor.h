@@ -18,6 +18,8 @@ typedef enum {
 
 void DcMotor_init();
 
+
+
 void DcMotor_rotate( DCMOTOR_STATE, uint8 speed);
 void DcMotor_OnForTime(DCMOTOR_STATE a_state, uint8 a_speed,uint16 a_time);
 #endif /* DCMOTOR_H_ */

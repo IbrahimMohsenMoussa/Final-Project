@@ -25,11 +25,12 @@ uint8 HMI_init();
 uint8  HMI_command();
 uint8 HMI_ready();
 uint8* HMI_checkPassMatch();
-
+#define HMI_PIR 'I'
 void HMI_checkPass();
 uint8 MEM_getPassElem(uint8 a_passIndex);
 void MEM_savePass(uint8 *a_pass);
 extern uint8 g_pass[6];
 void OpenDoor();
 void CloseDoor();
+void waitForPeople();
 #endif /* HAL_HMI_H_ */

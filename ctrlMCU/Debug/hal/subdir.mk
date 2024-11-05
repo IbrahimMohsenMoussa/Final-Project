@@ -8,21 +8,24 @@ C_SRCS += \
 ../hal/dcMotor.c \
 ../hal/external_eeprom.c \
 ../hal/hmi.c \
-../hal/lcd.c 
+../hal/lcd.c \
+../hal/pir.c 
 
 OBJS += \
 ./hal/buzzer.o \
 ./hal/dcMotor.o \
 ./hal/external_eeprom.o \
 ./hal/hmi.o \
-./hal/lcd.o 
+./hal/lcd.o \
+./hal/pir.o 
 
 C_DEPS += \
 ./hal/buzzer.d \
 ./hal/dcMotor.d \
 ./hal/external_eeprom.d \
 ./hal/hmi.d \
-./hal/lcd.d 
+./hal/lcd.d \
+./hal/pir.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes

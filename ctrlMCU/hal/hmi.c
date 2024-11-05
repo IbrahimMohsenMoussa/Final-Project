@@ -12,6 +12,7 @@
 #include"dcMotor.h"
 #include<util/delay.h>
 #include "../hal/external_eeprom.h"
+#include"pir.h"
 uint8 g_pass[6];
 
 static void HMI_recievePassword(uint8 *a_pass) {
@@ -37,6 +38,7 @@ uint8 HMI_init() {
 	};
 	UART_init(&uartConfig);
 	DcMotor_init();
+	PIR_init();
 	/*UART_sendByte(HMI_READY);
 	 return (UART_receiveByte() == HMI_READY) ?
 	 HMI_CONNECTION_SUCSSES :
@@ -128,4 +130,10 @@ void CloseDoor() {
 	DcMotor_OnForTime(CW, 200, 15);
 	UART_sendByte(HMI_CLOSE_DOOR);
 
+}
+
+void waitForPeople(){
+_delay_ms(500);
+while(PIR_read());
+UART_sendByte(HMI_PIR);
 }

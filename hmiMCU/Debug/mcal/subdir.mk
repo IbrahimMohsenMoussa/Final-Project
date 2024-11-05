@@ -7,18 +7,21 @@ C_SRCS += \
 ../mcal/gpio.c \
 ../mcal/icu.c \
 ../mcal/timer_0.c \
+../mcal/timer_2.c \
 ../mcal/uart.c 
 
 OBJS += \
 ./mcal/gpio.o \
 ./mcal/icu.o \
 ./mcal/timer_0.o \
+./mcal/timer_2.o \
 ./mcal/uart.o 
 
 C_DEPS += \
 ./mcal/gpio.d \
 ./mcal/icu.d \
 ./mcal/timer_0.d \
+./mcal/timer_2.d \
 ./mcal/uart.d 
 
 

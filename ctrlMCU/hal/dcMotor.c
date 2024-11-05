@@ -12,6 +12,8 @@
 #include"../mcal/timer_2.h"
 #include<util/delay.h>
 #include "lcd.h"
+#include <avr/io.h>
+
 static volatile uint8 g_ticks;
 static volatile uint32 g_sec;
 Timer0_Config timer0_config = { .mode = TIMER0_MODE_FAST_PWM, .clockSource =
@@ -49,6 +51,8 @@ void DcMotor_init() {
 	GPIO_setupPinDirection(PORTD_ID,7,PIN_OUTPUT);
 	//GPIO_ARR_setPinDirection(/*DCMOTOR_IN_1*/30, PIN_OUTPUT);
 	//GPIO_ARR_setPinDirection(/*DCMOTOR_IN_2*/31, PIN_OUTPUT);
+	DDRD|=(1<<6);
+	DDRD|=(1<<7);
 	GPIO_ARR_setPinDirection(DCMOTOR_E1, PIN_OUTPUT);
 
 }
@@ -59,6 +63,9 @@ void DcMotor_rotate(DCMOTOR_STATE a_state, uint8 a_speed) {
 
 		GPIO_ARR_setPinState(/*DCMOTOR_IN_1*/30, HIGH);
 		GPIO_ARR_setPinState(/*DCMOTOR_IN_2*/31, LOW);
+		PORTD|=(1<<6);
+		PORTD&=~(1<<7);
+
 		LCD_displayString("end cw");
 
 		break;
@@ -66,6 +73,8 @@ void DcMotor_rotate(DCMOTOR_STATE a_state, uint8 a_speed) {
 		LCD_displayString(" acw");
 		GPIO_ARR_setPinState(DCMOTOR_IN_2, HIGH);
 		GPIO_ARR_setPinState(DCMOTOR_IN_1, LOW);
+		PORTD|=(1<<7);
+		PORTD&=~(1<<6);
 		LCD_displayString("end acw");
 		break;
 	case STOP:

@@ -83,3 +83,7 @@ uint8 CTRL_closeDoor() {
 	return COMM_SUCSSES;
 
 }
+uint8 CTRL_waitForPir(){
+	if (UART_receiveByte() != HMI_PIR)
+			return COMM_ERROR;
+}
