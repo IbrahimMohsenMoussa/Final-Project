@@ -11,6 +11,7 @@
 #include"../common/common_Macros.h"
 #include"../mcal/timer_2.h"
 #include<util/delay.h>
+#include "lcd.h"
 static volatile uint8 g_ticks;
 static volatile uint32 g_sec;
 Timer0_Config timer0_config = { .mode = TIMER0_MODE_FAST_PWM, .clockSource =
@@ -23,7 +24,7 @@ Timer2_Config timer2_config = { .mode = TIMER2_MODE_CTC, .clockSource =
 		255, .intialCount = 0
 
 };
-volatile void  DcMotor_Timer2_ISR(){
+ void  DcMotor_Timer2_ISR(){
 if (g_ticks<64)
 	g_ticks++;
 else {
@@ -44,20 +45,28 @@ void DcMotor_init() {
 	Timer2_init(&timer2_config);
 	Timer2_setCallback(DcMotor_Timer2_ISR);
 	Timer2_stop();
-	GPIO_ARR_setPinDirection(DCMOTOR_IN_1, PIN_OUTPUT);
-	GPIO_ARR_setPinDirection(DCMOTOR_IN_2, PIN_OUTPUT);
+	GPIO_setupPinDirection(PORTD_ID,6,PIN_OUTPUT);
+	GPIO_setupPinDirection(PORTD_ID,7,PIN_OUTPUT);
+	//GPIO_ARR_setPinDirection(/*DCMOTOR_IN_1*/30, PIN_OUTPUT);
+	//GPIO_ARR_setPinDirection(/*DCMOTOR_IN_2*/31, PIN_OUTPUT);
 	GPIO_ARR_setPinDirection(DCMOTOR_E1, PIN_OUTPUT);
 
 }
 void DcMotor_rotate(DCMOTOR_STATE a_state, uint8 a_speed) {
 	switch (a_state) {
 	case CW:
-		GPIO_ARR_setPinState(DCMOTOR_IN_1, LOGIC_HIGH);
-		GPIO_ARR_setPinState(DCMOTOR_IN_2, LOGIC_LOW);
+		LCD_displayString("cw");
+
+		GPIO_ARR_setPinState(/*DCMOTOR_IN_1*/30, HIGH);
+		GPIO_ARR_setPinState(/*DCMOTOR_IN_2*/31, LOW);
+		LCD_displayString("end cw");
+
 		break;
 	case ACW:
-		GPIO_ARR_setPinState(DCMOTOR_IN_2, LOGIC_HIGH);
-		GPIO_ARR_setPinState(DCMOTOR_IN_1, LOGIC_LOW);
+		LCD_displayString(" acw");
+		GPIO_ARR_setPinState(DCMOTOR_IN_2, HIGH);
+		GPIO_ARR_setPinState(DCMOTOR_IN_1, LOW);
+		LCD_displayString("end acw");
 		break;
 	case STOP:
 		GPIO_ARR_setPinState(DCMOTOR_IN_1, LOGIC_LOW);
@@ -71,9 +80,10 @@ void DcMotor_rotate(DCMOTOR_STATE a_state, uint8 a_speed) {
 void DcMotor_OnForTime(DCMOTOR_STATE a_state, uint8 a_speed,uint16 a_time){
 	Reset_Timer2Conter();
 	Timer2_resume();
+	DcMotor_rotate(a_state,a_speed);
 	while (g_sec<=a_time){
-		DcMotor_rotate(a_state,a_speed);
-		_delay_ms(10);
+
+
 	}
 	DcMotor_rotate(STOP,0);
 	Reset_Timer2Conter();
