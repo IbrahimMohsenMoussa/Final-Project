@@ -2,6 +2,7 @@
 #include "../hal/lcd.h"
 #include "../hal/external_eeprom.h"
 #include "../hal/dcMotor.h"
+#include "../hal/buzzer.h"
 #include<util/delay.h>
 #include "../hal/pir.h"
 
@@ -10,7 +11,7 @@ int main() {
 	LCD_init();
 	HMI_init();
 
-
+Buzzer_init();
 	uint8 *l_ptr2pass;
 	for (;;) {
 		/* Wait for command from HMI */
@@ -41,9 +42,12 @@ int main() {
 			OpenDoor();
 			 waitForPeople();
 			break;
-		case HMI_CLOSE_DOOR:
-			CloseDoor();
+		case BUZZER_ON:
+			Buzzer_on();
 			break;
+		case BUZZER_OFF:
+					Buzzer_off();
+					break;
 		default:
 			LCD_displayStringRowColumn(0, 0, "Unknown Command");
 			break;

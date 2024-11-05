@@ -87,3 +87,9 @@ uint8 CTRL_waitForPir(){
 	if (UART_receiveByte() != HMI_PIR)
 			return COMM_ERROR;
 }
+void CTRL_buzzer_on(){
+	UART_sendByte(BUZZER_ON);
+}
+void CTRL_buzzer_off(){
+	UART_sendByte(BUZZER_OFF);
+}

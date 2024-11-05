@@ -21,6 +21,8 @@
 #define HMI_WAIT_PASS_MEM 'U'
 #define HMI_OPEN_DOOR 'D'
 #define HMI_CLOSE_DOOR 'd'
+#define BUZZER_ON 'B'
+#define BUZZER_OFF 'b'
 uint8 HMI_init();
 uint8  HMI_command();
 uint8 HMI_ready();

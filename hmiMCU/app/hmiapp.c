@@ -27,7 +27,9 @@ void alert() {
 	Timer2_resume();
 	LCD_clearScreen();
 	LCD_displayString("-----HARAMY-----");
+	CTRL_buzzer_on();
 	while(g_sec<60);
+	CTRL_buzzer_off();
 }
 typedef enum {
 	SET_PASSWORD, OPEN_DOOR, CLOSEDOOR, ALERT, IDLE, CHANGE_PASSWORD
