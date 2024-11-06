@@ -89,8 +89,7 @@ typedef struct {
         TIMER2_PRESCALER_64,          /**< Prescaler of 64 */
         TIMER2_PRESCALER_256,         /**< Prescaler of 256 */
         TIMER2_PRESCALER_1024,        /**< Prescaler of 1024 */
-        TIMER2_EXTERNAL_CLOCK_FALLING, /**< External clock on falling edge */
-        TIMER2_EXTERNAL_CLOCK_RISING   /**< External clock on rising edge */
+
     } clockSource;
 
     /**

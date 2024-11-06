@@ -1,588 +1,588 @@
 #ifndef ATMEGA32_REGISTERS_H
 #define ATMEGA32_REGISTERS_H
 
-#include<stdint.h>      /**< Unsigned 16-bit integer (0 to 65535). */
+#include"../common/std_types.h"
 // GPIO Ports
 union PORTA_reg {
-    uint8_t byte;
+    uint8 byte;
     struct {
-        uint8_t pa0 :1;
-        uint8_t pa1 :1;
-        uint8_t pa2 :1;
-        uint8_t pa3 :1;
-        uint8_t pa4 :1;
-        uint8_t pa5 :1;
-        uint8_t pa6 :1;
-        uint8_t pa7 :1;
+        uint8 pa0 :1;
+        uint8 pa1 :1;
+        uint8 pa2 :1;
+        uint8 pa3 :1;
+        uint8 pa4 :1;
+        uint8 pa5 :1;
+        uint8 pa6 :1;
+        uint8 pa7 :1;
     } bits;
 };
 union DDRA_reg {
-    uint8_t byte;
+    uint8 byte;
     struct {
-        uint8_t dda0 :1;
-        uint8_t dda1 :1;
-        uint8_t dda2 :1;
-        uint8_t dda3 :1;
-        uint8_t dda4 :1;
-        uint8_t dda5 :1;
-        uint8_t dda6 :1;
-        uint8_t dda7 :1;
+        uint8 dda0 :1;
+        uint8 dda1 :1;
+        uint8 dda2 :1;
+        uint8 dda3 :1;
+        uint8 dda4 :1;
+        uint8 dda5 :1;
+        uint8 dda6 :1;
+        uint8 dda7 :1;
     } bits;
 };
 union PINA_reg {
-    uint8_t byte;
+    uint8 byte;
     struct {
-        uint8_t pina0 :1;
-        uint8_t pina1 :1;
-        uint8_t pina2 :1;
-        uint8_t pina3 :1;
-        uint8_t pina4 :1;
-        uint8_t pina5 :1;
-        uint8_t pina6 :1;
-        uint8_t pina7 :1;
+        uint8 pina0 :1;
+        uint8 pina1 :1;
+        uint8 pina2 :1;
+        uint8 pina3 :1;
+        uint8 pina4 :1;
+        uint8 pina5 :1;
+        uint8 pina6 :1;
+        uint8 pina7 :1;
     } bits;
 };
 
 union PORTB_reg {
-    uint8_t byte;
+    uint8 byte;
     struct {
-        uint8_t pb0 :1;
-        uint8_t pb1 :1;
-        uint8_t pb2 :1;
-        uint8_t pb3 :1;
-        uint8_t pb4 :1;
-        uint8_t pb5 :1;
-        uint8_t pb6 :1;
-        uint8_t pb7 :1;
+        uint8 pb0 :1;
+        uint8 pb1 :1;
+        uint8 pb2 :1;
+        uint8 pb3 :1;
+        uint8 pb4 :1;
+        uint8 pb5 :1;
+        uint8 pb6 :1;
+        uint8 pb7 :1;
     } bits;
 };
 union DDRB_reg {
-    uint8_t byte;
+    uint8 byte;
     struct {
-        uint8_t ddb0 :1;
-        uint8_t ddb1 :1;
-        uint8_t ddb2 :1;
-        uint8_t ddb3 :1;
-        uint8_t ddb4 :1;
-        uint8_t ddb5 :1;
-        uint8_t ddb6 :1;
-        uint8_t ddb7 :1;
+        uint8 ddb0 :1;
+        uint8 ddb1 :1;
+        uint8 ddb2 :1;
+        uint8 ddb3 :1;
+        uint8 ddb4 :1;
+        uint8 ddb5 :1;
+        uint8 ddb6 :1;
+        uint8 ddb7 :1;
     } bits;
 };
 union PINB_reg {
-    uint8_t byte;
+    uint8 byte;
     struct {
-        uint8_t pinb0 :1;
-        uint8_t pinb1 :1;
-        uint8_t pinb2 :1;
-        uint8_t pinb3 :1;
-        uint8_t pinb4 :1;
-        uint8_t pinb5 :1;
-        uint8_t pinb6 :1;
-        uint8_t pinb7 :1;
+        uint8 pinb0 :1;
+        uint8 pinb1 :1;
+        uint8 pinb2 :1;
+        uint8 pinb3 :1;
+        uint8 pinb4 :1;
+        uint8 pinb5 :1;
+        uint8 pinb6 :1;
+        uint8 pinb7 :1;
     } bits;
 };
 
 union PORTC_reg {
-    uint8_t byte;
+    uint8 byte;
     struct {
-        uint8_t pc0 :1;
-        uint8_t pc1 :1;
-        uint8_t pc2 :1;
-        uint8_t pc3 :1;
-        uint8_t pc4 :1;
-        uint8_t pc5 :1;
-        uint8_t pc6 :1;
-        uint8_t pc7 :1;
+        uint8 pc0 :1;
+        uint8 pc1 :1;
+        uint8 pc2 :1;
+        uint8 pc3 :1;
+        uint8 pc4 :1;
+        uint8 pc5 :1;
+        uint8 pc6 :1;
+        uint8 pc7 :1;
     } bits;
 };
 union DDRC_reg {
-    uint8_t byte;
+    uint8 byte;
     struct {
-        uint8_t ddc0 :1;
-        uint8_t ddc1 :1;
-        uint8_t ddc2 :1;
-        uint8_t ddc3 :1;
-        uint8_t ddc4 :1;
-        uint8_t ddc5 :1;
-        uint8_t ddc6 :1;
-        uint8_t ddc7 :1;
+        uint8 ddc0 :1;
+        uint8 ddc1 :1;
+        uint8 ddc2 :1;
+        uint8 ddc3 :1;
+        uint8 ddc4 :1;
+        uint8 ddc5 :1;
+        uint8 ddc6 :1;
+        uint8 ddc7 :1;
     } bits;
 };
 union PINC_reg {
-    uint8_t byte;
+    uint8 byte;
     struct {
-        uint8_t pinc0 :1;
-        uint8_t pinc1 :1;
-        uint8_t pinc2 :1;
-        uint8_t pinc3 :1;
-        uint8_t pinc4 :1;
-        uint8_t pinc5 :1;
-        uint8_t pinc6 :1;
-        uint8_t pinc7 :1;
+        uint8 pinc0 :1;
+        uint8 pinc1 :1;
+        uint8 pinc2 :1;
+        uint8 pinc3 :1;
+        uint8 pinc4 :1;
+        uint8 pinc5 :1;
+        uint8 pinc6 :1;
+        uint8 pinc7 :1;
     } bits;
 };
 
 union PORTD_reg {
-    uint8_t byte;
+    uint8 byte;
     struct {
-        uint8_t pd0 :1;
-        uint8_t pd1 :1;
-        uint8_t pd2 :1;
-        uint8_t pd3 :1;
-        uint8_t pd4 :1;
-        uint8_t pd5 :1;
-        uint8_t pd6 :1;
-        uint8_t pd7 :1;
+        uint8 pd0 :1;
+        uint8 pd1 :1;
+        uint8 pd2 :1;
+        uint8 pd3 :1;
+        uint8 pd4 :1;
+        uint8 pd5 :1;
+        uint8 pd6 :1;
+        uint8 pd7 :1;
     } bits;
 };
 union DDRD_reg {
-    uint8_t byte;
+    uint8 byte;
     struct {
-        uint8_t ddd0 :1;
-        uint8_t ddd1 :1;
-        uint8_t ddd2 :1;
-        uint8_t ddd3 :1;
-        uint8_t ddd4 :1;
-        uint8_t ddd5 :1;
-        uint8_t ddd6 :1;
-        uint8_t ddd7 :1;
+        uint8 ddd0 :1;
+        uint8 ddd1 :1;
+        uint8 ddd2 :1;
+        uint8 ddd3 :1;
+        uint8 ddd4 :1;
+        uint8 ddd5 :1;
+        uint8 ddd6 :1;
+        uint8 ddd7 :1;
     } bits;
 };
 union PIND_reg {
-    uint8_t byte;
+    uint8 byte;
     struct {
-        uint8_t pind0 :1;
-        uint8_t pind1 :1;
-        uint8_t pind2 :1;
-        uint8_t pind3 :1;
-        uint8_t pind4 :1;
-        uint8_t pind5 :1;
-        uint8_t pind6 :1;
-        uint8_t pind7 :1;
+        uint8 pind0 :1;
+        uint8 pind1 :1;
+        uint8 pind2 :1;
+        uint8 pind3 :1;
+        uint8 pind4 :1;
+        uint8 pind5 :1;
+        uint8 pind6 :1;
+        uint8 pind7 :1;
     } bits;
 };
 
-// Timer/Counter 0
+// Timer 0
 union TCCR0_reg {
-    uint8_t byte;
+    uint8 byte;
     struct {
-        uint8_t cs00 :1;
-        uint8_t cs01 :1;
-        uint8_t cs02 :1;
-        uint8_t wgm01 :1;
-        uint8_t com00 :1;
-        uint8_t com01 :1;
-        uint8_t wgm00 :1;
-        uint8_t foc0 :1;
+        uint8 cs00 :1;
+        uint8 cs01 :1;
+        uint8 cs02 :1;
+        uint8 wgm01 :1;
+        uint8 com00 :1;
+        uint8 com01 :1;
+        uint8 wgm00 :1;
+        uint8 foc0 :1;
     } bits;
 };
 
 union TCNT0_reg {
-    uint8_t byte;
+    uint8 byte;
 };
 
 union OCR0_reg {
-    uint8_t byte;
+    uint8 byte;
 };
 
-// Timer/Counter 1
+// Timer 1
 union TCCR1A_reg {
-    uint8_t byte;
+    uint8 byte;
     struct {
-        uint8_t wgm10 :1;
-        uint8_t wgm11 :1;
-        uint8_t foc1b :1;
-        uint8_t foc1a :1;
-        uint8_t com1b0 :1;
-        uint8_t com1b1 :1;
-        uint8_t com1a0 :1;
-        uint8_t com1a1 :1;
+        uint8 wgm10 :1;
+        uint8 wgm11 :1;
+        uint8 foc1b :1;
+        uint8 foc1a :1;
+        uint8 com1b0 :1;
+        uint8 com1b1 :1;
+        uint8 com1a0 :1;
+        uint8 com1a1 :1;
     } bits;
 };
 
 union TCCR1B_reg {
-    uint8_t byte;
+    uint8 byte;
     struct {
-        uint8_t cs10 :1;
-        uint8_t cs11 :1;
-        uint8_t cs12 :1;
-        uint8_t wgm12 :1;
-        uint8_t wgm13 :1;
-        uint8_t ices1 :1;
-        uint8_t icnc1 :1;
-        uint8_t :1;
+        uint8 cs10 :1;
+        uint8 cs11 :1;
+        uint8 cs12 :1;
+        uint8 wgm12 :1;
+        uint8 wgm13 :1;
+        uint8 ices1 :1;
+        uint8 icnc1 :1;
+        uint8 :1;
     } bits;
 };
 
 union TCNT1_reg {
     struct {
-        uint8_t tcnt1l;
-        uint8_t tcnt1h;
+        uint8 tcnt1l;
+        uint8 tcnt1h;
     } bytes;
-    uint16_t word;
+    uint16 word;
 };
 
 union OCR1A_reg {
     struct {
-        uint8_t ocr1al;
-        uint8_t ocr1ah;
+        uint8 ocr1al;
+        uint8 ocr1ah;
     } bytes;
-    uint16_t word;
+    uint16 word;
 };
 
 union OCR1B_reg {
     struct {
-        uint8_t ocr1bl;
-        uint8_t ocr1bh;
+        uint8 ocr1bl;
+        uint8 ocr1bh;
     } bytes;
-    uint16_t word;
+    uint16 word;
 };
 
 union ICR1_reg {
     struct {
-        uint8_t icr1l;
-        uint8_t icr1h;
+        uint8 icr1l;
+        uint8 icr1h;
     } bytes;
-    uint16_t word;
+    uint16 word;
 };
 
 // Timer/Counter 2
 union TCCR2_reg {
-    uint8_t byte;
+    uint8 byte;
     struct {
-        uint8_t cs20 :1;
-        uint8_t cs21 :1;
-        uint8_t cs22 :1;
-        uint8_t wgm21 :1;
-        uint8_t com20 :1;
-        uint8_t com21 :1;
-        uint8_t wgm20 :1;
-        uint8_t foc2 :1;
+        uint8 cs20 :1;
+        uint8 cs21 :1;
+        uint8 cs22 :1;
+        uint8 wgm21 :1;
+        uint8 com20 :1;
+        uint8 com21 :1;
+        uint8 wgm20 :1;
+        uint8 foc2 :1;
     } bits;
 };
 
 union TCNT2_reg {
-    uint8_t byte;
+    uint8 byte;
 };
 
 union OCR2_reg {
-    uint8_t byte;
+    uint8 byte;
 };
 
 // Interrupt Registers
 union SREG_reg {
-    uint8_t byte;
+    uint8 byte;
     struct {
-        uint8_t c :1;
-        uint8_t z :1;
-        uint8_t n :1;
-        uint8_t v :1;
-        uint8_t s :1;
-        uint8_t h :1;
-        uint8_t t :1;
-        uint8_t i :1;
+        uint8 c :1;
+        uint8 z :1;
+        uint8 n :1;
+        uint8 v :1;
+        uint8 s :1;
+        uint8 h :1;
+        uint8 t :1;
+        uint8 i :1;
     } bits;
 };
 
 union TIMSK_reg {
-    uint8_t byte;
+    uint8 byte;
     struct {
-        uint8_t toie0 :1;
-        uint8_t ocie0 :1;
-        uint8_t toie1 :1;
-        uint8_t ocie1b :1;
-        uint8_t ocie1a :1;
-        uint8_t ticie1 :1;
-        uint8_t toie2 :1;
-        uint8_t ocie2 :1;
+        uint8 toie0 :1;
+        uint8 ocie0 :1;
+        uint8 toie1 :1;
+        uint8 ocie1b :1;
+        uint8 ocie1a :1;
+        uint8 ticie1 :1;
+        uint8 toie2 :1;
+        uint8 ocie2 :1;
     } bits;
 };
 
 union TIFR_reg {
-    uint8_t byte;
+    uint8 byte;
     struct {
-        uint8_t tov0 :1;
-        uint8_t ocf0 :1;
-        uint8_t tov1 :1;
-        uint8_t ocf1b :1;
-        uint8_t ocf1a :1;
-        uint8_t icf1 :1;
-        uint8_t tov2 :1;
-        uint8_t ocf2 :1;
+        uint8 tov0 :1;
+        uint8 ocf0 :1;
+        uint8 tov1 :1;
+        uint8 ocf1b :1;
+        uint8 ocf1a :1;
+        uint8 icf1 :1;
+        uint8 tov2 :1;
+        uint8 ocf2 :1;
     } bits;
 };
 
 // ADC Registers
 union ADMUX_reg {
-    uint8_t byte;
+    uint8 byte;
     struct {
-        uint8_t mux0 :1;
-        uint8_t mux1 :1;
-        uint8_t mux2 :1;
-        uint8_t mux3 :1;
-        uint8_t mux4 :1;
-        uint8_t adlar :1;
-        uint8_t refs0 :1;
-        uint8_t refs1 :1;
+        uint8 mux0 :1;
+        uint8 mux1 :1;
+        uint8 mux2 :1;
+        uint8 mux3 :1;
+        uint8 mux4 :1;
+        uint8 adlar :1;
+        uint8 refs0 :1;
+        uint8 refs1 :1;
     } bits;
 };
 
 union ADCSRA_reg {
-    uint8_t byte;
+    uint8 byte;
     struct {
-        uint8_t adps0 :1;
-        uint8_t adps1 :1;
-        uint8_t adps2 :1;
-        uint8_t adie :1;
-        uint8_t adif :1;
-        uint8_t adate :1;
-        uint8_t adsc :1;
-        uint8_t aden :1;
+        uint8 adps0 :1;
+        uint8 adps1 :1;
+        uint8 adps2 :1;
+        uint8 adie :1;
+        uint8 adif :1;
+        uint8 adate :1;
+        uint8 adsc :1;
+        uint8 aden :1;
     } bits;
 };
 
 union ADC_reg {
 
-    uint16_t value;
+    uint16 value;
 };
 
 // EEPROM Registers
 union EEAR_reg {
     struct {
-        uint8_t eearl;
-        uint8_t eearh;
+        uint8 eearl;
+        uint8 eearh;
     } bytes;
-    uint16_t word;
+    uint16 word;
 };
 
 union EEDR_reg {
-    uint8_t byte;
+    uint8 byte;
 };
 
 union EECR_reg {
-    uint8_t byte;
+    uint8 byte;
     struct {
-        uint8_t eere :1;
-        uint8_t eewe :1;
-        uint8_t eemwe :1;
-        uint8_t eerie :1;
-        uint8_t :4;
+        uint8 eere :1;
+        uint8 eewe :1;
+        uint8 eemwe :1;
+        uint8 eerie :1;
+        uint8 :4;
     } bits;
 };
 
 // SPI Registers
 union SPCR_reg {
-    uint8_t byte;
+    uint8 byte;
     struct {
-        uint8_t spr0 :1;
-        uint8_t spr1 :1;
-        uint8_t cpha :1;
-        uint8_t cpol :1;
-        uint8_t mstr :1;
-        uint8_t dord :1;
-        uint8_t spe :1;
-        uint8_t spie :1;
+        uint8 spr0 :1;
+        uint8 spr1 :1;
+        uint8 cpha :1;
+        uint8 cpol :1;
+        uint8 mstr :1;
+        uint8 dord :1;
+        uint8 spe :1;
+        uint8 spie :1;
     } bits;
 };
 
 union SPSR_reg {
-    uint8_t byte;
+    uint8 byte;
     struct {
-        uint8_t spi2x :1;
-        uint8_t :5;
-        uint8_t wcol :1;
-        uint8_t spif :1;
+        uint8 spi2x :1;
+        uint8 :5;
+        uint8 wcol :1;
+        uint8 spif :1;
     } bits;
 };
 
 union SPDR_reg {
-    uint8_t byte;
+    uint8 byte;
 };
 
 // USART Registers
 union UBRRH_reg {
-    uint8_t byte;
+    uint8 byte;
     struct {
-        uint8_t ubrr8 :1;
-        uint8_t ubrr9 :1;
-        uint8_t ubrr10 :1;
-        uint8_t ubrr11 :1;
-        uint8_t :3;
-        uint8_t ursel :1;
+        uint8 ubrr8 :1;
+        uint8 ubrr9 :1;
+        uint8 ubrr10 :1;
+        uint8 ubrr11 :1;
+        uint8 :3;
+        uint8 ursel :1;
     } bits;
 };
 
 union UBRRL_reg {
-    uint8_t byte;
+    uint8 byte;
 };
 
 union UCSRA_reg {
-    uint8_t byte;
+    uint8 byte;
     struct {
-        uint8_t mpcm :1;
-        uint8_t u2x :1;
-        uint8_t pe :1;
-        uint8_t dor :1;
-        uint8_t fe :1;
-        uint8_t udre :1;
-        uint8_t txc :1;
-        uint8_t rxc :1;
+        uint8 mpcm :1;
+        uint8 u2x :1;
+        uint8 pe :1;
+        uint8 dor :1;
+        uint8 fe :1;
+        uint8 udre :1;
+        uint8 txc :1;
+        uint8 rxc :1;
     } bits;
 };
 
 union UCSRB_reg {
-    uint8_t byte;
+    uint8 byte;
     struct {
-        uint8_t txb8 :1;
-        uint8_t rxb8 :1;
-        uint8_t ucsz2 :1;
-        uint8_t txen :1;
-        uint8_t rxen :1;
-        uint8_t udrie :1;
-        uint8_t txcie :1;
-        uint8_t rxcie :1;
+        uint8 txb8 :1;
+        uint8 rxb8 :1;
+        uint8 ucsz2 :1;
+        uint8 txen :1;
+        uint8 rxen :1;
+        uint8 udrie :1;
+        uint8 txcie :1;
+        uint8 rxcie :1;
     } bits;
 };
 
 union UCSRC_reg {
-    uint8_t byte;
+    uint8 byte;
     struct {
-        uint8_t ucpol :1;
-        uint8_t ucsz0 :1;
-        uint8_t ucsz1 :1;
-        uint8_t usbs :1;
-        uint8_t upm0 :1;
-        uint8_t upm1 :1;
-        uint8_t umsel :1;
-        uint8_t ursel :1;
+        uint8 ucpol :1;
+        uint8 ucsz0 :1;
+        uint8 ucsz1 :1;
+        uint8 usbs :1;
+        uint8 upm0 :1;
+        uint8 upm1 :1;
+        uint8 umsel :1;
+        uint8 ursel :1;
     } bits;
 };
 
 union UDR_reg {
-    uint8_t byte;
+    uint8 byte;
 };
 
 // TWI Registers
 union TWBR_reg {
-    uint8_t byte;
+    uint8 byte;
 };
 
 union TWSR_reg {
-    uint8_t byte;
+    uint8 byte;
     struct {
-        uint8_t twps0 :1;
-        uint8_t twps1 :1;
-        uint8_t :1;
-        uint8_t tws3 :1;
-        uint8_t tws4 :1;
-        uint8_t tws5 :1;
-        uint8_t tws6 :1;
-        uint8_t tws7 :1;
+        uint8 twps0 :1;
+        uint8 twps1 :1;
+        uint8 :1;
+        uint8 tws3 :1;
+        uint8 tws4 :1;
+        uint8 tws5 :1;
+        uint8 tws6 :1;
+        uint8 tws7 :1;
     } bits;
 };
 
 union TWAR_reg {
-    uint8_t byte;
+    uint8 byte;
     struct {
-        uint8_t twgce :1;
-        uint8_t twa0 :1;
-        uint8_t twa1 :1;
-        uint8_t twa2 :1;
-        uint8_t twa3 :1;
-        uint8_t twa4 :1;
-        uint8_t twa5 :1;
-        uint8_t twa6 :1;
+        uint8 twgce :1;
+        uint8 twa0 :1;
+        uint8 twa1 :1;
+        uint8 twa2 :1;
+        uint8 twa3 :1;
+        uint8 twa4 :1;
+        uint8 twa5 :1;
+        uint8 twa6 :1;
     } bits;
 };
 
 union TWDR_reg {
-    uint8_t byte;
+    uint8 byte;
 };
 
 union TWCR_reg {
-    uint8_t byte;
+    uint8 byte;
     struct {
-        uint8_t twie :1;
-        uint8_t twen :1;
-        uint8_t twwc :1;
-        uint8_t twsto :1;
-        uint8_t twsta :1;
-        uint8_t twea :1;
-        uint8_t twint :1;
-        uint8_t :1;
+        uint8 twie :1;
+        uint8 twen :1;
+        uint8 twwc :1;
+        uint8 twsto :1;
+        uint8 twsta :1;
+        uint8 twea :1;
+        uint8 twint :1;
+        uint8 :1;
     } bits;
 };
 
 // Watchdog Timer
 union WDTCR_reg {
-    uint8_t byte;
+    uint8 byte;
     struct {
-        uint8_t wdp0 :1;
-        uint8_t wdp1 :1;
-        uint8_t wdp2 :1;
-        uint8_t wde :1;
-        uint8_t wdtoe :1;
-        uint8_t :3;
+        uint8 wdp0 :1;
+        uint8 wdp1 :1;
+        uint8 wdp2 :1;
+        uint8 wde :1;
+        uint8 wdtoe :1;
+        uint8 :3;
     } bits;
 };
 
 // Power Management, Oscillators, and Miscellaneous
 union OSCCAL_reg {
-    uint8_t byte;
+    uint8 byte;
 };
 
 union SFIOR_reg {
-    uint8_t byte;
+    uint8 byte;
     struct {
-        uint8_t psr10 :1;
-        uint8_t psr2 :1;
-        uint8_t pud :1;
-        uint8_t acme :1;
-        uint8_t adts0 :1;
-        uint8_t adts1 :1;
-        uint8_t adts2 :1;
-        uint8_t :1;
+        uint8 psr10 :1;
+        uint8 psr2 :1;
+        uint8 pud :1;
+        uint8 acme :1;
+        uint8 adts0 :1;
+        uint8 adts1 :1;
+        uint8 adts2 :1;
+        uint8 :1;
     } bits;
 };
 
 union MCUCSR_reg {
-    uint8_t byte;
+    uint8 byte;
     struct {
-        uint8_t porf :1;
-        uint8_t extrf :1;
-        uint8_t borf :1;
-        uint8_t wdrf :1;
-        uint8_t jtrf :1;
-        uint8_t :3;
+        uint8 porf :1;
+        uint8 extrf :1;
+        uint8 borf :1;
+        uint8 wdrf :1;
+        uint8 jtrf :1;
+        uint8 :3;
     } bits;
 };
 
 union MCUCR_reg {
-    uint8_t byte;
+    uint8 byte;
     struct {
-        uint8_t isc00 :1;
-        uint8_t isc01 :1;
-        uint8_t isc10 :1;
-        uint8_t isc11 :1;
-        uint8_t sm0 :1;
-        uint8_t sm1 :1;
-        uint8_t sm2 :1;
-        uint8_t se :1;
+        uint8 isc00 :1;
+        uint8 isc01 :1;
+        uint8 isc10 :1;
+        uint8 isc11 :1;
+        uint8 sm0 :1;
+        uint8 sm1 :1;
+        uint8 sm2 :1;
+        uint8 se :1;
     } bits;
 };
 
 union SPMCR_reg {
-    uint8_t byte;
+    uint8 byte;
     struct {
-        uint8_t spmen :1;
-        uint8_t pgers :1;
-        uint8_t pgwrt :1;
-        uint8_t blbset :1;
-        uint8_t rwwsre :1;
-        uint8_t rwwsb :1;
-        uint8_t spmie :1;
-        uint8_t :1;
+        uint8 spmen :1;
+        uint8 pgers :1;
+        uint8 pgwrt :1;
+        uint8 blbset :1;
+        uint8 rwwsre :1;
+        uint8 rwwsb :1;
+        uint8 spmie :1;
+        uint8 :1;
     } bits;
 };
 

@@ -39,10 +39,10 @@ uint8 HMI_init() {
 	UART_init(&uartConfig);
 	DcMotor_init();
 	PIR_init();
-	/*UART_sendByte(HMI_READY);
+	UART_sendByte(HMI_READY);
 	 return (UART_receiveByte() == HMI_READY) ?
 	 HMI_CONNECTION_SUCSSES :
-	 HMI_CONNECTION_FAIL;*/
+	 HMI_CONNECTION_FAIL;
 }
 uint8 HMI_ready() {
 	//UART_sendByte(HMI_READY);
@@ -121,13 +121,13 @@ void MEM_savePass(uint8 *a_pass) {
 }
 
 void OpenDoor() {
-	DcMotor_OnForTime(ACW, 200, 15);
+	DcMotor_OnForTime(ACW, 100, 15);
 	UART_sendByte(HMI_OPEN_DOOR);
 
 }
 
 void CloseDoor() {
-	DcMotor_OnForTime(CW, 200, 15);
+	DcMotor_OnForTime(CW, 100, 15);
 	UART_sendByte(HMI_CLOSE_DOOR);
 
 }

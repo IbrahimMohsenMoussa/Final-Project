@@ -47,12 +47,11 @@ void DcMotor_init() {
 	Timer2_init(&timer2_config);
 	Timer2_setCallback(DcMotor_Timer2_ISR);
 	Timer2_stop();
-	GPIO_setupPinDirection(PORTD_ID,6,PIN_OUTPUT);
-	GPIO_setupPinDirection(PORTD_ID,7,PIN_OUTPUT);
-	//GPIO_ARR_setPinDirection(/*DCMOTOR_IN_1*/30, PIN_OUTPUT);
-	//GPIO_ARR_setPinDirection(/*DCMOTOR_IN_2*/31, PIN_OUTPUT);
-	DDRD|=(1<<6);
-	DDRD|=(1<<7);
+	//GPIO_setupPinDirection(PORTD_ID,6,PIN_OUTPUT);
+	//GPIO_setupPinDirection(PORTD_ID,7,PIN_OUTPUT);
+	GPIO_ARR_setPinDirection(DCMOTOR_IN_1, PIN_OUTPUT);
+	GPIO_ARR_setPinDirection(DCMOTOR_IN_2, PIN_OUTPUT);
+
 	GPIO_ARR_setPinDirection(DCMOTOR_E1, PIN_OUTPUT);
 
 }
@@ -61,8 +60,10 @@ void DcMotor_rotate(DCMOTOR_STATE a_state, uint8 a_speed) {
 	case CW:
 		LCD_displayString("cw");
 
-		GPIO_ARR_setPinState(/*DCMOTOR_IN_1*/30, HIGH);
-		GPIO_ARR_setPinState(/*DCMOTOR_IN_2*/31, LOW);
+		//GPIO_ARR_setPinState(/*DCMOTOR_IN_1*/30, HIGH);
+		//GPIO_ARR_setPinState(/*DCMOTOR_IN_2*/31, LOW);
+		DDRD|=(1<<6);
+		DDRD|=(1<<7);
 		PORTD|=(1<<6);
 		PORTD&=~(1<<7);
 
@@ -73,8 +74,10 @@ void DcMotor_rotate(DCMOTOR_STATE a_state, uint8 a_speed) {
 		LCD_displayString(" acw");
 		GPIO_ARR_setPinState(DCMOTOR_IN_2, HIGH);
 		GPIO_ARR_setPinState(DCMOTOR_IN_1, LOW);
+		/*DDRD|=(1<<6);
+		DDRD|=(1<<7);
 		PORTD|=(1<<7);
-		PORTD&=~(1<<6);
+		PORTD&=~(1<<6);*/
 		LCD_displayString("end acw");
 		break;
 	case STOP:
@@ -90,10 +93,7 @@ void DcMotor_OnForTime(DCMOTOR_STATE a_state, uint8 a_speed,uint16 a_time){
 	Reset_Timer2Conter();
 	Timer2_resume();
 	DcMotor_rotate(a_state,a_speed);
-	while (g_sec<=a_time){
-
-
-	}
+	while (g_sec<=a_time){}
 	DcMotor_rotate(STOP,0);
 	Reset_Timer2Conter();
 }

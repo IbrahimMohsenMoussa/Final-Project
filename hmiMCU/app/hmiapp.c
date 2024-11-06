@@ -8,7 +8,7 @@ void Get_password(uint8 a_pass[]);
 static volatile uint8 g_ticks;
 static volatile uint32 g_sec;
 void Timer2_ISR() {
-	if (g_ticks < 64)
+	if (g_ticks <= 128)
 		g_ticks++;
 	else {
 		g_ticks = 0;
@@ -23,13 +23,27 @@ void Reset_Timer2Conter() {
 
 }
 void alert() {
+
+	LCD_clearScreen();
+	LCD_displayString("------ALERT------");
+	LCD_displayStringRowColumn(1, 0, "TRY AFTER");
 	Reset_Timer2Conter();
 	Timer2_resume();
-	LCD_clearScreen();
-	LCD_displayString("-----HARAMY-----");
 	CTRL_buzzer_on();
-	while(g_sec<60);
+	LCD_moveCursor(1, 10);
+	while (g_sec <= 60) {
+
+
+		LCD_intgerToString((60 - g_sec));
+		if (g_sec <= 10){
+			LCD_displayStringRowColumn(1, 10, "   ");
+		LCD_moveCursor(1, 11);
+	}else{
+		LCD_moveCursor(1, 10);
+	}}
+	Reset_Timer2Conter();
 	CTRL_buzzer_off();
+	LCD_clearScreen();
 }
 typedef enum {
 	SET_PASSWORD, OPEN_DOOR, CLOSEDOOR, ALERT, IDLE, CHANGE_PASSWORD
@@ -42,7 +56,7 @@ int main() {
 	LCD_init();
 	CTRL_init();
 	Timer2_Config timer2_config = { .mode = TIMER2_MODE_CTC, .clockSource =
-			TIMER2_PRESCALER_1024, .compareOutputMode = TIMER2_COMPARE_CLEAR,
+			TIMER2_PRESCALER_1024, .compareOutputMode = TIMER2_COMPARE_SET,
 			.interrupt = TRUE, .tick = 255, .intialCount = 0
 
 	};
@@ -76,7 +90,7 @@ int main() {
 				LCD_clearScreen();
 				LCD_displayString("Pass Mismatch!");
 				LCD_displayStringRowColumn(0, 0, "Retry");
-				_delay_ms(500);
+
 			}
 			break;
 		case IDLE:
@@ -90,6 +104,50 @@ int main() {
 				g_stateMachine = CHANGE_PASSWORD;
 			}
 			break;
+		case CHANGE_PASSWORD:
+			if (trys >= 3) {
+				g_stateMachine = ALERT;
+				trys = 0;
+				break;
+			}
+			if (Check_password() == HMI_PASSMATCH) {
+
+				LCD_clearScreen();
+				LCD_displayStringRowColumn(0, 0, "Enter New Pass:");
+
+				uint8 l_1stInCpass[6] = { 0 };
+				uint8 l_2ndInCpass[6] = { 0 };
+
+				/* Capture the first password */
+				Get_password(l_1stInCpass);
+
+				/* Confirm and re-enter password */
+				LCD_clearScreen();
+				LCD_displayStringRowColumn(0, 0, "Re-enter Pass:");
+				Get_password(l_2ndInCpass);
+
+				/* Send and check passwords */
+				if (CTRL_checkPassMatch(l_1stInCpass,
+						l_2ndInCpass) == HMI_PASSMATCH) {
+					g_stateMachine = IDLE;
+					LCD_displayString("Pass match!");
+
+				} else {
+					LCD_clearScreen();
+					LCD_displayString("Pass Mismatch!");
+					LCD_displayStringRowColumn(0, 0, "Retry");
+					_delay_ms(500);
+				}
+
+				trys = 0;
+				g_stateMachine = IDLE;
+			} else {
+				LCD_clearScreen();
+				LCD_displayString("WRONG PASSWORD");
+				trys++;
+			}
+			break;
+
 		case OPEN_DOOR:
 			if (trys >= 3) {
 				g_stateMachine = ALERT;
@@ -112,6 +170,7 @@ int main() {
 			} else {
 				LCD_clearScreen();
 				LCD_displayString("WRONG PASSWORD");
+				_delay_ms(500);
 				trys++;
 			}
 			break;
@@ -120,7 +179,9 @@ int main() {
 			g_stateMachine = IDLE;
 			break;
 		default:
+
 			LCD_displayStringRowColumn(0, 0, "Invalid State");
+			g_stateMachine = IDLE;
 			break;
 		}
 	}
