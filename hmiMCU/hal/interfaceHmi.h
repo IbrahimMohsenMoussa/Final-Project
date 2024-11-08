@@ -5,8 +5,8 @@
  *      Author: MSI
  */
 
-#ifndef HAL_CTRL_H_
-#define HAL_CTRL_H_
+#ifndef HAL_INTERFACEHMI_H_
+#define HAL_INTERFACEHMI_H_
 #include"../common/std_types.h"
 #define CTRL_HANDSHAKE 'L'
 #define CTRL_CONNECTION_SUCSSES 'O'
@@ -33,4 +33,4 @@ uint8 CTRL_init();
 uint8 CTRL_waitForPir();
 void CTRL_buzzer_on();
 void CTRL_buzzer_off();
-#endif /* HAL_CTRL_H_ */
+#endif /* HAL_INTERFACEHMI_H_ */

@@ -8,7 +8,7 @@
 #ifndef BUZZER_H_
 #define BUZZER_H_
 
-#define BUZZER_PIN GPIO_PC5
+#define BUZZER_PIN GPIO_PC7
 #define BUZZER_POSTIVE_LOGIC
 
 #ifndef BUZZER_POSTIVE_LOGIC

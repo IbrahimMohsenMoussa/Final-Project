@@ -1,47 +1,55 @@
-#include "../hal/ctrl.h"
 #include "../hal/lcd.h"
 #include "../hal/keypad.h"
 #include<util/delay.h>
-#include"../mcal/timer_2.h"
+
+#include "../hal/interfaceHmi.h"
+#include"../mcal/timer_1.h"
+
 void Get_password(uint8 a_pass[]);
 
-static volatile uint8 g_ticks;
 static volatile uint32 g_sec;
-void Timer2_ISR() {
-	if (g_ticks <= 128)
-		g_ticks++;
-	else {
-		g_ticks = 0;
-		g_sec++;
-	}
+void Timer1_ISR() {
+
+	g_sec++;
 
 }
-void Reset_Timer2Conter() {
-	Timer2_stop();
-	g_ticks = 0;
+void Reset_Timer1Conter() {
+	Timer1_stop();
+
 	g_sec = 0;
 
 }
 void alert() {
 
 	LCD_clearScreen();
-	LCD_displayString("------ALERT------");
+	LCD_displayString("====LOCKDOWN====");
 	LCD_displayStringRowColumn(1, 0, "TRY AFTER");
-	Reset_Timer2Conter();
-	Timer2_resume();
+	Reset_Timer1Conter();
+	Timer1_resume();
 	CTRL_buzzer_on();
 	LCD_moveCursor(1, 10);
-	while (g_sec <= 60) {
+	while (g_sec < 60) {
+		/*if ((60-g_sec) == 9) {
+			LCD_displayStringRowColumn(1, 10, "    ");
+			LCD_moveCursor(1, 10);
+		}
+		if ((60-g_sec) <= 9) {
+			LCD_intgerToString((60 - g_sec));
+			LCD_moveCursor(1, 11);
+		} else {
+			LCD_moveCursor(1, 10);
+			LCD_intgerToString((60 - g_sec));
 
-
-		LCD_intgerToString((60 - g_sec));
-		if (g_sec <= 10){
-			LCD_displayStringRowColumn(1, 10, "   ");
-		LCD_moveCursor(1, 11);
-	}else{
+		}
+*/
 		LCD_moveCursor(1, 10);
-	}}
-	Reset_Timer2Conter();
+	    LCD_intgerToString((60 - g_sec));
+	    if((60 - g_sec)==10){
+	    	LCD_displayStringRowColumn(1, 10, "    ");
+	    }
+
+	}
+	Reset_Timer1Conter();
 	CTRL_buzzer_off();
 	LCD_clearScreen();
 }
@@ -55,14 +63,15 @@ int main() {
 	uint8 trys = 0;
 	LCD_init();
 	CTRL_init();
-	Timer2_Config timer2_config = { .mode = TIMER2_MODE_CTC, .clockSource =
-			TIMER2_PRESCALER_1024, .compareOutputMode = TIMER2_COMPARE_SET,
-			.interrupt = TRUE, .tick = 255, .intialCount = 0
+	Timer1_Config timer1Config = { .mode = TIMER1_MODE_CTC, .clockSource =
+			TIMER1_PRESCALER_1024, .compareOutputModeA = TIMER1_COMPARE_NORMAL,
+			.compareOutputModeB = TIMER1_COMPARE_CLEAR, .interruptA = TRUE,
+			.interruptB = FALSE, .interruptOVF = FALSE, .tickA = 7812
 
 	};
-	Timer2_init(&timer2_config);
-	Timer2_setCallback(Timer2_ISR);
-	Reset_Timer2Conter();
+	Timer1_init(&timer1Config);
+	Timer1_setCallback(Timer1_ISR);
+	Reset_Timer1Conter();
 	for (;;) {
 
 		switch (g_stateMachine) {

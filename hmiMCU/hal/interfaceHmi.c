@@ -5,8 +5,9 @@
  *      Author: MSI
  */
 
+#include "interfaceHmi.h"
+
 #include "../mcal/uart.h"
-#include "ctrl.h"
 #include"../common/std_types.h"
 #include<util/delay.h>
 static uint8 UART_sendPass(uint8 *a_pass) {
@@ -75,10 +76,9 @@ uint8 CTRL_openDoor() {
 	return COMM_SUCSSES;
 }
 uint8 CTRL_closeDoor() {
-	UART_sendByte(CTRL_OPEN_DOOR);
-	if (UART_receiveByte() != HMI_ACK)
-		return COMM_ERROR;
-	if (UART_receiveByte() != CTRL_OPEN_DOOR)
+	UART_sendByte(CTRL_close_DOOR);
+
+	if (UART_receiveByte() != CTRL_close_DOOR)
 		return COMM_ERROR;
 	return COMM_SUCSSES;
 
@@ -86,6 +86,7 @@ uint8 CTRL_closeDoor() {
 uint8 CTRL_waitForPir(){
 	if (UART_receiveByte() != HMI_PIR)
 			return COMM_ERROR;
+	return COMM_SUCSSES;
 }
 void CTRL_buzzer_on(){
 	UART_sendByte(BUZZER_ON);

@@ -1,9 +1,10 @@
-#include"../hal/hmi.h"
 #include "../hal/lcd.h"
 #include "../hal/external_eeprom.h"
 #include "../hal/dcMotor.h"
 #include "../hal/buzzer.h"
 #include<util/delay.h>
+
+#include "../hal/interfaceCtrl.h"
 #include "../hal/pir.h"
 
 
@@ -42,6 +43,9 @@ Buzzer_init();
 			OpenDoor();
 			 waitForPeople();
 			break;
+		case HMI_CLOSE_DOOR:
+				CloseDoor();
+				break;
 		case BUZZER_ON:
 			Buzzer_on();
 			break;
@@ -49,7 +53,9 @@ Buzzer_init();
 					Buzzer_off();
 					break;
 		default:
+
 			LCD_displayStringRowColumn(0, 0, "Unknown Command");
+			LCD_displayChar(l_receivedCommand);
 			break;
 		};
 	}

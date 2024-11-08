@@ -5,8 +5,8 @@
  *      Author: MSI
  */
 
-#ifndef HAL_HMI_H_
-#define HAL_HMI_H_
+#ifndef HAL_INTERFACECTRL_H_
+#define HAL_INTERFACECTRL_H_
 #include"../common/std_types.h"
 #define HMI_HANDSHAKE 'L'
 #define HMI_CONNECTION_SUCSSES 'O'
@@ -35,4 +35,4 @@ extern uint8 g_pass[6];
 void OpenDoor();
 void CloseDoor();
 void waitForPeople();
-#endif /* HAL_HMI_H_ */
+#endif /* HAL_INTERFACECTRL_H_ */

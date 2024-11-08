@@ -7,7 +7,7 @@ C_SRCS += \
 ../hal/buzzer.c \
 ../hal/dcMotor.c \
 ../hal/external_eeprom.c \
-../hal/hmi.c \
+../hal/interfaceCtrl.c \
 ../hal/lcd.c \
 ../hal/pir.c 
 
@@ -15,7 +15,7 @@ OBJS += \
 ./hal/buzzer.o \
 ./hal/dcMotor.o \
 ./hal/external_eeprom.o \
-./hal/hmi.o \
+./hal/interfaceCtrl.o \
 ./hal/lcd.o \
 ./hal/pir.o 
 
@@ -23,7 +23,7 @@ C_DEPS += \
 ./hal/buzzer.d \
 ./hal/dcMotor.d \
 ./hal/external_eeprom.d \
-./hal/hmi.d \
+./hal/interfaceCtrl.d \
 ./hal/lcd.d \
 ./hal/pir.d 
 

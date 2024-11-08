@@ -6,8 +6,9 @@
  *      CTRL MCU
  */
 
+#include "interfaceCtrl.h"
+
 #include "../mcal/uart.h"
-#include "hmi.h"
 #include"lcd.h"
 #include"dcMotor.h"
 #include<util/delay.h>
