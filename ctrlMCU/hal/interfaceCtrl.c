@@ -9,6 +9,7 @@
 #include "interfaceCtrl.h"
 
 #include "../mcal/uart.h"
+#include "../mcal/twi.h"
 #include"lcd.h"
 #include"dcMotor.h"
 #include<util/delay.h>
@@ -37,6 +38,15 @@ uint8 HMI_init() {
 			UART_CHAR_SIZE_8, .asyncMode = LOGIC_LOW, .timeoutMs = 200
 
 	};
+
+	TWI_Config twiConfig = {
+	        .clock = 400000,               // 100kHz clock
+	        .prescaler = TWI_PRESCALER_1,  // No prescaling
+	        .address = 0x10,               // Set device address to 0x10
+	        .enableGeneralCall = FALSE     // Disable general call recognition
+	    };
+
+	    TWI_init(&twiConfig);
 	UART_init(&uartConfig);
 	DcMotor_init();
 	PIR_init();

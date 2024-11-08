@@ -15,6 +15,23 @@
 
 #include "../common/std_types.h"
 
+
+#include "../common/std_types.h"
+
+typedef enum {
+    TWI_PRESCALER_1 = 1,   // No prescaling
+    TWI_PRESCALER_4,       // Prescaler of 4
+    TWI_PRESCALER_16,      // Prescaler of 16
+    TWI_PRESCALER_64       // Prescaler of 64
+} TWI_Prescaler;
+
+typedef struct {
+    uint32 clock;               /**< TWI clock frequency in Hz (e.g., 100000 for 100kHz) */
+    TWI_Prescaler prescaler;    /**< TWI prescaler selection */
+    uint8 address;              /**< TWI address in slave mode (7-bit address) */
+    boolean enableGeneralCall;  /**< Enable or disable general call recognition */
+} TWI_Config;
+
 /*******************************************************************************
  *                      Preprocessor Macros                                    *
  *******************************************************************************/
@@ -31,7 +48,7 @@
 /*******************************************************************************
  *                      Functions Prototypes                                   *
  *******************************************************************************/
-void TWI_init(void);
+void TWI_init(TWI_Config*);
 void TWI_start(void);
 void TWI_stop(void);
 void TWI_writeByte(uint8 data);

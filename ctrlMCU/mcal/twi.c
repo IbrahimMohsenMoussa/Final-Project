@@ -12,20 +12,35 @@
  
 #include "twi.h"
 #include "../common/common_macros.h"
+#include"../mcal/atmega32_regs.h"
 #include <avr/io.h>
 
-void TWI_init(void)
+void TWI_init( TWI_Config *config) {
+
+    TWSR_REG.byte = (config->prescaler & 0x03);
+    TWBR_REG.byte = (uint8)((F_CPU / config->clock - 16) / (2 * (1 << (2 * config->prescaler))));
+
+
+    TWAR_REG.byte = (config->address << 1);
+    if (config->enableGeneralCall) {
+        TWAR_REG.byte |= 1;
+    }
+
+    // Enable TWI
+    TWCR_REG.bits.twen = LOGIC_HIGH;
+}
+/*void TWI_init(void)
 {
-    /* Bit Rate: 400.000 kbps using zero pre-scaler TWPS=00 and F_CPU=8Mhz */
+     Bit Rate: 400.000 kbps using zero pre-scaler TWPS=00 and F_CPU=8Mhz
     TWBR = 0x02;
 	TWSR = 0x00;
 	
-    /* Two Wire Bus address my address if any master device want to call me: 0x1 (used in case this MC is a slave device)
-       General Call Recognition: Off */
+     Two Wire Bus address my address if any master device want to call me: 0x1 (used in case this MC is a slave device)
+       General Call Recognition: Off
     TWAR = 0b00000010; // my address = 0x01 :) 
 	
-    TWCR = (1<<TWEN); /* enable TWI */
-}
+    TWCR = (1<<TWEN);  enable TWI
+}*/
 
 void TWI_start(void)
 {
