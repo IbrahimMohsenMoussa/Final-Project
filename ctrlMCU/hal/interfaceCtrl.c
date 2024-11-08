@@ -42,7 +42,7 @@ uint8 HMI_init() {
 	TWI_Config twiConfig = {
 	        .clock = 400000,               // 100kHz clock
 	        .prescaler = TWI_PRESCALER_1,  // No prescaling
-	        .address = 0x10,               // Set device address to 0x10
+	        .address = 1,               // Set device address to 1
 	        .enableGeneralCall = FALSE     // Disable general call recognition
 	    };
 
