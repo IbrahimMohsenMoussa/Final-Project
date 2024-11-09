@@ -16,7 +16,8 @@
 #include "../hal/external_eeprom.h"
 #include"pir.h"
 uint8 g_pass[6];
-
+static uint8 Encrypt(uint8 a_num);
+static uint8 Decrypt(uint8 a_num);
 static void HMI_recievePassword(uint8 *a_pass) {
 	uint8 i = 0;
 	a_pass[i] = UART_receiveByte();
@@ -39,21 +40,20 @@ uint8 HMI_init() {
 
 	};
 
-	TWI_Config twiConfig = {
-	        .clock = 400000,               // 100kHz clock
-	        .prescaler = TWI_PRESCALER_1,  // No prescaling
-	        .address = 1,               // Set device address to 1
-	        .enableGeneralCall = FALSE     // Disable general call recognition
-	    };
+	TWI_Config twiConfig = { .clock = 400000,               // 100kHz clock
+			.prescaler = TWI_PRESCALER_1,  // No prescaling
+			.address = 1,               // Set device address to 1
+			.enableGeneralCall = FALSE     // Disable general call recognition
+			};
 
-	    TWI_init(&twiConfig);
+	TWI_init(&twiConfig);
 	UART_init(&uartConfig);
 	DcMotor_init();
 	PIR_init();
 	UART_sendByte(HMI_READY);
-	 return (UART_receiveByte() == HMI_READY) ?
-	 HMI_CONNECTION_SUCSSES :
-	 HMI_CONNECTION_FAIL;
+	return (UART_receiveByte() == HMI_READY) ?
+	HMI_CONNECTION_SUCSSES :
+												HMI_CONNECTION_FAIL;
 }
 uint8 HMI_ready() {
 	//UART_sendByte(HMI_READY);
@@ -120,31 +120,104 @@ uint8 MEM_getPassElem(uint8 a_passIndex) {
 	uint8 byte;
 
 	EEPROM_readByte(0xf + a_passIndex, &byte);
-	return byte;
+	return Decrypt(byte);
 
 }
 void MEM_savePass(uint8 *a_pass) {
 
 	for (uint8 i = 0; i < 5; i++) {
-		EEPROM_writeByte(0xf + i, a_pass[i]);
+		EEPROM_writeByte(0xf + i,Encrypt(a_pass[i]));
 		_delay_ms(10);
 	}
 }
 
 void OpenDoor() {
-	DcMotor_OnForTime(ACW, 100, 15);
+	DcMotor_OnForTime(ACW, 100, 10);
 	UART_sendByte(HMI_OPEN_DOOR);
 
 }
 
 void CloseDoor() {
-	DcMotor_OnForTime(CW, 100, 15);
+	DcMotor_OnForTime(CW, 100, 10);
 	UART_sendByte(HMI_CLOSE_DOOR);
 
 }
 
-void waitForPeople(){
-_delay_ms(500);
-while(PIR_read());
-UART_sendByte(HMI_PIR);
+void waitForPeople() {
+	_delay_ms(500);
+	while (PIR_read())
+		;
+	UART_sendByte(HMI_PIR);
+}
+static uint8 Encrypt(uint8 a_num) {
+	switch (a_num) {
+	case 0:
+		return '%';
+		break;
+	case 1:
+		return '*';
+		break;
+	case 2:
+		return 'd';
+		break;
+	case 3:
+		return '$';
+		break;
+	case 4:
+		return ';';
+		break;
+	case 5:
+		return 'M';
+		break;
+	case 6:
+		return 'b';
+		break;
+	case 7:
+		return 'f';
+		break;
+	case 8:
+		return ']';
+		break;
+	case 9:
+		return '&';
+	default:
+		return a_num;
+		break;
+	};
+}
+static uint8 Decrypt(uint8 a_num) {
+	switch (a_num) {
+	case '%':
+		return 0;
+		break;
+	case '*':
+		return 1;
+		break;
+	case 'd':
+		return 2;
+		break;
+	case '$':
+		return 3;
+		break;
+	case ';':
+		return 4;
+		break;
+	case 'M':
+		return 5;
+		break;
+	case 'b':
+		return 6;
+		break;
+	case 'f':
+		return 7;
+		break;
+	case ']':
+		return 8;
+		break;
+	case '&':
+		return 9;
+	default:
+		return a_num;
+		break;
+	};
 }
