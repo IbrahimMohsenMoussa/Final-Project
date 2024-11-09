@@ -36,7 +36,7 @@ void DcMotor_init() {
 	Timer1_Config timer1Config = { .mode = TIMER1_MODE_CTC, .clockSource =
 				TIMER1_PRESCALER_1024, .compareOutputModeA = TIMER1_COMPARE_CLEAR,
 				.compareOutputModeB = TIMER1_COMPARE_CLEAR, .interruptA = TRUE,
-				.interruptB = FALSE, .interruptOVF = FALSE, .tickA = 7812 , .initialCount = 0
+				.interruptB = FALSE, .interruptOVF = FALSE, .tickA = 6250 , .initialCount = 0
 
 		};
 	Timer0_Config timer0_config = { .mode = TIMER0_MODE_FAST_PWM, .clockSource =

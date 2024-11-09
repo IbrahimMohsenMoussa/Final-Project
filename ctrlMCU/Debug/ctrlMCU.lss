@@ -6494,7 +6494,7 @@ void DcMotor_init() {
 	Timer1_Config timer1Config = { .mode = TIMER1_MODE_CTC, .clockSource =
 				TIMER1_PRESCALER_1024, .compareOutputModeA = TIMER1_COMPARE_CLEAR,
 				.compareOutputModeB = TIMER1_COMPARE_CLEAR, .interruptA = TRUE,
-				.interruptB = FALSE, .interruptOVF = FALSE, .tickA = 7812 , .initialCount = 0
+				.interruptB = FALSE, .interruptOVF = FALSE, .tickA = 6250 , .initialCount = 0
 
 		};
     2b34:	8d e0       	ldi	r24, 0x0D	; 13
@@ -6515,8 +6515,8 @@ void DcMotor_init() {
     2b52:	8c 83       	std	Y+4, r24	; 0x04
     2b54:	81 e0       	ldi	r24, 0x01	; 1
     2b56:	8d 83       	std	Y+5, r24	; 0x05
-    2b58:	84 e8       	ldi	r24, 0x84	; 132
-    2b5a:	9e e1       	ldi	r25, 0x1E	; 30
+    2b58:	8a e6       	ldi	r24, 0x6A	; 106
+    2b5a:	98 e1       	ldi	r25, 0x18	; 24
     2b5c:	99 87       	std	Y+9, r25	; 0x09
     2b5e:	88 87       	std	Y+8, r24	; 0x08
 	Timer0_Config timer0_config = { .mode = TIMER0_MODE_FAST_PWM, .clockSource =

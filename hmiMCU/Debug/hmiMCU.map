@@ -466,22 +466,22 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
  .text.LCD_clearScreen
                 0x0000402e       0x14 ./hal/lcd.o
                 0x0000402e                LCD_clearScreen
- .text.Timer1_ISR
-                0x00004042       0x34 ./app/hmiapp.o
-                0x00004042                Timer1_ISR
- .text.Reset_Timer1Conter
-                0x00004076       0x22 ./app/hmiapp.o
-                0x00004076                Reset_Timer1Conter
- .text.alert    0x00004098       0xc2 ./app/hmiapp.o
-                0x00004098                alert
- .text.main     0x0000415a      0x4c4 ./app/hmiapp.o
-                0x0000415a                main
+ .text.main     0x00004042      0x4c4 ./app/hmiapp.o
+                0x00004042                main
  .text.Get_password
-                0x0000461e       0x7e ./app/hmiapp.o
-                0x0000461e                Get_password
+                0x00004506       0x7e ./app/hmiapp.o
+                0x00004506                Get_password
  .text.Check_password
-                0x0000469c       0x42 ./app/hmiapp.o
-                0x0000469c                Check_password
+                0x00004584       0x42 ./app/hmiapp.o
+                0x00004584                Check_password
+ .text.Timer1_ISR
+                0x000045c6       0x34 ./app/hmiapp.o
+                0x000045c6                Timer1_ISR
+ .text.Reset_Timer1Counter
+                0x000045fa       0x22 ./app/hmiapp.o
+                0x000045fa                Reset_Timer1Counter
+ .text.alert    0x0000461c       0xc2 ./app/hmiapp.o
+                0x0000461c                alert
  .text.libgcc   0x000046de       0x44 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_udivmodsi4.o)
                 0x000046de                __udivmodsi4
  .text.libgcc   0x00004722        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
@@ -683,9 +683,9 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
  .stab          0x00003f6c      0xa8c ./app/hmiapp.o
                                 0xc24 (size before relaxing)
 
-.stabstr        0x00000000     0x497b
+.stabstr        0x00000000     0x497c
  *(.stabstr)
- .stabstr       0x00000000     0x497b ./mcal/gpio.o
+ .stabstr       0x00000000     0x497c ./mcal/gpio.o
 
 .stab.excl
  *(.stab.excl)

@@ -11,17 +11,17 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   ALLOC
   3 .stab         000049f8  00000000  00000000  000049a0  2**2
                   CONTENTS, READONLY, DEBUGGING
-  4 .stabstr      0000497b  00000000  00000000  00009398  2**0
+  4 .stabstr      0000497c  00000000  00000000  00009398  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_aranges 00000160  00000000  00000000  0000dd13  2**0
+  5 .debug_aranges 00000160  00000000  00000000  0000dd14  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_pubnames 0000018f  00000000  00000000  0000de73  2**0
+  6 .debug_pubnames 0000018f  00000000  00000000  0000de74  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_info   00002045  00000000  00000000  0000e002  2**0
+  7 .debug_info   00002045  00000000  00000000  0000e003  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_abbrev 00001101  00000000  00000000  00010047  2**0
+  8 .debug_abbrev 00001101  00000000  00000000  00010048  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_line   00000f82  00000000  00000000  00011148  2**0
+  9 .debug_line   00000f82  00000000  00000000  00011149  2**0
                   CONTENTS, READONLY, DEBUGGING
  10 .debug_frame  00000180  00000000  00000000  000120cc  2**2
                   CONTENTS, READONLY, DEBUGGING
@@ -111,7 +111,7 @@ Disassembly of section .text:
      160:	af 35       	cpi	r26, 0x5F	; 95
      162:	b1 07       	cpc	r27, r17
      164:	e1 f7       	brne	.-8      	; 0x15e <.do_clear_bss_loop>
-     166:	0e 94 ad 20 	call	0x415a	; 0x415a <main>
+     166:	0e 94 21 20 	call	0x4042	; 0x4042 <main>
      16a:	0c 94 0d 24 	jmp	0x481a	; 0x481a <_exit>
 
 0000016e <__bad_interrupt>:
@@ -9849,1036 +9849,1053 @@ void LCD_clearScreen(void) {
     403e:	df 91       	pop	r29
     4040:	08 95       	ret
 
-00004042 <Timer1_ISR>:
-#include"../mcal/timer_1.h"
+00004042 <main>:
 
-void Get_password(uint8 a_pass[]);
 
-static volatile uint32 g_sec;
-void Timer1_ISR() {
+
+
+
+int main() {
     4042:	df 93       	push	r29
     4044:	cf 93       	push	r28
     4046:	cd b7       	in	r28, 0x3d	; 61
     4048:	de b7       	in	r29, 0x3e	; 62
+    404a:	c5 54       	subi	r28, 0x45	; 69
+    404c:	d0 40       	sbci	r29, 0x00	; 0
+    404e:	0f b6       	in	r0, 0x3f	; 63
+    4050:	f8 94       	cli
+    4052:	de bf       	out	0x3e, r29	; 62
+    4054:	0f be       	out	0x3f, r0	; 63
+    4056:	cd bf       	out	0x3d, r28	; 61
+    uint8 trys = 0;   /**< Counter for invalid access attempts */
+    4058:	1e 8e       	std	Y+30, r1	; 0x1e
+    LCD_init();
+    405a:	0e 94 c0 1e 	call	0x3d80	; 0x3d80 <LCD_init>
+    CTRL_init();
+    405e:	0e 94 85 14 	call	0x290a	; 0x290a <CTRL_init>
+        .compareOutputModeB = TIMER1_COMPARE_CLEAR,
+        .interruptA = TRUE,
+        .interruptB = FALSE,
+        .interruptOVF = FALSE,
+        .tickA = 6250
+    };
+    4062:	8d e0       	ldi	r24, 0x0D	; 13
+    4064:	fe 01       	movw	r30, r28
+    4066:	7f 96       	adiw	r30, 0x1f	; 31
+    4068:	df 01       	movw	r26, r30
+    406a:	28 2f       	mov	r18, r24
+    406c:	1d 92       	st	X+, r1
+    406e:	2a 95       	dec	r18
+    4070:	e9 f7       	brne	.-6      	; 0x406c <main+0x2a>
+    4072:	81 e0       	ldi	r24, 0x01	; 1
+    4074:	8f 8f       	std	Y+31, r24	; 0x1f
+    4076:	85 e0       	ldi	r24, 0x05	; 5
+    4078:	88 a3       	std	Y+32, r24	; 0x20
+    407a:	82 e0       	ldi	r24, 0x02	; 2
+    407c:	8a a3       	std	Y+34, r24	; 0x22
+    407e:	81 e0       	ldi	r24, 0x01	; 1
+    4080:	8b a3       	std	Y+35, r24	; 0x23
+    4082:	8a e6       	ldi	r24, 0x6A	; 106
+    4084:	98 e1       	ldi	r25, 0x18	; 24
+    4086:	9f a3       	std	Y+39, r25	; 0x27
+    4088:	8e a3       	std	Y+38, r24	; 0x26
+    Timer1_init(&timer1Config);
+    408a:	ce 01       	movw	r24, r28
+    408c:	4f 96       	adiw	r24, 0x1f	; 31
+    408e:	0e 94 19 0f 	call	0x1e32	; 0x1e32 <Timer1_init>
+    Timer1_setCallback(Timer1_ISR);
+    4092:	83 ee       	ldi	r24, 0xE3	; 227
+    4094:	92 e2       	ldi	r25, 0x22	; 34
+    4096:	0e 94 82 10 	call	0x2104	; 0x2104 <Timer1_setCallback>
+    Reset_Timer1Counter();
+    409a:	0e 94 fd 22 	call	0x45fa	; 0x45fa <Reset_Timer1Counter>
+    	 *
+    	 * This state machine cycles through various states, allowing the user to set a password, change it,
+    	 * open the door, and manage security lockout. Each state is processed within a `switch` block.
+    	 */
 
-	g_sec++;
-    404a:	80 91 5b 01 	lds	r24, 0x015B
-    404e:	90 91 5c 01 	lds	r25, 0x015C
-    4052:	a0 91 5d 01 	lds	r26, 0x015D
-    4056:	b0 91 5e 01 	lds	r27, 0x015E
-    405a:	01 96       	adiw	r24, 0x01	; 1
-    405c:	a1 1d       	adc	r26, r1
-    405e:	b1 1d       	adc	r27, r1
-    4060:	80 93 5b 01 	sts	0x015B, r24
-    4064:	90 93 5c 01 	sts	0x015C, r25
-    4068:	a0 93 5d 01 	sts	0x015D, r26
-    406c:	b0 93 5e 01 	sts	0x015E, r27
+    	switch (g_stateMachine) {
+    409e:	80 91 5a 01 	lds	r24, 0x015A
+    40a2:	a8 2f       	mov	r26, r24
+    40a4:	b0 e0       	ldi	r27, 0x00	; 0
+    40a6:	26 96       	adiw	r28, 0x06	; 6
+    40a8:	bf af       	std	Y+63, r27	; 0x3f
+    40aa:	ae af       	std	Y+62, r26	; 0x3e
+    40ac:	26 97       	sbiw	r28, 0x06	; 6
+    40ae:	26 96       	adiw	r28, 0x06	; 6
+    40b0:	2e ad       	ldd	r18, Y+62	; 0x3e
+    40b2:	3f ad       	ldd	r19, Y+63	; 0x3f
+    40b4:	26 97       	sbiw	r28, 0x06	; 6
+    40b6:	23 30       	cpi	r18, 0x03	; 3
+    40b8:	31 05       	cpc	r19, r1
+    40ba:	09 f4       	brne	.+2      	; 0x40be <main+0x7c>
+    40bc:	13 c2       	rjmp	.+1062   	; 0x44e4 <main+0x4a2>
+    40be:	26 96       	adiw	r28, 0x06	; 6
+    40c0:	8e ad       	ldd	r24, Y+62	; 0x3e
+    40c2:	9f ad       	ldd	r25, Y+63	; 0x3f
+    40c4:	26 97       	sbiw	r28, 0x06	; 6
+    40c6:	84 30       	cpi	r24, 0x04	; 4
+    40c8:	91 05       	cpc	r25, r1
+    40ca:	7c f4       	brge	.+30     	; 0x40ea <main+0xa8>
+    40cc:	26 96       	adiw	r28, 0x06	; 6
+    40ce:	ae ad       	ldd	r26, Y+62	; 0x3e
+    40d0:	bf ad       	ldd	r27, Y+63	; 0x3f
+    40d2:	26 97       	sbiw	r28, 0x06	; 6
+    40d4:	10 97       	sbiw	r26, 0x00	; 0
+    40d6:	d1 f0       	breq	.+52     	; 0x410c <main+0xca>
+    40d8:	26 96       	adiw	r28, 0x06	; 6
+    40da:	2e ad       	ldd	r18, Y+62	; 0x3e
+    40dc:	3f ad       	ldd	r19, Y+63	; 0x3f
+    40de:	26 97       	sbiw	r28, 0x06	; 6
+    40e0:	21 30       	cpi	r18, 0x01	; 1
+    40e2:	31 05       	cpc	r19, r1
+    40e4:	09 f4       	brne	.+2      	; 0x40e8 <main+0xa6>
+    40e6:	57 c1       	rjmp	.+686    	; 0x4396 <main+0x354>
+    40e8:	03 c2       	rjmp	.+1030   	; 0x44f0 <main+0x4ae>
+    40ea:	26 96       	adiw	r28, 0x06	; 6
+    40ec:	8e ad       	ldd	r24, Y+62	; 0x3e
+    40ee:	9f ad       	ldd	r25, Y+63	; 0x3f
+    40f0:	26 97       	sbiw	r28, 0x06	; 6
+    40f2:	84 30       	cpi	r24, 0x04	; 4
+    40f4:	91 05       	cpc	r25, r1
+    40f6:	09 f4       	brne	.+2      	; 0x40fa <main+0xb8>
+    40f8:	53 c0       	rjmp	.+166    	; 0x41a0 <main+0x15e>
+    40fa:	26 96       	adiw	r28, 0x06	; 6
+    40fc:	ae ad       	ldd	r26, Y+62	; 0x3e
+    40fe:	bf ad       	ldd	r27, Y+63	; 0x3f
+    4100:	26 97       	sbiw	r28, 0x06	; 6
+    4102:	a5 30       	cpi	r26, 0x05	; 5
+    4104:	b1 05       	cpc	r27, r1
+    4106:	09 f4       	brne	.+2      	; 0x410a <main+0xc8>
+    4108:	6f c0       	rjmp	.+222    	; 0x41e8 <main+0x1a6>
+    410a:	f2 c1       	rjmp	.+996    	; 0x44f0 <main+0x4ae>
+    	     *
+    	     * Prompts the user to enter a new password and confirm it. If both entries match,
+    	     * the state machine proceeds to the idle state. Otherwise, the user is prompted to retry.
+    	     */
+    	    case SET_PASSWORD:
+    	        LCD_clearScreen();
+    410c:	0e 94 17 20 	call	0x402e	; 0x402e <LCD_clearScreen>
+    	        LCD_displayStringRowColumn(0, 0, "Enter Pass:");
+    4110:	20 e6       	ldi	r18, 0x60	; 96
+    4112:	30 e0       	ldi	r19, 0x00	; 0
+    4114:	80 e0       	ldi	r24, 0x00	; 0
+    4116:	60 e0       	ldi	r22, 0x00	; 0
+    4118:	a9 01       	movw	r20, r18
+    411a:	0e 94 db 1f 	call	0x3fb6	; 0x3fb6 <LCD_displayStringRowColumn>
 
-}
-    4070:	cf 91       	pop	r28
-    4072:	df 91       	pop	r29
-    4074:	08 95       	ret
+    	        uint8 l_1stInpass[6] = {0};   /**< Buffer to store the first entered password */
+    411e:	86 e0       	ldi	r24, 0x06	; 6
+    4120:	fe 01       	movw	r30, r28
+    4122:	bc 96       	adiw	r30, 0x2c	; 44
+    4124:	df 01       	movw	r26, r30
+    4126:	28 2f       	mov	r18, r24
+    4128:	1d 92       	st	X+, r1
+    412a:	2a 95       	dec	r18
+    412c:	e9 f7       	brne	.-6      	; 0x4128 <main+0xe6>
+    	        uint8 l_2ndInpass[6] = {0};   /**< Buffer to store the confirmation password */
+    412e:	86 e0       	ldi	r24, 0x06	; 6
+    4130:	fe 01       	movw	r30, r28
+    4132:	f2 96       	adiw	r30, 0x32	; 50
+    4134:	df 01       	movw	r26, r30
+    4136:	28 2f       	mov	r18, r24
+    4138:	1d 92       	st	X+, r1
+    413a:	2a 95       	dec	r18
+    413c:	e9 f7       	brne	.-6      	; 0x4138 <main+0xf6>
 
-00004076 <Reset_Timer1Conter>:
-void Reset_Timer1Conter() {
-    4076:	df 93       	push	r29
-    4078:	cf 93       	push	r28
-    407a:	cd b7       	in	r28, 0x3d	; 61
-    407c:	de b7       	in	r29, 0x3e	; 62
-	Timer1_stop();
-    407e:	0e 94 b8 10 	call	0x2170	; 0x2170 <Timer1_stop>
+    	        Get_password(l_1stInpass);    /**< Capture first password entry */
+    413e:	ce 01       	movw	r24, r28
+    4140:	8c 96       	adiw	r24, 0x2c	; 44
+    4142:	0e 94 83 22 	call	0x4506	; 0x4506 <Get_password>
 
-	g_sec = 0;
-    4082:	10 92 5b 01 	sts	0x015B, r1
-    4086:	10 92 5c 01 	sts	0x015C, r1
-    408a:	10 92 5d 01 	sts	0x015D, r1
-    408e:	10 92 5e 01 	sts	0x015E, r1
+    	        LCD_clearScreen();
+    4146:	0e 94 17 20 	call	0x402e	; 0x402e <LCD_clearScreen>
+    	        LCD_displayStringRowColumn(0, 0, "Re-enter Pass:");
+    414a:	2c e6       	ldi	r18, 0x6C	; 108
+    414c:	30 e0       	ldi	r19, 0x00	; 0
+    414e:	80 e0       	ldi	r24, 0x00	; 0
+    4150:	60 e0       	ldi	r22, 0x00	; 0
+    4152:	a9 01       	movw	r20, r18
+    4154:	0e 94 db 1f 	call	0x3fb6	; 0x3fb6 <LCD_displayStringRowColumn>
+    	        Get_password(l_2ndInpass);    /**< Capture confirmation password */
+    4158:	ce 01       	movw	r24, r28
+    415a:	c2 96       	adiw	r24, 0x32	; 50
+    415c:	0e 94 83 22 	call	0x4506	; 0x4506 <Get_password>
 
-}
-    4092:	cf 91       	pop	r28
-    4094:	df 91       	pop	r29
-    4096:	08 95       	ret
+    	        if (CTRL_checkPassMatch(l_1stInpass, l_2ndInpass) == HMI_PASSMATCH) {
+    4160:	ce 01       	movw	r24, r28
+    4162:	8c 96       	adiw	r24, 0x2c	; 44
+    4164:	9e 01       	movw	r18, r28
+    4166:	2e 5c       	subi	r18, 0xCE	; 206
+    4168:	3f 4f       	sbci	r19, 0xFF	; 255
+    416a:	b9 01       	movw	r22, r18
+    416c:	0e 94 ca 14 	call	0x2994	; 0x2994 <CTRL_checkPassMatch>
+    4170:	8d 34       	cpi	r24, 0x4D	; 77
+    4172:	41 f4       	brne	.+16     	; 0x4184 <main+0x142>
+    	            g_stateMachine = IDLE;
+    4174:	84 e0       	ldi	r24, 0x04	; 4
+    4176:	80 93 5a 01 	sts	0x015A, r24
+    	            LCD_displayString("Pass match!"); /**< Successful match feedback */
+    417a:	8b e7       	ldi	r24, 0x7B	; 123
+    417c:	90 e0       	ldi	r25, 0x00	; 0
+    417e:	0e 94 5e 1f 	call	0x3ebc	; 0x3ebc <LCD_displayString>
+    4182:	8d cf       	rjmp	.-230    	; 0x409e <main+0x5c>
+    	        } else {
+    	            LCD_clearScreen();
+    4184:	0e 94 17 20 	call	0x402e	; 0x402e <LCD_clearScreen>
+    	            LCD_displayString("Pass Mismatch!");
+    4188:	87 e8       	ldi	r24, 0x87	; 135
+    418a:	90 e0       	ldi	r25, 0x00	; 0
+    418c:	0e 94 5e 1f 	call	0x3ebc	; 0x3ebc <LCD_displayString>
+    	            LCD_displayStringRowColumn(0, 0, "Retry"); /**< Mismatch feedback */
+    4190:	26 e9       	ldi	r18, 0x96	; 150
+    4192:	30 e0       	ldi	r19, 0x00	; 0
+    4194:	80 e0       	ldi	r24, 0x00	; 0
+    4196:	60 e0       	ldi	r22, 0x00	; 0
+    4198:	a9 01       	movw	r20, r18
+    419a:	0e 94 db 1f 	call	0x3fb6	; 0x3fb6 <LCD_displayStringRowColumn>
+    419e:	7f cf       	rjmp	.-258    	; 0x409e <main+0x5c>
+    	     *
+    	     * Displays options to either open the door or change the password.
+    	     * User's input updates the state to the appropriate action.
+    	     */
+    	    case IDLE:
+    	        LCD_clearScreen();
+    41a0:	0e 94 17 20 	call	0x402e	; 0x402e <LCD_clearScreen>
+    	        LCD_displayStringRowColumn(0, 0, "+ : Open Door");
+    41a4:	2c e9       	ldi	r18, 0x9C	; 156
+    41a6:	30 e0       	ldi	r19, 0x00	; 0
+    41a8:	80 e0       	ldi	r24, 0x00	; 0
+    41aa:	60 e0       	ldi	r22, 0x00	; 0
+    41ac:	a9 01       	movw	r20, r18
+    41ae:	0e 94 db 1f 	call	0x3fb6	; 0x3fb6 <LCD_displayStringRowColumn>
+    	        LCD_displayStringRowColumn(1, 0, "- : Change Pass");
+    41b2:	2a ea       	ldi	r18, 0xAA	; 170
+    41b4:	30 e0       	ldi	r19, 0x00	; 0
+    41b6:	81 e0       	ldi	r24, 0x01	; 1
+    41b8:	60 e0       	ldi	r22, 0x00	; 0
+    41ba:	a9 01       	movw	r20, r18
+    41bc:	0e 94 db 1f 	call	0x3fb6	; 0x3fb6 <LCD_displayStringRowColumn>
 
-00004098 <alert>:
-void alert() {
-    4098:	df 93       	push	r29
-    409a:	cf 93       	push	r28
-    409c:	cd b7       	in	r28, 0x3d	; 61
-    409e:	de b7       	in	r29, 0x3e	; 62
+    	        uint8 idle_key = KEYPAD_getPressedKey(10000); /**< Capture keypad input */
+    41c0:	80 e1       	ldi	r24, 0x10	; 16
+    41c2:	97 e2       	ldi	r25, 0x27	; 39
+    41c4:	0e 94 8a 16 	call	0x2d14	; 0x2d14 <KEYPAD_getPressedKey>
+    41c8:	8d 8f       	std	Y+29, r24	; 0x1d
+    	        if (idle_key == '+') {
+    41ca:	8d 8d       	ldd	r24, Y+29	; 0x1d
+    41cc:	8b 32       	cpi	r24, 0x2B	; 43
+    41ce:	21 f4       	brne	.+8      	; 0x41d8 <main+0x196>
+    	            g_stateMachine = OPEN_DOOR; /**< Transition to OPEN_DOOR state */
+    41d0:	81 e0       	ldi	r24, 0x01	; 1
+    41d2:	80 93 5a 01 	sts	0x015A, r24
+    41d6:	63 cf       	rjmp	.-314    	; 0x409e <main+0x5c>
+    	        } else if (idle_key == '-') {
+    41d8:	8d 8d       	ldd	r24, Y+29	; 0x1d
+    41da:	8d 32       	cpi	r24, 0x2D	; 45
+    41dc:	09 f0       	breq	.+2      	; 0x41e0 <main+0x19e>
+    41de:	5f cf       	rjmp	.-322    	; 0x409e <main+0x5c>
+    	            g_stateMachine = CHANGE_PASSWORD; /**< Transition to CHANGE_PASSWORD state */
+    41e0:	85 e0       	ldi	r24, 0x05	; 5
+    41e2:	80 93 5a 01 	sts	0x015A, r24
+    41e6:	5b cf       	rjmp	.-330    	; 0x409e <main+0x5c>
+    	     *
+    	     * Verifies the current password before allowing the user to set a new password.
+    	     * If retries exceed limit, initiates alert/lockdown state.
+    	     */
+    	    case CHANGE_PASSWORD:
+    	        if (trys >= 3) {             /**< Lockdown if max retries are reached */
+    41e8:	8e 8d       	ldd	r24, Y+30	; 0x1e
+    41ea:	83 30       	cpi	r24, 0x03	; 3
+    41ec:	28 f0       	brcs	.+10     	; 0x41f8 <main+0x1b6>
+    	            g_stateMachine = ALERT;
+    41ee:	83 e0       	ldi	r24, 0x03	; 3
+    41f0:	80 93 5a 01 	sts	0x015A, r24
+    	            trys = 0;
+    41f4:	1e 8e       	std	Y+30, r1	; 0x1e
+    41f6:	53 cf       	rjmp	.-346    	; 0x409e <main+0x5c>
+    	            break;
+    	        }
 
-	LCD_clearScreen();
-    40a0:	0e 94 17 20 	call	0x402e	; 0x402e <LCD_clearScreen>
-	LCD_displayString("====LOCKDOWN====");
-    40a4:	80 e6       	ldi	r24, 0x60	; 96
-    40a6:	90 e0       	ldi	r25, 0x00	; 0
-    40a8:	0e 94 5e 1f 	call	0x3ebc	; 0x3ebc <LCD_displayString>
-	LCD_displayStringRowColumn(1, 0, "TRY AFTER");
-    40ac:	21 e7       	ldi	r18, 0x71	; 113
-    40ae:	30 e0       	ldi	r19, 0x00	; 0
-    40b0:	81 e0       	ldi	r24, 0x01	; 1
-    40b2:	60 e0       	ldi	r22, 0x00	; 0
-    40b4:	a9 01       	movw	r20, r18
-    40b6:	0e 94 db 1f 	call	0x3fb6	; 0x3fb6 <LCD_displayStringRowColumn>
-	Reset_Timer1Conter();
-    40ba:	0e 94 3b 20 	call	0x4076	; 0x4076 <Reset_Timer1Conter>
-	Timer1_resume();
-    40be:	0e 94 ca 10 	call	0x2194	; 0x2194 <Timer1_resume>
-	CTRL_buzzer_on();
-    40c2:	0e 94 6f 15 	call	0x2ade	; 0x2ade <CTRL_buzzer_on>
-	LCD_moveCursor(1, 10);
-    40c6:	81 e0       	ldi	r24, 0x01	; 1
-    40c8:	6a e0       	ldi	r22, 0x0A	; 10
-    40ca:	0e 94 99 1f 	call	0x3f32	; 0x3f32 <LCD_moveCursor>
-    40ce:	2f c0       	rjmp	.+94     	; 0x412e <alert+0x96>
-			LCD_moveCursor(1, 10);
-			LCD_intgerToString((60 - g_sec));
+    	        if (Check_password() == HMI_PASSMATCH) {
+    41f8:	0e 94 c2 22 	call	0x4584	; 0x4584 <Check_password>
+    41fc:	8d 34       	cpi	r24, 0x4D	; 77
+    41fe:	09 f0       	breq	.+2      	; 0x4202 <main+0x1c0>
+    4200:	c0 c0       	rjmp	.+384    	; 0x4382 <main+0x340>
+    	            LCD_clearScreen();
+    4202:	0e 94 17 20 	call	0x402e	; 0x402e <LCD_clearScreen>
+    	            LCD_displayStringRowColumn(0, 0, "Enter New Pass:");
+    4206:	2a eb       	ldi	r18, 0xBA	; 186
+    4208:	30 e0       	ldi	r19, 0x00	; 0
+    420a:	80 e0       	ldi	r24, 0x00	; 0
+    420c:	60 e0       	ldi	r22, 0x00	; 0
+    420e:	a9 01       	movw	r20, r18
+    4210:	0e 94 db 1f 	call	0x3fb6	; 0x3fb6 <LCD_displayStringRowColumn>
 
-		}
-*/
-		LCD_moveCursor(1, 10);
-    40d0:	81 e0       	ldi	r24, 0x01	; 1
-    40d2:	6a e0       	ldi	r22, 0x0A	; 10
-    40d4:	0e 94 99 1f 	call	0x3f32	; 0x3f32 <LCD_moveCursor>
-	    LCD_intgerToString((60 - g_sec));
-    40d8:	80 91 5b 01 	lds	r24, 0x015B
-    40dc:	90 91 5c 01 	lds	r25, 0x015C
-    40e0:	a0 91 5d 01 	lds	r26, 0x015D
-    40e4:	b0 91 5e 01 	lds	r27, 0x015E
-    40e8:	9c 01       	movw	r18, r24
-    40ea:	8c e3       	ldi	r24, 0x3C	; 60
-    40ec:	90 e0       	ldi	r25, 0x00	; 0
-    40ee:	82 1b       	sub	r24, r18
-    40f0:	93 0b       	sbc	r25, r19
-    40f2:	0e 94 f4 1f 	call	0x3fe8	; 0x3fe8 <LCD_intgerToString>
-	    if((60 - g_sec)==10){
-    40f6:	20 91 5b 01 	lds	r18, 0x015B
-    40fa:	30 91 5c 01 	lds	r19, 0x015C
-    40fe:	40 91 5d 01 	lds	r20, 0x015D
-    4102:	50 91 5e 01 	lds	r21, 0x015E
-    4106:	8c e3       	ldi	r24, 0x3C	; 60
-    4108:	90 e0       	ldi	r25, 0x00	; 0
-    410a:	a0 e0       	ldi	r26, 0x00	; 0
-    410c:	b0 e0       	ldi	r27, 0x00	; 0
-    410e:	82 1b       	sub	r24, r18
-    4110:	93 0b       	sbc	r25, r19
-    4112:	a4 0b       	sbc	r26, r20
-    4114:	b5 0b       	sbc	r27, r21
-    4116:	8a 30       	cpi	r24, 0x0A	; 10
-    4118:	91 05       	cpc	r25, r1
-    411a:	a1 05       	cpc	r26, r1
-    411c:	b1 05       	cpc	r27, r1
-    411e:	39 f4       	brne	.+14     	; 0x412e <alert+0x96>
-	    	LCD_displayStringRowColumn(1, 10, "    ");
-    4120:	2b e7       	ldi	r18, 0x7B	; 123
-    4122:	30 e0       	ldi	r19, 0x00	; 0
-    4124:	81 e0       	ldi	r24, 0x01	; 1
-    4126:	6a e0       	ldi	r22, 0x0A	; 10
-    4128:	a9 01       	movw	r20, r18
-    412a:	0e 94 db 1f 	call	0x3fb6	; 0x3fb6 <LCD_displayStringRowColumn>
-	LCD_displayStringRowColumn(1, 0, "TRY AFTER");
-	Reset_Timer1Conter();
-	Timer1_resume();
-	CTRL_buzzer_on();
-	LCD_moveCursor(1, 10);
-	while (g_sec < 60) {
-    412e:	80 91 5b 01 	lds	r24, 0x015B
-    4132:	90 91 5c 01 	lds	r25, 0x015C
-    4136:	a0 91 5d 01 	lds	r26, 0x015D
-    413a:	b0 91 5e 01 	lds	r27, 0x015E
-    413e:	8c 33       	cpi	r24, 0x3C	; 60
-    4140:	91 05       	cpc	r25, r1
-    4142:	a1 05       	cpc	r26, r1
-    4144:	b1 05       	cpc	r27, r1
-    4146:	20 f2       	brcs	.-120    	; 0x40d0 <alert+0x38>
-	    if((60 - g_sec)==10){
-	    	LCD_displayStringRowColumn(1, 10, "    ");
-	    }
+    	            uint8 l_1stInCpass[6] = {0}; /**< Buffer for first new password entry */
+    4214:	86 e0       	ldi	r24, 0x06	; 6
+    4216:	fe 01       	movw	r30, r28
+    4218:	f8 96       	adiw	r30, 0x38	; 56
+    421a:	df 01       	movw	r26, r30
+    421c:	28 2f       	mov	r18, r24
+    421e:	1d 92       	st	X+, r1
+    4220:	2a 95       	dec	r18
+    4222:	e9 f7       	brne	.-6      	; 0x421e <main+0x1dc>
+    	            uint8 l_2ndInCpass[6] = {0}; /**< Buffer for confirmation of new password */
+    4224:	86 e0       	ldi	r24, 0x06	; 6
+    4226:	fe 01       	movw	r30, r28
+    4228:	fe 96       	adiw	r30, 0x3e	; 62
+    422a:	df 01       	movw	r26, r30
+    422c:	28 2f       	mov	r18, r24
+    422e:	1d 92       	st	X+, r1
+    4230:	2a 95       	dec	r18
+    4232:	e9 f7       	brne	.-6      	; 0x422e <main+0x1ec>
 
-	}
-	Reset_Timer1Conter();
-    4148:	0e 94 3b 20 	call	0x4076	; 0x4076 <Reset_Timer1Conter>
-	CTRL_buzzer_off();
-    414c:	0e 94 79 15 	call	0x2af2	; 0x2af2 <CTRL_buzzer_off>
-	LCD_clearScreen();
-    4150:	0e 94 17 20 	call	0x402e	; 0x402e <LCD_clearScreen>
-}
-    4154:	cf 91       	pop	r28
-    4156:	df 91       	pop	r29
-    4158:	08 95       	ret
+    	            Get_password(l_1stInCpass);
+    4234:	ce 01       	movw	r24, r28
+    4236:	c8 96       	adiw	r24, 0x38	; 56
+    4238:	0e 94 83 22 	call	0x4506	; 0x4506 <Get_password>
+    	            LCD_clearScreen();
+    423c:	0e 94 17 20 	call	0x402e	; 0x402e <LCD_clearScreen>
+    	            LCD_displayStringRowColumn(0, 0, "Re-enter Pass:");
+    4240:	2c e6       	ldi	r18, 0x6C	; 108
+    4242:	30 e0       	ldi	r19, 0x00	; 0
+    4244:	80 e0       	ldi	r24, 0x00	; 0
+    4246:	60 e0       	ldi	r22, 0x00	; 0
+    4248:	a9 01       	movw	r20, r18
+    424a:	0e 94 db 1f 	call	0x3fb6	; 0x3fb6 <LCD_displayStringRowColumn>
+    	            Get_password(l_2ndInCpass);
+    424e:	ce 01       	movw	r24, r28
+    4250:	ce 96       	adiw	r24, 0x3e	; 62
+    4252:	0e 94 83 22 	call	0x4506	; 0x4506 <Get_password>
 
-0000415a <main>:
-	SET_PASSWORD, OPEN_DOOR, CLOSEDOOR, ALERT, IDLE, CHANGE_PASSWORD
-} STATEMACHINE;
-
-uint8 g_stateMachine = SET_PASSWORD;
-uint8 Check_password();
-int main() {
-    415a:	df 93       	push	r29
-    415c:	cf 93       	push	r28
-    415e:	cd b7       	in	r28, 0x3d	; 61
-    4160:	de b7       	in	r29, 0x3e	; 62
-    4162:	c5 54       	subi	r28, 0x45	; 69
-    4164:	d0 40       	sbci	r29, 0x00	; 0
-    4166:	0f b6       	in	r0, 0x3f	; 63
-    4168:	f8 94       	cli
-    416a:	de bf       	out	0x3e, r29	; 62
-    416c:	0f be       	out	0x3f, r0	; 63
-    416e:	cd bf       	out	0x3d, r28	; 61
-	uint8 trys = 0;
-    4170:	1e 8e       	std	Y+30, r1	; 0x1e
-	LCD_init();
-    4172:	0e 94 c0 1e 	call	0x3d80	; 0x3d80 <LCD_init>
-	CTRL_init();
-    4176:	0e 94 85 14 	call	0x290a	; 0x290a <CTRL_init>
-	Timer1_Config timer1Config = { .mode = TIMER1_MODE_CTC, .clockSource =
-			TIMER1_PRESCALER_1024, .compareOutputModeA = TIMER1_COMPARE_NORMAL,
-			.compareOutputModeB = TIMER1_COMPARE_CLEAR, .interruptA = TRUE,
-			.interruptB = FALSE, .interruptOVF = FALSE, .tickA = 7812
-
-	};
-    417a:	8d e0       	ldi	r24, 0x0D	; 13
-    417c:	fe 01       	movw	r30, r28
-    417e:	7f 96       	adiw	r30, 0x1f	; 31
-    4180:	df 01       	movw	r26, r30
-    4182:	28 2f       	mov	r18, r24
-    4184:	1d 92       	st	X+, r1
-    4186:	2a 95       	dec	r18
-    4188:	e9 f7       	brne	.-6      	; 0x4184 <main+0x2a>
-    418a:	81 e0       	ldi	r24, 0x01	; 1
-    418c:	8f 8f       	std	Y+31, r24	; 0x1f
-    418e:	85 e0       	ldi	r24, 0x05	; 5
-    4190:	88 a3       	std	Y+32, r24	; 0x20
-    4192:	82 e0       	ldi	r24, 0x02	; 2
-    4194:	8a a3       	std	Y+34, r24	; 0x22
-    4196:	81 e0       	ldi	r24, 0x01	; 1
-    4198:	8b a3       	std	Y+35, r24	; 0x23
-    419a:	84 e8       	ldi	r24, 0x84	; 132
-    419c:	9e e1       	ldi	r25, 0x1E	; 30
-    419e:	9f a3       	std	Y+39, r25	; 0x27
-    41a0:	8e a3       	std	Y+38, r24	; 0x26
-	Timer1_init(&timer1Config);
-    41a2:	ce 01       	movw	r24, r28
-    41a4:	4f 96       	adiw	r24, 0x1f	; 31
-    41a6:	0e 94 19 0f 	call	0x1e32	; 0x1e32 <Timer1_init>
-	Timer1_setCallback(Timer1_ISR);
-    41aa:	81 e2       	ldi	r24, 0x21	; 33
-    41ac:	90 e2       	ldi	r25, 0x20	; 32
-    41ae:	0e 94 82 10 	call	0x2104	; 0x2104 <Timer1_setCallback>
-	Reset_Timer1Conter();
-    41b2:	0e 94 3b 20 	call	0x4076	; 0x4076 <Reset_Timer1Conter>
-	for (;;) {
-
-		switch (g_stateMachine) {
-    41b6:	80 91 5a 01 	lds	r24, 0x015A
-    41ba:	a8 2f       	mov	r26, r24
-    41bc:	b0 e0       	ldi	r27, 0x00	; 0
-    41be:	26 96       	adiw	r28, 0x06	; 6
-    41c0:	bf af       	std	Y+63, r27	; 0x3f
-    41c2:	ae af       	std	Y+62, r26	; 0x3e
-    41c4:	26 97       	sbiw	r28, 0x06	; 6
-    41c6:	26 96       	adiw	r28, 0x06	; 6
-    41c8:	2e ad       	ldd	r18, Y+62	; 0x3e
-    41ca:	3f ad       	ldd	r19, Y+63	; 0x3f
-    41cc:	26 97       	sbiw	r28, 0x06	; 6
-    41ce:	23 30       	cpi	r18, 0x03	; 3
-    41d0:	31 05       	cpc	r19, r1
-    41d2:	09 f4       	brne	.+2      	; 0x41d6 <main+0x7c>
-    41d4:	13 c2       	rjmp	.+1062   	; 0x45fc <main+0x4a2>
-    41d6:	26 96       	adiw	r28, 0x06	; 6
-    41d8:	8e ad       	ldd	r24, Y+62	; 0x3e
-    41da:	9f ad       	ldd	r25, Y+63	; 0x3f
-    41dc:	26 97       	sbiw	r28, 0x06	; 6
-    41de:	84 30       	cpi	r24, 0x04	; 4
-    41e0:	91 05       	cpc	r25, r1
-    41e2:	7c f4       	brge	.+30     	; 0x4202 <main+0xa8>
-    41e4:	26 96       	adiw	r28, 0x06	; 6
-    41e6:	ae ad       	ldd	r26, Y+62	; 0x3e
-    41e8:	bf ad       	ldd	r27, Y+63	; 0x3f
-    41ea:	26 97       	sbiw	r28, 0x06	; 6
-    41ec:	10 97       	sbiw	r26, 0x00	; 0
-    41ee:	d1 f0       	breq	.+52     	; 0x4224 <main+0xca>
-    41f0:	26 96       	adiw	r28, 0x06	; 6
-    41f2:	2e ad       	ldd	r18, Y+62	; 0x3e
-    41f4:	3f ad       	ldd	r19, Y+63	; 0x3f
-    41f6:	26 97       	sbiw	r28, 0x06	; 6
-    41f8:	21 30       	cpi	r18, 0x01	; 1
-    41fa:	31 05       	cpc	r19, r1
-    41fc:	09 f4       	brne	.+2      	; 0x4200 <main+0xa6>
-    41fe:	57 c1       	rjmp	.+686    	; 0x44ae <main+0x354>
-    4200:	03 c2       	rjmp	.+1030   	; 0x4608 <main+0x4ae>
-    4202:	26 96       	adiw	r28, 0x06	; 6
-    4204:	8e ad       	ldd	r24, Y+62	; 0x3e
-    4206:	9f ad       	ldd	r25, Y+63	; 0x3f
-    4208:	26 97       	sbiw	r28, 0x06	; 6
-    420a:	84 30       	cpi	r24, 0x04	; 4
-    420c:	91 05       	cpc	r25, r1
-    420e:	09 f4       	brne	.+2      	; 0x4212 <main+0xb8>
-    4210:	53 c0       	rjmp	.+166    	; 0x42b8 <main+0x15e>
-    4212:	26 96       	adiw	r28, 0x06	; 6
-    4214:	ae ad       	ldd	r26, Y+62	; 0x3e
-    4216:	bf ad       	ldd	r27, Y+63	; 0x3f
-    4218:	26 97       	sbiw	r28, 0x06	; 6
-    421a:	a5 30       	cpi	r26, 0x05	; 5
-    421c:	b1 05       	cpc	r27, r1
-    421e:	09 f4       	brne	.+2      	; 0x4222 <main+0xc8>
-    4220:	6f c0       	rjmp	.+222    	; 0x4300 <main+0x1a6>
-    4222:	f2 c1       	rjmp	.+996    	; 0x4608 <main+0x4ae>
-		case SET_PASSWORD:
-			LCD_clearScreen();
-    4224:	0e 94 17 20 	call	0x402e	; 0x402e <LCD_clearScreen>
-			LCD_displayStringRowColumn(0, 0, "Enter Pass:");
-    4228:	20 e8       	ldi	r18, 0x80	; 128
-    422a:	30 e0       	ldi	r19, 0x00	; 0
-    422c:	80 e0       	ldi	r24, 0x00	; 0
-    422e:	60 e0       	ldi	r22, 0x00	; 0
-    4230:	a9 01       	movw	r20, r18
-    4232:	0e 94 db 1f 	call	0x3fb6	; 0x3fb6 <LCD_displayStringRowColumn>
-
-			uint8 l_1stInpass[6] = { 0 };
-    4236:	86 e0       	ldi	r24, 0x06	; 6
-    4238:	fe 01       	movw	r30, r28
-    423a:	bc 96       	adiw	r30, 0x2c	; 44
-    423c:	df 01       	movw	r26, r30
-    423e:	28 2f       	mov	r18, r24
-    4240:	1d 92       	st	X+, r1
-    4242:	2a 95       	dec	r18
-    4244:	e9 f7       	brne	.-6      	; 0x4240 <main+0xe6>
-			uint8 l_2ndInpass[6] = { 0 };
-    4246:	86 e0       	ldi	r24, 0x06	; 6
-    4248:	fe 01       	movw	r30, r28
-    424a:	f2 96       	adiw	r30, 0x32	; 50
-    424c:	df 01       	movw	r26, r30
-    424e:	28 2f       	mov	r18, r24
-    4250:	1d 92       	st	X+, r1
-    4252:	2a 95       	dec	r18
-    4254:	e9 f7       	brne	.-6      	; 0x4250 <main+0xf6>
-
-			/* Capture the first password */
-			Get_password(l_1stInpass);
+    	            if (CTRL_checkPassMatch(l_1stInCpass, l_2ndInCpass) == HMI_PASSMATCH) {
     4256:	ce 01       	movw	r24, r28
-    4258:	8c 96       	adiw	r24, 0x2c	; 44
-    425a:	0e 94 0f 23 	call	0x461e	; 0x461e <Get_password>
-
-			/* Confirm and re-enter password */
-			LCD_clearScreen();
-    425e:	0e 94 17 20 	call	0x402e	; 0x402e <LCD_clearScreen>
-			LCD_displayStringRowColumn(0, 0, "Re-enter Pass:");
-    4262:	2c e8       	ldi	r18, 0x8C	; 140
-    4264:	30 e0       	ldi	r19, 0x00	; 0
-    4266:	80 e0       	ldi	r24, 0x00	; 0
-    4268:	60 e0       	ldi	r22, 0x00	; 0
-    426a:	a9 01       	movw	r20, r18
-    426c:	0e 94 db 1f 	call	0x3fb6	; 0x3fb6 <LCD_displayStringRowColumn>
-			Get_password(l_2ndInpass);
-    4270:	ce 01       	movw	r24, r28
-    4272:	c2 96       	adiw	r24, 0x32	; 50
-    4274:	0e 94 0f 23 	call	0x461e	; 0x461e <Get_password>
-
-			/* Send and check passwords */
-			if (CTRL_checkPassMatch(l_1stInpass, l_2ndInpass) == HMI_PASSMATCH) {
-    4278:	ce 01       	movw	r24, r28
-    427a:	8c 96       	adiw	r24, 0x2c	; 44
-    427c:	9e 01       	movw	r18, r28
-    427e:	2e 5c       	subi	r18, 0xCE	; 206
-    4280:	3f 4f       	sbci	r19, 0xFF	; 255
-    4282:	b9 01       	movw	r22, r18
-    4284:	0e 94 ca 14 	call	0x2994	; 0x2994 <CTRL_checkPassMatch>
-    4288:	8d 34       	cpi	r24, 0x4D	; 77
-    428a:	41 f4       	brne	.+16     	; 0x429c <main+0x142>
-				g_stateMachine = IDLE;
-    428c:	84 e0       	ldi	r24, 0x04	; 4
-    428e:	80 93 5a 01 	sts	0x015A, r24
-				LCD_displayString("Pass match!");
-    4292:	8b e9       	ldi	r24, 0x9B	; 155
-    4294:	90 e0       	ldi	r25, 0x00	; 0
-    4296:	0e 94 5e 1f 	call	0x3ebc	; 0x3ebc <LCD_displayString>
-    429a:	8d cf       	rjmp	.-230    	; 0x41b6 <main+0x5c>
-
-			} else {
-				LCD_clearScreen();
-    429c:	0e 94 17 20 	call	0x402e	; 0x402e <LCD_clearScreen>
-				LCD_displayString("Pass Mismatch!");
-    42a0:	87 ea       	ldi	r24, 0xA7	; 167
-    42a2:	90 e0       	ldi	r25, 0x00	; 0
-    42a4:	0e 94 5e 1f 	call	0x3ebc	; 0x3ebc <LCD_displayString>
-				LCD_displayStringRowColumn(0, 0, "Retry");
-    42a8:	26 eb       	ldi	r18, 0xB6	; 182
-    42aa:	30 e0       	ldi	r19, 0x00	; 0
-    42ac:	80 e0       	ldi	r24, 0x00	; 0
-    42ae:	60 e0       	ldi	r22, 0x00	; 0
-    42b0:	a9 01       	movw	r20, r18
-    42b2:	0e 94 db 1f 	call	0x3fb6	; 0x3fb6 <LCD_displayStringRowColumn>
-    42b6:	7f cf       	rjmp	.-258    	; 0x41b6 <main+0x5c>
-
-			}
-			break;
-		case IDLE:
-			LCD_clearScreen();
-    42b8:	0e 94 17 20 	call	0x402e	; 0x402e <LCD_clearScreen>
-			LCD_displayStringRowColumn(0, 0, "+ : Open Door");
-    42bc:	2c eb       	ldi	r18, 0xBC	; 188
-    42be:	30 e0       	ldi	r19, 0x00	; 0
-    42c0:	80 e0       	ldi	r24, 0x00	; 0
-    42c2:	60 e0       	ldi	r22, 0x00	; 0
-    42c4:	a9 01       	movw	r20, r18
-    42c6:	0e 94 db 1f 	call	0x3fb6	; 0x3fb6 <LCD_displayStringRowColumn>
-			LCD_displayStringRowColumn(1, 0, "- : Change Pass");
-    42ca:	2a ec       	ldi	r18, 0xCA	; 202
-    42cc:	30 e0       	ldi	r19, 0x00	; 0
-    42ce:	81 e0       	ldi	r24, 0x01	; 1
-    42d0:	60 e0       	ldi	r22, 0x00	; 0
-    42d2:	a9 01       	movw	r20, r18
-    42d4:	0e 94 db 1f 	call	0x3fb6	; 0x3fb6 <LCD_displayStringRowColumn>
-			uint8 idle_key = KEYPAD_getPressedKey(20);
-    42d8:	84 e1       	ldi	r24, 0x14	; 20
-    42da:	90 e0       	ldi	r25, 0x00	; 0
-    42dc:	0e 94 8a 16 	call	0x2d14	; 0x2d14 <KEYPAD_getPressedKey>
-    42e0:	8d 8f       	std	Y+29, r24	; 0x1d
-			if (idle_key == '+') {
-    42e2:	8d 8d       	ldd	r24, Y+29	; 0x1d
-    42e4:	8b 32       	cpi	r24, 0x2B	; 43
-    42e6:	21 f4       	brne	.+8      	; 0x42f0 <main+0x196>
-				g_stateMachine = OPEN_DOOR;
-    42e8:	81 e0       	ldi	r24, 0x01	; 1
-    42ea:	80 93 5a 01 	sts	0x015A, r24
-    42ee:	63 cf       	rjmp	.-314    	; 0x41b6 <main+0x5c>
-			} else if (idle_key == '-') {
-    42f0:	8d 8d       	ldd	r24, Y+29	; 0x1d
-    42f2:	8d 32       	cpi	r24, 0x2D	; 45
-    42f4:	09 f0       	breq	.+2      	; 0x42f8 <main+0x19e>
-    42f6:	5f cf       	rjmp	.-322    	; 0x41b6 <main+0x5c>
-				g_stateMachine = CHANGE_PASSWORD;
-    42f8:	85 e0       	ldi	r24, 0x05	; 5
-    42fa:	80 93 5a 01 	sts	0x015A, r24
-    42fe:	5b cf       	rjmp	.-330    	; 0x41b6 <main+0x5c>
-			}
-			break;
-		case CHANGE_PASSWORD:
-			if (trys >= 3) {
-    4300:	8e 8d       	ldd	r24, Y+30	; 0x1e
-    4302:	83 30       	cpi	r24, 0x03	; 3
-    4304:	28 f0       	brcs	.+10     	; 0x4310 <main+0x1b6>
-				g_stateMachine = ALERT;
-    4306:	83 e0       	ldi	r24, 0x03	; 3
-    4308:	80 93 5a 01 	sts	0x015A, r24
-				trys = 0;
-    430c:	1e 8e       	std	Y+30, r1	; 0x1e
-    430e:	53 cf       	rjmp	.-346    	; 0x41b6 <main+0x5c>
-				break;
-			}
-			if (Check_password() == HMI_PASSMATCH) {
-    4310:	0e 94 4e 23 	call	0x469c	; 0x469c <Check_password>
-    4314:	8d 34       	cpi	r24, 0x4D	; 77
-    4316:	09 f0       	breq	.+2      	; 0x431a <main+0x1c0>
-    4318:	c0 c0       	rjmp	.+384    	; 0x449a <main+0x340>
-
-				LCD_clearScreen();
-    431a:	0e 94 17 20 	call	0x402e	; 0x402e <LCD_clearScreen>
-				LCD_displayStringRowColumn(0, 0, "Enter New Pass:");
-    431e:	2a ed       	ldi	r18, 0xDA	; 218
-    4320:	30 e0       	ldi	r19, 0x00	; 0
-    4322:	80 e0       	ldi	r24, 0x00	; 0
-    4324:	60 e0       	ldi	r22, 0x00	; 0
-    4326:	a9 01       	movw	r20, r18
-    4328:	0e 94 db 1f 	call	0x3fb6	; 0x3fb6 <LCD_displayStringRowColumn>
-
-				uint8 l_1stInCpass[6] = { 0 };
-    432c:	86 e0       	ldi	r24, 0x06	; 6
-    432e:	fe 01       	movw	r30, r28
-    4330:	f8 96       	adiw	r30, 0x38	; 56
-    4332:	df 01       	movw	r26, r30
-    4334:	28 2f       	mov	r18, r24
-    4336:	1d 92       	st	X+, r1
-    4338:	2a 95       	dec	r18
-    433a:	e9 f7       	brne	.-6      	; 0x4336 <main+0x1dc>
-				uint8 l_2ndInCpass[6] = { 0 };
-    433c:	86 e0       	ldi	r24, 0x06	; 6
-    433e:	fe 01       	movw	r30, r28
-    4340:	fe 96       	adiw	r30, 0x3e	; 62
-    4342:	df 01       	movw	r26, r30
-    4344:	28 2f       	mov	r18, r24
-    4346:	1d 92       	st	X+, r1
-    4348:	2a 95       	dec	r18
-    434a:	e9 f7       	brne	.-6      	; 0x4346 <main+0x1ec>
-
-				/* Capture the first password */
-				Get_password(l_1stInCpass);
-    434c:	ce 01       	movw	r24, r28
-    434e:	c8 96       	adiw	r24, 0x38	; 56
-    4350:	0e 94 0f 23 	call	0x461e	; 0x461e <Get_password>
-
-				/* Confirm and re-enter password */
-				LCD_clearScreen();
-    4354:	0e 94 17 20 	call	0x402e	; 0x402e <LCD_clearScreen>
-				LCD_displayStringRowColumn(0, 0, "Re-enter Pass:");
-    4358:	2c e8       	ldi	r18, 0x8C	; 140
-    435a:	30 e0       	ldi	r19, 0x00	; 0
-    435c:	80 e0       	ldi	r24, 0x00	; 0
-    435e:	60 e0       	ldi	r22, 0x00	; 0
-    4360:	a9 01       	movw	r20, r18
-    4362:	0e 94 db 1f 	call	0x3fb6	; 0x3fb6 <LCD_displayStringRowColumn>
-				Get_password(l_2ndInCpass);
-    4366:	ce 01       	movw	r24, r28
-    4368:	ce 96       	adiw	r24, 0x3e	; 62
-    436a:	0e 94 0f 23 	call	0x461e	; 0x461e <Get_password>
-
-				/* Send and check passwords */
-				if (CTRL_checkPassMatch(l_1stInCpass,
-    436e:	ce 01       	movw	r24, r28
-    4370:	c8 96       	adiw	r24, 0x38	; 56
-    4372:	9e 01       	movw	r18, r28
-    4374:	22 5c       	subi	r18, 0xC2	; 194
-    4376:	3f 4f       	sbci	r19, 0xFF	; 255
-    4378:	b9 01       	movw	r22, r18
-    437a:	0e 94 ca 14 	call	0x2994	; 0x2994 <CTRL_checkPassMatch>
-    437e:	8d 34       	cpi	r24, 0x4D	; 77
-    4380:	41 f4       	brne	.+16     	; 0x4392 <main+0x238>
-						l_2ndInCpass) == HMI_PASSMATCH) {
-					g_stateMachine = IDLE;
-    4382:	84 e0       	ldi	r24, 0x04	; 4
-    4384:	80 93 5a 01 	sts	0x015A, r24
-					LCD_displayString("Pass match!");
-    4388:	8b e9       	ldi	r24, 0x9B	; 155
-    438a:	90 e0       	ldi	r25, 0x00	; 0
-    438c:	0e 94 5e 1f 	call	0x3ebc	; 0x3ebc <LCD_displayString>
-    4390:	7f c0       	rjmp	.+254    	; 0x4490 <main+0x336>
-
-				} else {
-					LCD_clearScreen();
-    4392:	0e 94 17 20 	call	0x402e	; 0x402e <LCD_clearScreen>
-					LCD_displayString("Pass Mismatch!");
-    4396:	87 ea       	ldi	r24, 0xA7	; 167
-    4398:	90 e0       	ldi	r25, 0x00	; 0
-    439a:	0e 94 5e 1f 	call	0x3ebc	; 0x3ebc <LCD_displayString>
-					LCD_displayStringRowColumn(0, 0, "Retry");
-    439e:	26 eb       	ldi	r18, 0xB6	; 182
-    43a0:	30 e0       	ldi	r19, 0x00	; 0
-    43a2:	80 e0       	ldi	r24, 0x00	; 0
-    43a4:	60 e0       	ldi	r22, 0x00	; 0
-    43a6:	a9 01       	movw	r20, r18
-    43a8:	0e 94 db 1f 	call	0x3fb6	; 0x3fb6 <LCD_displayStringRowColumn>
-    43ac:	80 e0       	ldi	r24, 0x00	; 0
-    43ae:	90 e0       	ldi	r25, 0x00	; 0
-    43b0:	aa ef       	ldi	r26, 0xFA	; 250
-    43b2:	b3 e4       	ldi	r27, 0x43	; 67
-    43b4:	89 8f       	std	Y+25, r24	; 0x19
-    43b6:	9a 8f       	std	Y+26, r25	; 0x1a
-    43b8:	ab 8f       	std	Y+27, r26	; 0x1b
-    43ba:	bc 8f       	std	Y+28, r27	; 0x1c
+    4258:	c8 96       	adiw	r24, 0x38	; 56
+    425a:	9e 01       	movw	r18, r28
+    425c:	22 5c       	subi	r18, 0xC2	; 194
+    425e:	3f 4f       	sbci	r19, 0xFF	; 255
+    4260:	b9 01       	movw	r22, r18
+    4262:	0e 94 ca 14 	call	0x2994	; 0x2994 <CTRL_checkPassMatch>
+    4266:	8d 34       	cpi	r24, 0x4D	; 77
+    4268:	41 f4       	brne	.+16     	; 0x427a <main+0x238>
+    	                g_stateMachine = IDLE;
+    426a:	84 e0       	ldi	r24, 0x04	; 4
+    426c:	80 93 5a 01 	sts	0x015A, r24
+    	                LCD_displayString("Pass match!"); /**< New password successfully set */
+    4270:	8b e7       	ldi	r24, 0x7B	; 123
+    4272:	90 e0       	ldi	r25, 0x00	; 0
+    4274:	0e 94 5e 1f 	call	0x3ebc	; 0x3ebc <LCD_displayString>
+    4278:	7f c0       	rjmp	.+254    	; 0x4378 <main+0x336>
+    	            } else {
+    	                LCD_clearScreen();
+    427a:	0e 94 17 20 	call	0x402e	; 0x402e <LCD_clearScreen>
+    	                LCD_displayString("Pass Mismatch!");
+    427e:	87 e8       	ldi	r24, 0x87	; 135
+    4280:	90 e0       	ldi	r25, 0x00	; 0
+    4282:	0e 94 5e 1f 	call	0x3ebc	; 0x3ebc <LCD_displayString>
+    	                LCD_displayStringRowColumn(0, 0, "Retry");
+    4286:	26 e9       	ldi	r18, 0x96	; 150
+    4288:	30 e0       	ldi	r19, 0x00	; 0
+    428a:	80 e0       	ldi	r24, 0x00	; 0
+    428c:	60 e0       	ldi	r22, 0x00	; 0
+    428e:	a9 01       	movw	r20, r18
+    4290:	0e 94 db 1f 	call	0x3fb6	; 0x3fb6 <LCD_displayStringRowColumn>
+    4294:	80 e0       	ldi	r24, 0x00	; 0
+    4296:	90 e0       	ldi	r25, 0x00	; 0
+    4298:	aa ef       	ldi	r26, 0xFA	; 250
+    429a:	b3 e4       	ldi	r27, 0x43	; 67
+    429c:	89 8f       	std	Y+25, r24	; 0x19
+    429e:	9a 8f       	std	Y+26, r25	; 0x1a
+    42a0:	ab 8f       	std	Y+27, r26	; 0x1b
+    42a2:	bc 8f       	std	Y+28, r27	; 0x1c
  */
 void
 _delay_ms(double __ms)
 {
 	uint16_t __ticks;
 	double __tmp = ((F_CPU) / 4e3) * __ms;
-    43bc:	69 8d       	ldd	r22, Y+25	; 0x19
-    43be:	7a 8d       	ldd	r23, Y+26	; 0x1a
-    43c0:	8b 8d       	ldd	r24, Y+27	; 0x1b
-    43c2:	9c 8d       	ldd	r25, Y+28	; 0x1c
-    43c4:	20 e0       	ldi	r18, 0x00	; 0
-    43c6:	30 e0       	ldi	r19, 0x00	; 0
-    43c8:	4a ef       	ldi	r20, 0xFA	; 250
-    43ca:	54 e4       	ldi	r21, 0x44	; 68
-    43cc:	0e 94 8f 02 	call	0x51e	; 0x51e <__mulsf3>
-    43d0:	dc 01       	movw	r26, r24
-    43d2:	cb 01       	movw	r24, r22
-    43d4:	8d 8b       	std	Y+21, r24	; 0x15
-    43d6:	9e 8b       	std	Y+22, r25	; 0x16
-    43d8:	af 8b       	std	Y+23, r26	; 0x17
-    43da:	b8 8f       	std	Y+24, r27	; 0x18
+    42a4:	69 8d       	ldd	r22, Y+25	; 0x19
+    42a6:	7a 8d       	ldd	r23, Y+26	; 0x1a
+    42a8:	8b 8d       	ldd	r24, Y+27	; 0x1b
+    42aa:	9c 8d       	ldd	r25, Y+28	; 0x1c
+    42ac:	20 e0       	ldi	r18, 0x00	; 0
+    42ae:	30 e0       	ldi	r19, 0x00	; 0
+    42b0:	4a ef       	ldi	r20, 0xFA	; 250
+    42b2:	54 e4       	ldi	r21, 0x44	; 68
+    42b4:	0e 94 8f 02 	call	0x51e	; 0x51e <__mulsf3>
+    42b8:	dc 01       	movw	r26, r24
+    42ba:	cb 01       	movw	r24, r22
+    42bc:	8d 8b       	std	Y+21, r24	; 0x15
+    42be:	9e 8b       	std	Y+22, r25	; 0x16
+    42c0:	af 8b       	std	Y+23, r26	; 0x17
+    42c2:	b8 8f       	std	Y+24, r27	; 0x18
 	if (__tmp < 1.0)
-    43dc:	6d 89       	ldd	r22, Y+21	; 0x15
-    43de:	7e 89       	ldd	r23, Y+22	; 0x16
-    43e0:	8f 89       	ldd	r24, Y+23	; 0x17
-    43e2:	98 8d       	ldd	r25, Y+24	; 0x18
-    43e4:	20 e0       	ldi	r18, 0x00	; 0
-    43e6:	30 e0       	ldi	r19, 0x00	; 0
-    43e8:	40 e8       	ldi	r20, 0x80	; 128
-    43ea:	5f e3       	ldi	r21, 0x3F	; 63
-    43ec:	0e 94 95 04 	call	0x92a	; 0x92a <__ltsf2>
-    43f0:	88 23       	and	r24, r24
-    43f2:	2c f4       	brge	.+10     	; 0x43fe <main+0x2a4>
+    42c4:	6d 89       	ldd	r22, Y+21	; 0x15
+    42c6:	7e 89       	ldd	r23, Y+22	; 0x16
+    42c8:	8f 89       	ldd	r24, Y+23	; 0x17
+    42ca:	98 8d       	ldd	r25, Y+24	; 0x18
+    42cc:	20 e0       	ldi	r18, 0x00	; 0
+    42ce:	30 e0       	ldi	r19, 0x00	; 0
+    42d0:	40 e8       	ldi	r20, 0x80	; 128
+    42d2:	5f e3       	ldi	r21, 0x3F	; 63
+    42d4:	0e 94 95 04 	call	0x92a	; 0x92a <__ltsf2>
+    42d8:	88 23       	and	r24, r24
+    42da:	2c f4       	brge	.+10     	; 0x42e6 <main+0x2a4>
 		__ticks = 1;
-    43f4:	81 e0       	ldi	r24, 0x01	; 1
-    43f6:	90 e0       	ldi	r25, 0x00	; 0
-    43f8:	9c 8b       	std	Y+20, r25	; 0x14
-    43fa:	8b 8b       	std	Y+19, r24	; 0x13
-    43fc:	3f c0       	rjmp	.+126    	; 0x447c <main+0x322>
+    42dc:	81 e0       	ldi	r24, 0x01	; 1
+    42de:	90 e0       	ldi	r25, 0x00	; 0
+    42e0:	9c 8b       	std	Y+20, r25	; 0x14
+    42e2:	8b 8b       	std	Y+19, r24	; 0x13
+    42e4:	3f c0       	rjmp	.+126    	; 0x4364 <main+0x322>
 	else if (__tmp > 65535)
-    43fe:	6d 89       	ldd	r22, Y+21	; 0x15
-    4400:	7e 89       	ldd	r23, Y+22	; 0x16
-    4402:	8f 89       	ldd	r24, Y+23	; 0x17
-    4404:	98 8d       	ldd	r25, Y+24	; 0x18
-    4406:	20 e0       	ldi	r18, 0x00	; 0
-    4408:	3f ef       	ldi	r19, 0xFF	; 255
-    440a:	4f e7       	ldi	r20, 0x7F	; 127
-    440c:	57 e4       	ldi	r21, 0x47	; 71
-    440e:	0e 94 35 04 	call	0x86a	; 0x86a <__gtsf2>
-    4412:	18 16       	cp	r1, r24
-    4414:	4c f5       	brge	.+82     	; 0x4468 <main+0x30e>
+    42e6:	6d 89       	ldd	r22, Y+21	; 0x15
+    42e8:	7e 89       	ldd	r23, Y+22	; 0x16
+    42ea:	8f 89       	ldd	r24, Y+23	; 0x17
+    42ec:	98 8d       	ldd	r25, Y+24	; 0x18
+    42ee:	20 e0       	ldi	r18, 0x00	; 0
+    42f0:	3f ef       	ldi	r19, 0xFF	; 255
+    42f2:	4f e7       	ldi	r20, 0x7F	; 127
+    42f4:	57 e4       	ldi	r21, 0x47	; 71
+    42f6:	0e 94 35 04 	call	0x86a	; 0x86a <__gtsf2>
+    42fa:	18 16       	cp	r1, r24
+    42fc:	4c f5       	brge	.+82     	; 0x4350 <main+0x30e>
 	{
 		//	__ticks = requested delay in 1/10 ms
 		__ticks = (uint16_t) (__ms * 10.0);
-    4416:	69 8d       	ldd	r22, Y+25	; 0x19
-    4418:	7a 8d       	ldd	r23, Y+26	; 0x1a
-    441a:	8b 8d       	ldd	r24, Y+27	; 0x1b
-    441c:	9c 8d       	ldd	r25, Y+28	; 0x1c
-    441e:	20 e0       	ldi	r18, 0x00	; 0
-    4420:	30 e0       	ldi	r19, 0x00	; 0
-    4422:	40 e2       	ldi	r20, 0x20	; 32
-    4424:	51 e4       	ldi	r21, 0x41	; 65
-    4426:	0e 94 8f 02 	call	0x51e	; 0x51e <__mulsf3>
-    442a:	dc 01       	movw	r26, r24
-    442c:	cb 01       	movw	r24, r22
-    442e:	bc 01       	movw	r22, r24
-    4430:	cd 01       	movw	r24, r26
-    4432:	0e 94 b9 00 	call	0x172	; 0x172 <__fixunssfsi>
-    4436:	dc 01       	movw	r26, r24
-    4438:	cb 01       	movw	r24, r22
-    443a:	9c 8b       	std	Y+20, r25	; 0x14
-    443c:	8b 8b       	std	Y+19, r24	; 0x13
-    443e:	0f c0       	rjmp	.+30     	; 0x445e <main+0x304>
-    4440:	88 ec       	ldi	r24, 0xC8	; 200
+    42fe:	69 8d       	ldd	r22, Y+25	; 0x19
+    4300:	7a 8d       	ldd	r23, Y+26	; 0x1a
+    4302:	8b 8d       	ldd	r24, Y+27	; 0x1b
+    4304:	9c 8d       	ldd	r25, Y+28	; 0x1c
+    4306:	20 e0       	ldi	r18, 0x00	; 0
+    4308:	30 e0       	ldi	r19, 0x00	; 0
+    430a:	40 e2       	ldi	r20, 0x20	; 32
+    430c:	51 e4       	ldi	r21, 0x41	; 65
+    430e:	0e 94 8f 02 	call	0x51e	; 0x51e <__mulsf3>
+    4312:	dc 01       	movw	r26, r24
+    4314:	cb 01       	movw	r24, r22
+    4316:	bc 01       	movw	r22, r24
+    4318:	cd 01       	movw	r24, r26
+    431a:	0e 94 b9 00 	call	0x172	; 0x172 <__fixunssfsi>
+    431e:	dc 01       	movw	r26, r24
+    4320:	cb 01       	movw	r24, r22
+    4322:	9c 8b       	std	Y+20, r25	; 0x14
+    4324:	8b 8b       	std	Y+19, r24	; 0x13
+    4326:	0f c0       	rjmp	.+30     	; 0x4346 <main+0x304>
+    4328:	88 ec       	ldi	r24, 0xC8	; 200
+    432a:	90 e0       	ldi	r25, 0x00	; 0
+    432c:	9a 8b       	std	Y+18, r25	; 0x12
+    432e:	89 8b       	std	Y+17, r24	; 0x11
+    4330:	89 89       	ldd	r24, Y+17	; 0x11
+    4332:	9a 89       	ldd	r25, Y+18	; 0x12
+    4334:	01 97       	sbiw	r24, 0x01	; 1
+    4336:	f1 f7       	brne	.-4      	; 0x4334 <main+0x2f2>
+    4338:	9a 8b       	std	Y+18, r25	; 0x12
+    433a:	89 8b       	std	Y+17, r24	; 0x11
+		while(__ticks)
+		{
+			// wait 1/10 ms
+			_delay_loop_2(((F_CPU) / 4e3) / 10);
+			__ticks --;
+    433c:	8b 89       	ldd	r24, Y+19	; 0x13
+    433e:	9c 89       	ldd	r25, Y+20	; 0x14
+    4340:	01 97       	sbiw	r24, 0x01	; 1
+    4342:	9c 8b       	std	Y+20, r25	; 0x14
+    4344:	8b 8b       	std	Y+19, r24	; 0x13
+		__ticks = 1;
+	else if (__tmp > 65535)
+	{
+		//	__ticks = requested delay in 1/10 ms
+		__ticks = (uint16_t) (__ms * 10.0);
+		while(__ticks)
+    4346:	8b 89       	ldd	r24, Y+19	; 0x13
+    4348:	9c 89       	ldd	r25, Y+20	; 0x14
+    434a:	00 97       	sbiw	r24, 0x00	; 0
+    434c:	69 f7       	brne	.-38     	; 0x4328 <main+0x2e6>
+    434e:	14 c0       	rjmp	.+40     	; 0x4378 <main+0x336>
+			__ticks --;
+		}
+		return;
+	}
+	else
+		__ticks = (uint16_t)__tmp;
+    4350:	6d 89       	ldd	r22, Y+21	; 0x15
+    4352:	7e 89       	ldd	r23, Y+22	; 0x16
+    4354:	8f 89       	ldd	r24, Y+23	; 0x17
+    4356:	98 8d       	ldd	r25, Y+24	; 0x18
+    4358:	0e 94 b9 00 	call	0x172	; 0x172 <__fixunssfsi>
+    435c:	dc 01       	movw	r26, r24
+    435e:	cb 01       	movw	r24, r22
+    4360:	9c 8b       	std	Y+20, r25	; 0x14
+    4362:	8b 8b       	std	Y+19, r24	; 0x13
+    4364:	8b 89       	ldd	r24, Y+19	; 0x13
+    4366:	9c 89       	ldd	r25, Y+20	; 0x14
+    4368:	98 8b       	std	Y+16, r25	; 0x10
+    436a:	8f 87       	std	Y+15, r24	; 0x0f
+    436c:	8f 85       	ldd	r24, Y+15	; 0x0f
+    436e:	98 89       	ldd	r25, Y+16	; 0x10
+    4370:	01 97       	sbiw	r24, 0x01	; 1
+    4372:	f1 f7       	brne	.-4      	; 0x4370 <main+0x32e>
+    4374:	98 8b       	std	Y+16, r25	; 0x10
+    4376:	8f 87       	std	Y+15, r24	; 0x0f
+    	                _delay_ms(500); /**< Retry prompt for mismatch */
+    	            }
+
+    	            trys = 0;
+    4378:	1e 8e       	std	Y+30, r1	; 0x1e
+    	            g_stateMachine = IDLE;
+    437a:	84 e0       	ldi	r24, 0x04	; 4
+    437c:	80 93 5a 01 	sts	0x015A, r24
+    4380:	8e ce       	rjmp	.-740    	; 0x409e <main+0x5c>
+    	        } else {
+    	            LCD_clearScreen();
+    4382:	0e 94 17 20 	call	0x402e	; 0x402e <LCD_clearScreen>
+    	            LCD_displayString("WRONG PASSWORD");
+    4386:	8a ec       	ldi	r24, 0xCA	; 202
+    4388:	90 e0       	ldi	r25, 0x00	; 0
+    438a:	0e 94 5e 1f 	call	0x3ebc	; 0x3ebc <LCD_displayString>
+    	            trys++; /**< Increment retry counter on incorrect entry */
+    438e:	8e 8d       	ldd	r24, Y+30	; 0x1e
+    4390:	8f 5f       	subi	r24, 0xFF	; 255
+    4392:	8e 8f       	std	Y+30, r24	; 0x1e
+    4394:	84 ce       	rjmp	.-760    	; 0x409e <main+0x5c>
+    	     *
+    	     * Verifies password before allowing access to door opening sequence. On successful entry,
+    	     * the system waits for user passage via PIR sensor and then closes the door.
+    	     */
+    	    case OPEN_DOOR:
+    	        if (trys >= 3) {             /**< Lockdown if max retries are reached */
+    4396:	8e 8d       	ldd	r24, Y+30	; 0x1e
+    4398:	83 30       	cpi	r24, 0x03	; 3
+    439a:	28 f0       	brcs	.+10     	; 0x43a6 <main+0x364>
+    	            g_stateMachine = ALERT;
+    439c:	83 e0       	ldi	r24, 0x03	; 3
+    439e:	80 93 5a 01 	sts	0x015A, r24
+    	            trys = 0;
+    43a2:	1e 8e       	std	Y+30, r1	; 0x1e
+    43a4:	7c ce       	rjmp	.-776    	; 0x409e <main+0x5c>
+    	            break;
+    	        }
+
+    	        if (Check_password() == HMI_PASSMATCH) {
+    43a6:	0e 94 c2 22 	call	0x4584	; 0x4584 <Check_password>
+    43aa:	8d 34       	cpi	r24, 0x4D	; 77
+    43ac:	f9 f4       	brne	.+62     	; 0x43ec <main+0x3aa>
+    	            LCD_clearScreen();
+    43ae:	0e 94 17 20 	call	0x402e	; 0x402e <LCD_clearScreen>
+    	            LCD_displayString("OPENING DOOR!");
+    43b2:	89 ed       	ldi	r24, 0xD9	; 217
+    43b4:	90 e0       	ldi	r25, 0x00	; 0
+    43b6:	0e 94 5e 1f 	call	0x3ebc	; 0x3ebc <LCD_displayString>
+    	            CTRL_openDoor();         /**< Trigger door opening mechanism */
+    43ba:	0e 94 2d 15 	call	0x2a5a	; 0x2a5a <CTRL_openDoor>
+
+    	            LCD_moveCursor(0, 0);
+    43be:	80 e0       	ldi	r24, 0x00	; 0
+    43c0:	60 e0       	ldi	r22, 0x00	; 0
+    43c2:	0e 94 99 1f 	call	0x3f32	; 0x3f32 <LCD_moveCursor>
+    	            LCD_displayString("WAIT FOR PEOPLE");
+    43c6:	87 ee       	ldi	r24, 0xE7	; 231
+    43c8:	90 e0       	ldi	r25, 0x00	; 0
+    43ca:	0e 94 5e 1f 	call	0x3ebc	; 0x3ebc <LCD_displayString>
+    	            CTRL_waitForPir();       /**< Wait for PIR sensor trigger */
+    43ce:	0e 94 5b 15 	call	0x2ab6	; 0x2ab6 <CTRL_waitForPir>
+
+    	            LCD_clearScreen();
+    43d2:	0e 94 17 20 	call	0x402e	; 0x402e <LCD_clearScreen>
+    	            LCD_displayString("CLOSING DOOR");
+    43d6:	87 ef       	ldi	r24, 0xF7	; 247
+    43d8:	90 e0       	ldi	r25, 0x00	; 0
+    43da:	0e 94 5e 1f 	call	0x3ebc	; 0x3ebc <LCD_displayString>
+    	            CTRL_closeDoor();        /**< Trigger door closing mechanism */
+    43de:	0e 94 44 15 	call	0x2a88	; 0x2a88 <CTRL_closeDoor>
+
+    	            trys = 0;
+    43e2:	1e 8e       	std	Y+30, r1	; 0x1e
+    	            g_stateMachine = IDLE;
+    43e4:	84 e0       	ldi	r24, 0x04	; 4
+    43e6:	80 93 5a 01 	sts	0x015A, r24
+    43ea:	59 ce       	rjmp	.-846    	; 0x409e <main+0x5c>
+    	        } else {
+    	            LCD_clearScreen();
+    43ec:	0e 94 17 20 	call	0x402e	; 0x402e <LCD_clearScreen>
+    	            LCD_displayString("WRONG PASSWORD");
+    43f0:	8a ec       	ldi	r24, 0xCA	; 202
+    43f2:	90 e0       	ldi	r25, 0x00	; 0
+    43f4:	0e 94 5e 1f 	call	0x3ebc	; 0x3ebc <LCD_displayString>
+    43f8:	80 e0       	ldi	r24, 0x00	; 0
+    43fa:	90 e0       	ldi	r25, 0x00	; 0
+    43fc:	aa ef       	ldi	r26, 0xFA	; 250
+    43fe:	b3 e4       	ldi	r27, 0x43	; 67
+    4400:	8b 87       	std	Y+11, r24	; 0x0b
+    4402:	9c 87       	std	Y+12, r25	; 0x0c
+    4404:	ad 87       	std	Y+13, r26	; 0x0d
+    4406:	be 87       	std	Y+14, r27	; 0x0e
+ */
+void
+_delay_ms(double __ms)
+{
+	uint16_t __ticks;
+	double __tmp = ((F_CPU) / 4e3) * __ms;
+    4408:	6b 85       	ldd	r22, Y+11	; 0x0b
+    440a:	7c 85       	ldd	r23, Y+12	; 0x0c
+    440c:	8d 85       	ldd	r24, Y+13	; 0x0d
+    440e:	9e 85       	ldd	r25, Y+14	; 0x0e
+    4410:	20 e0       	ldi	r18, 0x00	; 0
+    4412:	30 e0       	ldi	r19, 0x00	; 0
+    4414:	4a ef       	ldi	r20, 0xFA	; 250
+    4416:	54 e4       	ldi	r21, 0x44	; 68
+    4418:	0e 94 8f 02 	call	0x51e	; 0x51e <__mulsf3>
+    441c:	dc 01       	movw	r26, r24
+    441e:	cb 01       	movw	r24, r22
+    4420:	8f 83       	std	Y+7, r24	; 0x07
+    4422:	98 87       	std	Y+8, r25	; 0x08
+    4424:	a9 87       	std	Y+9, r26	; 0x09
+    4426:	ba 87       	std	Y+10, r27	; 0x0a
+	if (__tmp < 1.0)
+    4428:	6f 81       	ldd	r22, Y+7	; 0x07
+    442a:	78 85       	ldd	r23, Y+8	; 0x08
+    442c:	89 85       	ldd	r24, Y+9	; 0x09
+    442e:	9a 85       	ldd	r25, Y+10	; 0x0a
+    4430:	20 e0       	ldi	r18, 0x00	; 0
+    4432:	30 e0       	ldi	r19, 0x00	; 0
+    4434:	40 e8       	ldi	r20, 0x80	; 128
+    4436:	5f e3       	ldi	r21, 0x3F	; 63
+    4438:	0e 94 95 04 	call	0x92a	; 0x92a <__ltsf2>
+    443c:	88 23       	and	r24, r24
+    443e:	2c f4       	brge	.+10     	; 0x444a <main+0x408>
+		__ticks = 1;
+    4440:	81 e0       	ldi	r24, 0x01	; 1
     4442:	90 e0       	ldi	r25, 0x00	; 0
-    4444:	9a 8b       	std	Y+18, r25	; 0x12
-    4446:	89 8b       	std	Y+17, r24	; 0x11
-    4448:	89 89       	ldd	r24, Y+17	; 0x11
-    444a:	9a 89       	ldd	r25, Y+18	; 0x12
-    444c:	01 97       	sbiw	r24, 0x01	; 1
-    444e:	f1 f7       	brne	.-4      	; 0x444c <main+0x2f2>
-    4450:	9a 8b       	std	Y+18, r25	; 0x12
-    4452:	89 8b       	std	Y+17, r24	; 0x11
+    4444:	9e 83       	std	Y+6, r25	; 0x06
+    4446:	8d 83       	std	Y+5, r24	; 0x05
+    4448:	3f c0       	rjmp	.+126    	; 0x44c8 <main+0x486>
+	else if (__tmp > 65535)
+    444a:	6f 81       	ldd	r22, Y+7	; 0x07
+    444c:	78 85       	ldd	r23, Y+8	; 0x08
+    444e:	89 85       	ldd	r24, Y+9	; 0x09
+    4450:	9a 85       	ldd	r25, Y+10	; 0x0a
+    4452:	20 e0       	ldi	r18, 0x00	; 0
+    4454:	3f ef       	ldi	r19, 0xFF	; 255
+    4456:	4f e7       	ldi	r20, 0x7F	; 127
+    4458:	57 e4       	ldi	r21, 0x47	; 71
+    445a:	0e 94 35 04 	call	0x86a	; 0x86a <__gtsf2>
+    445e:	18 16       	cp	r1, r24
+    4460:	4c f5       	brge	.+82     	; 0x44b4 <main+0x472>
+	{
+		//	__ticks = requested delay in 1/10 ms
+		__ticks = (uint16_t) (__ms * 10.0);
+    4462:	6b 85       	ldd	r22, Y+11	; 0x0b
+    4464:	7c 85       	ldd	r23, Y+12	; 0x0c
+    4466:	8d 85       	ldd	r24, Y+13	; 0x0d
+    4468:	9e 85       	ldd	r25, Y+14	; 0x0e
+    446a:	20 e0       	ldi	r18, 0x00	; 0
+    446c:	30 e0       	ldi	r19, 0x00	; 0
+    446e:	40 e2       	ldi	r20, 0x20	; 32
+    4470:	51 e4       	ldi	r21, 0x41	; 65
+    4472:	0e 94 8f 02 	call	0x51e	; 0x51e <__mulsf3>
+    4476:	dc 01       	movw	r26, r24
+    4478:	cb 01       	movw	r24, r22
+    447a:	bc 01       	movw	r22, r24
+    447c:	cd 01       	movw	r24, r26
+    447e:	0e 94 b9 00 	call	0x172	; 0x172 <__fixunssfsi>
+    4482:	dc 01       	movw	r26, r24
+    4484:	cb 01       	movw	r24, r22
+    4486:	9e 83       	std	Y+6, r25	; 0x06
+    4488:	8d 83       	std	Y+5, r24	; 0x05
+    448a:	0f c0       	rjmp	.+30     	; 0x44aa <main+0x468>
+    448c:	88 ec       	ldi	r24, 0xC8	; 200
+    448e:	90 e0       	ldi	r25, 0x00	; 0
+    4490:	9c 83       	std	Y+4, r25	; 0x04
+    4492:	8b 83       	std	Y+3, r24	; 0x03
+    4494:	8b 81       	ldd	r24, Y+3	; 0x03
+    4496:	9c 81       	ldd	r25, Y+4	; 0x04
+    4498:	01 97       	sbiw	r24, 0x01	; 1
+    449a:	f1 f7       	brne	.-4      	; 0x4498 <main+0x456>
+    449c:	9c 83       	std	Y+4, r25	; 0x04
+    449e:	8b 83       	std	Y+3, r24	; 0x03
 		while(__ticks)
 		{
 			// wait 1/10 ms
 			_delay_loop_2(((F_CPU) / 4e3) / 10);
 			__ticks --;
-    4454:	8b 89       	ldd	r24, Y+19	; 0x13
-    4456:	9c 89       	ldd	r25, Y+20	; 0x14
-    4458:	01 97       	sbiw	r24, 0x01	; 1
-    445a:	9c 8b       	std	Y+20, r25	; 0x14
-    445c:	8b 8b       	std	Y+19, r24	; 0x13
+    44a0:	8d 81       	ldd	r24, Y+5	; 0x05
+    44a2:	9e 81       	ldd	r25, Y+6	; 0x06
+    44a4:	01 97       	sbiw	r24, 0x01	; 1
+    44a6:	9e 83       	std	Y+6, r25	; 0x06
+    44a8:	8d 83       	std	Y+5, r24	; 0x05
 		__ticks = 1;
 	else if (__tmp > 65535)
 	{
 		//	__ticks = requested delay in 1/10 ms
 		__ticks = (uint16_t) (__ms * 10.0);
 		while(__ticks)
-    445e:	8b 89       	ldd	r24, Y+19	; 0x13
-    4460:	9c 89       	ldd	r25, Y+20	; 0x14
-    4462:	00 97       	sbiw	r24, 0x00	; 0
-    4464:	69 f7       	brne	.-38     	; 0x4440 <main+0x2e6>
-    4466:	14 c0       	rjmp	.+40     	; 0x4490 <main+0x336>
+    44aa:	8d 81       	ldd	r24, Y+5	; 0x05
+    44ac:	9e 81       	ldd	r25, Y+6	; 0x06
+    44ae:	00 97       	sbiw	r24, 0x00	; 0
+    44b0:	69 f7       	brne	.-38     	; 0x448c <main+0x44a>
+    44b2:	14 c0       	rjmp	.+40     	; 0x44dc <main+0x49a>
 			__ticks --;
 		}
 		return;
 	}
 	else
 		__ticks = (uint16_t)__tmp;
-    4468:	6d 89       	ldd	r22, Y+21	; 0x15
-    446a:	7e 89       	ldd	r23, Y+22	; 0x16
-    446c:	8f 89       	ldd	r24, Y+23	; 0x17
-    446e:	98 8d       	ldd	r25, Y+24	; 0x18
-    4470:	0e 94 b9 00 	call	0x172	; 0x172 <__fixunssfsi>
-    4474:	dc 01       	movw	r26, r24
-    4476:	cb 01       	movw	r24, r22
-    4478:	9c 8b       	std	Y+20, r25	; 0x14
-    447a:	8b 8b       	std	Y+19, r24	; 0x13
-    447c:	8b 89       	ldd	r24, Y+19	; 0x13
-    447e:	9c 89       	ldd	r25, Y+20	; 0x14
-    4480:	98 8b       	std	Y+16, r25	; 0x10
-    4482:	8f 87       	std	Y+15, r24	; 0x0f
-    4484:	8f 85       	ldd	r24, Y+15	; 0x0f
-    4486:	98 89       	ldd	r25, Y+16	; 0x10
-    4488:	01 97       	sbiw	r24, 0x01	; 1
-    448a:	f1 f7       	brne	.-4      	; 0x4488 <main+0x32e>
-    448c:	98 8b       	std	Y+16, r25	; 0x10
-    448e:	8f 87       	std	Y+15, r24	; 0x0f
-					_delay_ms(500);
-				}
+    44b4:	6f 81       	ldd	r22, Y+7	; 0x07
+    44b6:	78 85       	ldd	r23, Y+8	; 0x08
+    44b8:	89 85       	ldd	r24, Y+9	; 0x09
+    44ba:	9a 85       	ldd	r25, Y+10	; 0x0a
+    44bc:	0e 94 b9 00 	call	0x172	; 0x172 <__fixunssfsi>
+    44c0:	dc 01       	movw	r26, r24
+    44c2:	cb 01       	movw	r24, r22
+    44c4:	9e 83       	std	Y+6, r25	; 0x06
+    44c6:	8d 83       	std	Y+5, r24	; 0x05
+    44c8:	8d 81       	ldd	r24, Y+5	; 0x05
+    44ca:	9e 81       	ldd	r25, Y+6	; 0x06
+    44cc:	9a 83       	std	Y+2, r25	; 0x02
+    44ce:	89 83       	std	Y+1, r24	; 0x01
+    44d0:	89 81       	ldd	r24, Y+1	; 0x01
+    44d2:	9a 81       	ldd	r25, Y+2	; 0x02
+    44d4:	01 97       	sbiw	r24, 0x01	; 1
+    44d6:	f1 f7       	brne	.-4      	; 0x44d4 <main+0x492>
+    44d8:	9a 83       	std	Y+2, r25	; 0x02
+    44da:	89 83       	std	Y+1, r24	; 0x01
+    	            _delay_ms(500);          /**< Delay for user feedback */
+    	            trys++;
+    44dc:	8e 8d       	ldd	r24, Y+30	; 0x1e
+    44de:	8f 5f       	subi	r24, 0xFF	; 255
+    44e0:	8e 8f       	std	Y+30, r24	; 0x1e
+    44e2:	dd cd       	rjmp	.-1094   	; 0x409e <main+0x5c>
+    	     *
+    	     * Locks down the system for 60 seconds and activates a buzzer.
+    	     * After the lockdown period, returns to the IDLE state.
+    	     */
+    	    case ALERT:
+    	        alert(); /**< Executes a 60-second lockdown and buzzer alert */
+    44e4:	0e 94 0e 23 	call	0x461c	; 0x461c <alert>
+    	        g_stateMachine = IDLE;
+    44e8:	84 e0       	ldi	r24, 0x04	; 4
+    44ea:	80 93 5a 01 	sts	0x015A, r24
+    44ee:	d7 cd       	rjmp	.-1106   	; 0x409e <main+0x5c>
+    	     * @brief Default state handler for unexpected states.
+    	     *
+    	     * Returns the system to the IDLE state if an invalid state is encountered.
+    	     */
+    	    default:
+    	        LCD_displayStringRowColumn(0, 0, "Invalid State");
+    44f0:	24 e0       	ldi	r18, 0x04	; 4
+    44f2:	31 e0       	ldi	r19, 0x01	; 1
+    44f4:	80 e0       	ldi	r24, 0x00	; 0
+    44f6:	60 e0       	ldi	r22, 0x00	; 0
+    44f8:	a9 01       	movw	r20, r18
+    44fa:	0e 94 db 1f 	call	0x3fb6	; 0x3fb6 <LCD_displayStringRowColumn>
+    	        g_stateMachine = IDLE;
+    44fe:	84 e0       	ldi	r24, 0x04	; 4
+    4500:	80 93 5a 01 	sts	0x015A, r24
+    4504:	cc cd       	rjmp	.-1128   	; 0x409e <main+0x5c>
 
-				trys = 0;
-    4490:	1e 8e       	std	Y+30, r1	; 0x1e
-				g_stateMachine = IDLE;
-    4492:	84 e0       	ldi	r24, 0x04	; 4
-    4494:	80 93 5a 01 	sts	0x015A, r24
-    4498:	8e ce       	rjmp	.-740    	; 0x41b6 <main+0x5c>
-			} else {
-				LCD_clearScreen();
-    449a:	0e 94 17 20 	call	0x402e	; 0x402e <LCD_clearScreen>
-				LCD_displayString("WRONG PASSWORD");
-    449e:	8a ee       	ldi	r24, 0xEA	; 234
-    44a0:	90 e0       	ldi	r25, 0x00	; 0
-    44a2:	0e 94 5e 1f 	call	0x3ebc	; 0x3ebc <LCD_displayString>
-				trys++;
-    44a6:	8e 8d       	ldd	r24, Y+30	; 0x1e
-    44a8:	8f 5f       	subi	r24, 0xFF	; 255
-    44aa:	8e 8f       	std	Y+30, r24	; 0x1e
-    44ac:	84 ce       	rjmp	.-760    	; 0x41b6 <main+0x5c>
-			}
-			break;
-
-		case OPEN_DOOR:
-			if (trys >= 3) {
-    44ae:	8e 8d       	ldd	r24, Y+30	; 0x1e
-    44b0:	83 30       	cpi	r24, 0x03	; 3
-    44b2:	28 f0       	brcs	.+10     	; 0x44be <main+0x364>
-				g_stateMachine = ALERT;
-    44b4:	83 e0       	ldi	r24, 0x03	; 3
-    44b6:	80 93 5a 01 	sts	0x015A, r24
-				trys = 0;
-    44ba:	1e 8e       	std	Y+30, r1	; 0x1e
-    44bc:	7c ce       	rjmp	.-776    	; 0x41b6 <main+0x5c>
-				break;
-			}
-			if (Check_password() == HMI_PASSMATCH) {
-    44be:	0e 94 4e 23 	call	0x469c	; 0x469c <Check_password>
-    44c2:	8d 34       	cpi	r24, 0x4D	; 77
-    44c4:	f9 f4       	brne	.+62     	; 0x4504 <main+0x3aa>
-				LCD_clearScreen();
-    44c6:	0e 94 17 20 	call	0x402e	; 0x402e <LCD_clearScreen>
-				LCD_displayString("OPENING DOOR!");
-    44ca:	89 ef       	ldi	r24, 0xF9	; 249
-    44cc:	90 e0       	ldi	r25, 0x00	; 0
-    44ce:	0e 94 5e 1f 	call	0x3ebc	; 0x3ebc <LCD_displayString>
-				CTRL_openDoor();
-    44d2:	0e 94 2d 15 	call	0x2a5a	; 0x2a5a <CTRL_openDoor>
-				LCD_moveCursor(0, 0);
-    44d6:	80 e0       	ldi	r24, 0x00	; 0
-    44d8:	60 e0       	ldi	r22, 0x00	; 0
-    44da:	0e 94 99 1f 	call	0x3f32	; 0x3f32 <LCD_moveCursor>
-				LCD_displayString("WAIT FOR PEOPLE");
-    44de:	87 e0       	ldi	r24, 0x07	; 7
-    44e0:	91 e0       	ldi	r25, 0x01	; 1
-    44e2:	0e 94 5e 1f 	call	0x3ebc	; 0x3ebc <LCD_displayString>
-				CTRL_waitForPir();
-    44e6:	0e 94 5b 15 	call	0x2ab6	; 0x2ab6 <CTRL_waitForPir>
-				LCD_clearScreen();
-    44ea:	0e 94 17 20 	call	0x402e	; 0x402e <LCD_clearScreen>
-				LCD_displayString("CLOSING DOOR");
-    44ee:	87 e1       	ldi	r24, 0x17	; 23
-    44f0:	91 e0       	ldi	r25, 0x01	; 1
-    44f2:	0e 94 5e 1f 	call	0x3ebc	; 0x3ebc <LCD_displayString>
-				CTRL_closeDoor();
-    44f6:	0e 94 44 15 	call	0x2a88	; 0x2a88 <CTRL_closeDoor>
-
-				trys = 0;
-    44fa:	1e 8e       	std	Y+30, r1	; 0x1e
-				g_stateMachine = IDLE;
-    44fc:	84 e0       	ldi	r24, 0x04	; 4
-    44fe:	80 93 5a 01 	sts	0x015A, r24
-    4502:	59 ce       	rjmp	.-846    	; 0x41b6 <main+0x5c>
-			} else {
-				LCD_clearScreen();
-    4504:	0e 94 17 20 	call	0x402e	; 0x402e <LCD_clearScreen>
-				LCD_displayString("WRONG PASSWORD");
-    4508:	8a ee       	ldi	r24, 0xEA	; 234
-    450a:	90 e0       	ldi	r25, 0x00	; 0
-    450c:	0e 94 5e 1f 	call	0x3ebc	; 0x3ebc <LCD_displayString>
-    4510:	80 e0       	ldi	r24, 0x00	; 0
-    4512:	90 e0       	ldi	r25, 0x00	; 0
-    4514:	aa ef       	ldi	r26, 0xFA	; 250
-    4516:	b3 e4       	ldi	r27, 0x43	; 67
-    4518:	8b 87       	std	Y+11, r24	; 0x0b
-    451a:	9c 87       	std	Y+12, r25	; 0x0c
-    451c:	ad 87       	std	Y+13, r26	; 0x0d
-    451e:	be 87       	std	Y+14, r27	; 0x0e
+00004506 <Get_password>:
+ *
+ * This function reads five characters from the keypad and displays '*' for each entry on the LCD.
+ *
+ * @param a_pass Array to store the password characters.
  */
-void
-_delay_ms(double __ms)
-{
-	uint16_t __ticks;
-	double __tmp = ((F_CPU) / 4e3) * __ms;
-    4520:	6b 85       	ldd	r22, Y+11	; 0x0b
-    4522:	7c 85       	ldd	r23, Y+12	; 0x0c
-    4524:	8d 85       	ldd	r24, Y+13	; 0x0d
-    4526:	9e 85       	ldd	r25, Y+14	; 0x0e
-    4528:	20 e0       	ldi	r18, 0x00	; 0
-    452a:	30 e0       	ldi	r19, 0x00	; 0
-    452c:	4a ef       	ldi	r20, 0xFA	; 250
-    452e:	54 e4       	ldi	r21, 0x44	; 68
-    4530:	0e 94 8f 02 	call	0x51e	; 0x51e <__mulsf3>
-    4534:	dc 01       	movw	r26, r24
-    4536:	cb 01       	movw	r24, r22
-    4538:	8f 83       	std	Y+7, r24	; 0x07
-    453a:	98 87       	std	Y+8, r25	; 0x08
-    453c:	a9 87       	std	Y+9, r26	; 0x09
-    453e:	ba 87       	std	Y+10, r27	; 0x0a
-	if (__tmp < 1.0)
-    4540:	6f 81       	ldd	r22, Y+7	; 0x07
-    4542:	78 85       	ldd	r23, Y+8	; 0x08
-    4544:	89 85       	ldd	r24, Y+9	; 0x09
-    4546:	9a 85       	ldd	r25, Y+10	; 0x0a
-    4548:	20 e0       	ldi	r18, 0x00	; 0
-    454a:	30 e0       	ldi	r19, 0x00	; 0
-    454c:	40 e8       	ldi	r20, 0x80	; 128
-    454e:	5f e3       	ldi	r21, 0x3F	; 63
-    4550:	0e 94 95 04 	call	0x92a	; 0x92a <__ltsf2>
-    4554:	88 23       	and	r24, r24
-    4556:	2c f4       	brge	.+10     	; 0x4562 <main+0x408>
-		__ticks = 1;
+void Get_password(uint8 *a_pass) {
+    4506:	df 93       	push	r29
+    4508:	cf 93       	push	r28
+    450a:	00 d0       	rcall	.+0      	; 0x450c <Get_password+0x6>
+    450c:	00 d0       	rcall	.+0      	; 0x450e <Get_password+0x8>
+    450e:	cd b7       	in	r28, 0x3d	; 61
+    4510:	de b7       	in	r29, 0x3e	; 62
+    4512:	9c 83       	std	Y+4, r25	; 0x04
+    4514:	8b 83       	std	Y+3, r24	; 0x03
+    a_pass[5] = '\0';  // Null-terminate the password string
+    4516:	8b 81       	ldd	r24, Y+3	; 0x03
+    4518:	9c 81       	ldd	r25, Y+4	; 0x04
+    451a:	fc 01       	movw	r30, r24
+    451c:	35 96       	adiw	r30, 0x05	; 5
+    451e:	10 82       	st	Z, r1
+
+    uint8 l_key = 'N';
+    4520:	8e e4       	ldi	r24, 0x4E	; 78
+    4522:	8a 83       	std	Y+2, r24	; 0x02
+    for (uint8 i = 0; i < 5; i++) {
+    4524:	19 82       	std	Y+1, r1	; 0x01
+    4526:	24 c0       	rjmp	.+72     	; 0x4570 <Get_password+0x6a>
+        /* Wait for a valid key press */
+        while (l_key == 'N' || l_key > 9) {
+            l_key = KEYPAD_getPressedKey(1);
+    4528:	81 e0       	ldi	r24, 0x01	; 1
+    452a:	90 e0       	ldi	r25, 0x00	; 0
+    452c:	0e 94 8a 16 	call	0x2d14	; 0x2d14 <KEYPAD_getPressedKey>
+    4530:	8a 83       	std	Y+2, r24	; 0x02
+    a_pass[5] = '\0';  // Null-terminate the password string
+
+    uint8 l_key = 'N';
+    for (uint8 i = 0; i < 5; i++) {
+        /* Wait for a valid key press */
+        while (l_key == 'N' || l_key > 9) {
+    4532:	8a 81       	ldd	r24, Y+2	; 0x02
+    4534:	8e 34       	cpi	r24, 0x4E	; 78
+    4536:	c1 f3       	breq	.-16     	; 0x4528 <Get_password+0x22>
+    4538:	8a 81       	ldd	r24, Y+2	; 0x02
+    453a:	8a 30       	cpi	r24, 0x0A	; 10
+    453c:	a8 f7       	brcc	.-22     	; 0x4528 <Get_password+0x22>
+            l_key = KEYPAD_getPressedKey(1);
+        }
+
+        /* Store the new key press and display '*' */
+        a_pass[i] = l_key;
+    453e:	89 81       	ldd	r24, Y+1	; 0x01
+    4540:	28 2f       	mov	r18, r24
+    4542:	30 e0       	ldi	r19, 0x00	; 0
+    4544:	8b 81       	ldd	r24, Y+3	; 0x03
+    4546:	9c 81       	ldd	r25, Y+4	; 0x04
+    4548:	fc 01       	movw	r30, r24
+    454a:	e2 0f       	add	r30, r18
+    454c:	f3 1f       	adc	r31, r19
+    454e:	8a 81       	ldd	r24, Y+2	; 0x02
+    4550:	80 83       	st	Z, r24
+        LCD_moveCursor(1, i + 11);  // Adjust position if necessary
+    4552:	89 81       	ldd	r24, Y+1	; 0x01
+    4554:	98 2f       	mov	r25, r24
+    4556:	95 5f       	subi	r25, 0xF5	; 245
     4558:	81 e0       	ldi	r24, 0x01	; 1
-    455a:	90 e0       	ldi	r25, 0x00	; 0
-    455c:	9e 83       	std	Y+6, r25	; 0x06
-    455e:	8d 83       	std	Y+5, r24	; 0x05
-    4560:	3f c0       	rjmp	.+126    	; 0x45e0 <main+0x486>
-	else if (__tmp > 65535)
-    4562:	6f 81       	ldd	r22, Y+7	; 0x07
-    4564:	78 85       	ldd	r23, Y+8	; 0x08
-    4566:	89 85       	ldd	r24, Y+9	; 0x09
-    4568:	9a 85       	ldd	r25, Y+10	; 0x0a
-    456a:	20 e0       	ldi	r18, 0x00	; 0
-    456c:	3f ef       	ldi	r19, 0xFF	; 255
-    456e:	4f e7       	ldi	r20, 0x7F	; 127
-    4570:	57 e4       	ldi	r21, 0x47	; 71
-    4572:	0e 94 35 04 	call	0x86a	; 0x86a <__gtsf2>
-    4576:	18 16       	cp	r1, r24
-    4578:	4c f5       	brge	.+82     	; 0x45cc <main+0x472>
-	{
-		//	__ticks = requested delay in 1/10 ms
-		__ticks = (uint16_t) (__ms * 10.0);
-    457a:	6b 85       	ldd	r22, Y+11	; 0x0b
-    457c:	7c 85       	ldd	r23, Y+12	; 0x0c
-    457e:	8d 85       	ldd	r24, Y+13	; 0x0d
-    4580:	9e 85       	ldd	r25, Y+14	; 0x0e
-    4582:	20 e0       	ldi	r18, 0x00	; 0
-    4584:	30 e0       	ldi	r19, 0x00	; 0
-    4586:	40 e2       	ldi	r20, 0x20	; 32
-    4588:	51 e4       	ldi	r21, 0x41	; 65
-    458a:	0e 94 8f 02 	call	0x51e	; 0x51e <__mulsf3>
-    458e:	dc 01       	movw	r26, r24
-    4590:	cb 01       	movw	r24, r22
-    4592:	bc 01       	movw	r22, r24
-    4594:	cd 01       	movw	r24, r26
-    4596:	0e 94 b9 00 	call	0x172	; 0x172 <__fixunssfsi>
-    459a:	dc 01       	movw	r26, r24
-    459c:	cb 01       	movw	r24, r22
-    459e:	9e 83       	std	Y+6, r25	; 0x06
-    45a0:	8d 83       	std	Y+5, r24	; 0x05
-    45a2:	0f c0       	rjmp	.+30     	; 0x45c2 <main+0x468>
-    45a4:	88 ec       	ldi	r24, 0xC8	; 200
-    45a6:	90 e0       	ldi	r25, 0x00	; 0
-    45a8:	9c 83       	std	Y+4, r25	; 0x04
-    45aa:	8b 83       	std	Y+3, r24	; 0x03
-    45ac:	8b 81       	ldd	r24, Y+3	; 0x03
-    45ae:	9c 81       	ldd	r25, Y+4	; 0x04
-    45b0:	01 97       	sbiw	r24, 0x01	; 1
-    45b2:	f1 f7       	brne	.-4      	; 0x45b0 <main+0x456>
-    45b4:	9c 83       	std	Y+4, r25	; 0x04
-    45b6:	8b 83       	std	Y+3, r24	; 0x03
-		while(__ticks)
-		{
-			// wait 1/10 ms
-			_delay_loop_2(((F_CPU) / 4e3) / 10);
-			__ticks --;
-    45b8:	8d 81       	ldd	r24, Y+5	; 0x05
-    45ba:	9e 81       	ldd	r25, Y+6	; 0x06
-    45bc:	01 97       	sbiw	r24, 0x01	; 1
-    45be:	9e 83       	std	Y+6, r25	; 0x06
-    45c0:	8d 83       	std	Y+5, r24	; 0x05
-		__ticks = 1;
-	else if (__tmp > 65535)
-	{
-		//	__ticks = requested delay in 1/10 ms
-		__ticks = (uint16_t) (__ms * 10.0);
-		while(__ticks)
-    45c2:	8d 81       	ldd	r24, Y+5	; 0x05
-    45c4:	9e 81       	ldd	r25, Y+6	; 0x06
-    45c6:	00 97       	sbiw	r24, 0x00	; 0
-    45c8:	69 f7       	brne	.-38     	; 0x45a4 <main+0x44a>
-    45ca:	14 c0       	rjmp	.+40     	; 0x45f4 <main+0x49a>
-			__ticks --;
-		}
-		return;
-	}
-	else
-		__ticks = (uint16_t)__tmp;
-    45cc:	6f 81       	ldd	r22, Y+7	; 0x07
-    45ce:	78 85       	ldd	r23, Y+8	; 0x08
-    45d0:	89 85       	ldd	r24, Y+9	; 0x09
-    45d2:	9a 85       	ldd	r25, Y+10	; 0x0a
-    45d4:	0e 94 b9 00 	call	0x172	; 0x172 <__fixunssfsi>
-    45d8:	dc 01       	movw	r26, r24
-    45da:	cb 01       	movw	r24, r22
-    45dc:	9e 83       	std	Y+6, r25	; 0x06
-    45de:	8d 83       	std	Y+5, r24	; 0x05
-    45e0:	8d 81       	ldd	r24, Y+5	; 0x05
-    45e2:	9e 81       	ldd	r25, Y+6	; 0x06
-    45e4:	9a 83       	std	Y+2, r25	; 0x02
-    45e6:	89 83       	std	Y+1, r24	; 0x01
-    45e8:	89 81       	ldd	r24, Y+1	; 0x01
-    45ea:	9a 81       	ldd	r25, Y+2	; 0x02
-    45ec:	01 97       	sbiw	r24, 0x01	; 1
-    45ee:	f1 f7       	brne	.-4      	; 0x45ec <main+0x492>
-    45f0:	9a 83       	std	Y+2, r25	; 0x02
-    45f2:	89 83       	std	Y+1, r24	; 0x01
-				_delay_ms(500);
-				trys++;
-    45f4:	8e 8d       	ldd	r24, Y+30	; 0x1e
-    45f6:	8f 5f       	subi	r24, 0xFF	; 255
-    45f8:	8e 8f       	std	Y+30, r24	; 0x1e
-    45fa:	dd cd       	rjmp	.-1094   	; 0x41b6 <main+0x5c>
-			}
-			break;
-		case ALERT:
-			alert();
-    45fc:	0e 94 4c 20 	call	0x4098	; 0x4098 <alert>
-			g_stateMachine = IDLE;
-    4600:	84 e0       	ldi	r24, 0x04	; 4
-    4602:	80 93 5a 01 	sts	0x015A, r24
-    4606:	d7 cd       	rjmp	.-1106   	; 0x41b6 <main+0x5c>
-			break;
-		default:
+    455a:	69 2f       	mov	r22, r25
+    455c:	0e 94 99 1f 	call	0x3f32	; 0x3f32 <LCD_moveCursor>
+        LCD_displayChar('*');
+    4560:	8a e2       	ldi	r24, 0x2A	; 42
+    4562:	0e 94 0e 1b 	call	0x361c	; 0x361c <LCD_displayChar>
 
-			LCD_displayStringRowColumn(0, 0, "Invalid State");
-    4608:	24 e2       	ldi	r18, 0x24	; 36
-    460a:	31 e0       	ldi	r19, 0x01	; 1
-    460c:	80 e0       	ldi	r24, 0x00	; 0
-    460e:	60 e0       	ldi	r22, 0x00	; 0
-    4610:	a9 01       	movw	r20, r18
-    4612:	0e 94 db 1f 	call	0x3fb6	; 0x3fb6 <LCD_displayStringRowColumn>
-			g_stateMachine = IDLE;
-    4616:	84 e0       	ldi	r24, 0x04	; 4
-    4618:	80 93 5a 01 	sts	0x015A, r24
-    461c:	cc cd       	rjmp	.-1128   	; 0x41b6 <main+0x5c>
-
-0000461e <Get_password>:
-		}
-	}
-}
-
-/* Captures a 5-character password and stores it in a_pass */
+        l_key = 'N';  // Reset l_key for the next input
+    4566:	8e e4       	ldi	r24, 0x4E	; 78
+    4568:	8a 83       	std	Y+2, r24	; 0x02
+ */
 void Get_password(uint8 *a_pass) {
-    461e:	df 93       	push	r29
-    4620:	cf 93       	push	r28
-    4622:	00 d0       	rcall	.+0      	; 0x4624 <Get_password+0x6>
-    4624:	00 d0       	rcall	.+0      	; 0x4626 <Get_password+0x8>
-    4626:	cd b7       	in	r28, 0x3d	; 61
-    4628:	de b7       	in	r29, 0x3e	; 62
-    462a:	9c 83       	std	Y+4, r25	; 0x04
-    462c:	8b 83       	std	Y+3, r24	; 0x03
-	a_pass[5] = '\0';  // Null-terminate the password string
-    462e:	8b 81       	ldd	r24, Y+3	; 0x03
-    4630:	9c 81       	ldd	r25, Y+4	; 0x04
-    4632:	fc 01       	movw	r30, r24
-    4634:	35 96       	adiw	r30, 0x05	; 5
-    4636:	10 82       	st	Z, r1
+    a_pass[5] = '\0';  // Null-terminate the password string
 
-	uint8 l_key = 'N';
-    4638:	8e e4       	ldi	r24, 0x4E	; 78
-    463a:	8a 83       	std	Y+2, r24	; 0x02
-	for (uint8 i = 0; i < 5; i++) {
-    463c:	19 82       	std	Y+1, r1	; 0x01
-    463e:	24 c0       	rjmp	.+72     	; 0x4688 <Get_password+0x6a>
-		/* Wait for a valid key press */
-		while (l_key == 'N' || l_key > 9) {
-			l_key = KEYPAD_getPressedKey(1);
-    4640:	81 e0       	ldi	r24, 0x01	; 1
-    4642:	90 e0       	ldi	r25, 0x00	; 0
-    4644:	0e 94 8a 16 	call	0x2d14	; 0x2d14 <KEYPAD_getPressedKey>
-    4648:	8a 83       	std	Y+2, r24	; 0x02
-	a_pass[5] = '\0';  // Null-terminate the password string
+    uint8 l_key = 'N';
+    for (uint8 i = 0; i < 5; i++) {
+    456a:	89 81       	ldd	r24, Y+1	; 0x01
+    456c:	8f 5f       	subi	r24, 0xFF	; 255
+    456e:	89 83       	std	Y+1, r24	; 0x01
+    4570:	89 81       	ldd	r24, Y+1	; 0x01
+    4572:	85 30       	cpi	r24, 0x05	; 5
+    4574:	f0 f2       	brcs	.-68     	; 0x4532 <Get_password+0x2c>
+        LCD_moveCursor(1, i + 11);  // Adjust position if necessary
+        LCD_displayChar('*');
 
-	uint8 l_key = 'N';
-	for (uint8 i = 0; i < 5; i++) {
-		/* Wait for a valid key press */
-		while (l_key == 'N' || l_key > 9) {
-    464a:	8a 81       	ldd	r24, Y+2	; 0x02
-    464c:	8e 34       	cpi	r24, 0x4E	; 78
-    464e:	c1 f3       	breq	.-16     	; 0x4640 <Get_password+0x22>
-    4650:	8a 81       	ldd	r24, Y+2	; 0x02
-    4652:	8a 30       	cpi	r24, 0x0A	; 10
-    4654:	a8 f7       	brcc	.-22     	; 0x4640 <Get_password+0x22>
-			l_key = KEYPAD_getPressedKey(1);
-		}
-
-		/* Store the new key press and display '*' */
-		a_pass[i] = l_key;
-    4656:	89 81       	ldd	r24, Y+1	; 0x01
-    4658:	28 2f       	mov	r18, r24
-    465a:	30 e0       	ldi	r19, 0x00	; 0
-    465c:	8b 81       	ldd	r24, Y+3	; 0x03
-    465e:	9c 81       	ldd	r25, Y+4	; 0x04
-    4660:	fc 01       	movw	r30, r24
-    4662:	e2 0f       	add	r30, r18
-    4664:	f3 1f       	adc	r31, r19
-    4666:	8a 81       	ldd	r24, Y+2	; 0x02
-    4668:	80 83       	st	Z, r24
-		LCD_moveCursor(1, i + 11);  // Adjust position if necessary
-    466a:	89 81       	ldd	r24, Y+1	; 0x01
-    466c:	98 2f       	mov	r25, r24
-    466e:	95 5f       	subi	r25, 0xF5	; 245
-    4670:	81 e0       	ldi	r24, 0x01	; 1
-    4672:	69 2f       	mov	r22, r25
-    4674:	0e 94 99 1f 	call	0x3f32	; 0x3f32 <LCD_moveCursor>
-		LCD_displayChar('*');
-    4678:	8a e2       	ldi	r24, 0x2A	; 42
-    467a:	0e 94 0e 1b 	call	0x361c	; 0x361c <LCD_displayChar>
-
-		l_key = 'N';  // Reset l_key for the next input
-    467e:	8e e4       	ldi	r24, 0x4E	; 78
-    4680:	8a 83       	std	Y+2, r24	; 0x02
-/* Captures a 5-character password and stores it in a_pass */
-void Get_password(uint8 *a_pass) {
-	a_pass[5] = '\0';  // Null-terminate the password string
-
-	uint8 l_key = 'N';
-	for (uint8 i = 0; i < 5; i++) {
-    4682:	89 81       	ldd	r24, Y+1	; 0x01
-    4684:	8f 5f       	subi	r24, 0xFF	; 255
-    4686:	89 83       	std	Y+1, r24	; 0x01
-    4688:	89 81       	ldd	r24, Y+1	; 0x01
-    468a:	85 30       	cpi	r24, 0x05	; 5
-    468c:	f0 f2       	brcs	.-68     	; 0x464a <Get_password+0x2c>
-		LCD_moveCursor(1, i + 11);  // Adjust position if necessary
-		LCD_displayChar('*');
-
-		l_key = 'N';  // Reset l_key for the next input
-	}
+        l_key = 'N';  // Reset l_key for the next input
+    }
 }
-    468e:	0f 90       	pop	r0
-    4690:	0f 90       	pop	r0
-    4692:	0f 90       	pop	r0
-    4694:	0f 90       	pop	r0
-    4696:	cf 91       	pop	r28
-    4698:	df 91       	pop	r29
-    469a:	08 95       	ret
+    4576:	0f 90       	pop	r0
+    4578:	0f 90       	pop	r0
+    457a:	0f 90       	pop	r0
+    457c:	0f 90       	pop	r0
+    457e:	cf 91       	pop	r28
+    4580:	df 91       	pop	r29
+    4582:	08 95       	ret
 
-0000469c <Check_password>:
+00004584 <Check_password>:
+ *
+ * This function captures a password from the keypad and checks it against the stored password.
+ *
+ * @return HMI_PASSMATCH if passwords match, otherwise returns a mismatch code.
+ */
 uint8 Check_password() {
-    469c:	df 93       	push	r29
-    469e:	cf 93       	push	r28
-    46a0:	00 d0       	rcall	.+0      	; 0x46a2 <Check_password+0x6>
-    46a2:	00 d0       	rcall	.+0      	; 0x46a4 <Check_password+0x8>
-    46a4:	00 d0       	rcall	.+0      	; 0x46a6 <Check_password+0xa>
-    46a6:	cd b7       	in	r28, 0x3d	; 61
-    46a8:	de b7       	in	r29, 0x3e	; 62
-	uint8 l_pass[6];
-	LCD_clearScreen();
-    46aa:	0e 94 17 20 	call	0x402e	; 0x402e <LCD_clearScreen>
-	LCD_displayStringRowColumn(0, 0, "Enter Pass:");
-    46ae:	20 e8       	ldi	r18, 0x80	; 128
-    46b0:	30 e0       	ldi	r19, 0x00	; 0
-    46b2:	80 e0       	ldi	r24, 0x00	; 0
-    46b4:	60 e0       	ldi	r22, 0x00	; 0
-    46b6:	a9 01       	movw	r20, r18
-    46b8:	0e 94 db 1f 	call	0x3fb6	; 0x3fb6 <LCD_displayStringRowColumn>
-	Get_password(l_pass);
-    46bc:	ce 01       	movw	r24, r28
-    46be:	01 96       	adiw	r24, 0x01	; 1
-    46c0:	0e 94 0f 23 	call	0x461e	; 0x461e <Get_password>
-	return CTRL_checkPass(l_pass);
-    46c4:	ce 01       	movw	r24, r28
-    46c6:	01 96       	adiw	r24, 0x01	; 1
-    46c8:	0e 94 04 15 	call	0x2a08	; 0x2a08 <CTRL_checkPass>
-
+    4584:	df 93       	push	r29
+    4586:	cf 93       	push	r28
+    4588:	00 d0       	rcall	.+0      	; 0x458a <Check_password+0x6>
+    458a:	00 d0       	rcall	.+0      	; 0x458c <Check_password+0x8>
+    458c:	00 d0       	rcall	.+0      	; 0x458e <Check_password+0xa>
+    458e:	cd b7       	in	r28, 0x3d	; 61
+    4590:	de b7       	in	r29, 0x3e	; 62
+    uint8 l_pass[6];
+    LCD_clearScreen();
+    4592:	0e 94 17 20 	call	0x402e	; 0x402e <LCD_clearScreen>
+    LCD_displayStringRowColumn(0, 0, "Enter Pass:");
+    4596:	20 e6       	ldi	r18, 0x60	; 96
+    4598:	30 e0       	ldi	r19, 0x00	; 0
+    459a:	80 e0       	ldi	r24, 0x00	; 0
+    459c:	60 e0       	ldi	r22, 0x00	; 0
+    459e:	a9 01       	movw	r20, r18
+    45a0:	0e 94 db 1f 	call	0x3fb6	; 0x3fb6 <LCD_displayStringRowColumn>
+    Get_password(l_pass);
+    45a4:	ce 01       	movw	r24, r28
+    45a6:	01 96       	adiw	r24, 0x01	; 1
+    45a8:	0e 94 83 22 	call	0x4506	; 0x4506 <Get_password>
+    return CTRL_checkPass(l_pass);
+    45ac:	ce 01       	movw	r24, r28
+    45ae:	01 96       	adiw	r24, 0x01	; 1
+    45b0:	0e 94 04 15 	call	0x2a08	; 0x2a08 <CTRL_checkPass>
 }
-    46cc:	26 96       	adiw	r28, 0x06	; 6
-    46ce:	0f b6       	in	r0, 0x3f	; 63
-    46d0:	f8 94       	cli
-    46d2:	de bf       	out	0x3e, r29	; 62
-    46d4:	0f be       	out	0x3f, r0	; 63
-    46d6:	cd bf       	out	0x3d, r28	; 61
+    45b4:	26 96       	adiw	r28, 0x06	; 6
+    45b6:	0f b6       	in	r0, 0x3f	; 63
+    45b8:	f8 94       	cli
+    45ba:	de bf       	out	0x3e, r29	; 62
+    45bc:	0f be       	out	0x3f, r0	; 63
+    45be:	cd bf       	out	0x3d, r28	; 61
+    45c0:	cf 91       	pop	r28
+    45c2:	df 91       	pop	r29
+    45c4:	08 95       	ret
+
+000045c6 <Timer1_ISR>:
+/**
+ * @brief Timer1 ISR to increment seconds counter.
+ *
+ * This function increments the `g_sec` counter every time the timer ISR is triggered.
+ */
+void Timer1_ISR() {
+    45c6:	df 93       	push	r29
+    45c8:	cf 93       	push	r28
+    45ca:	cd b7       	in	r28, 0x3d	; 61
+    45cc:	de b7       	in	r29, 0x3e	; 62
+    g_sec++;
+    45ce:	80 91 5b 01 	lds	r24, 0x015B
+    45d2:	90 91 5c 01 	lds	r25, 0x015C
+    45d6:	a0 91 5d 01 	lds	r26, 0x015D
+    45da:	b0 91 5e 01 	lds	r27, 0x015E
+    45de:	01 96       	adiw	r24, 0x01	; 1
+    45e0:	a1 1d       	adc	r26, r1
+    45e2:	b1 1d       	adc	r27, r1
+    45e4:	80 93 5b 01 	sts	0x015B, r24
+    45e8:	90 93 5c 01 	sts	0x015C, r25
+    45ec:	a0 93 5d 01 	sts	0x015D, r26
+    45f0:	b0 93 5e 01 	sts	0x015E, r27
+}
+    45f4:	cf 91       	pop	r28
+    45f6:	df 91       	pop	r29
+    45f8:	08 95       	ret
+
+000045fa <Reset_Timer1Counter>:
+ * @brief Resets Timer1 and the elapsed time counter.
+ *
+ * This function stops Timer1, resets the global seconds counter `g_sec` to zero,
+ * and then resumes Timer1.
+ */
+void Reset_Timer1Counter() {
+    45fa:	df 93       	push	r29
+    45fc:	cf 93       	push	r28
+    45fe:	cd b7       	in	r28, 0x3d	; 61
+    4600:	de b7       	in	r29, 0x3e	; 62
+    Timer1_stop();
+    4602:	0e 94 b8 10 	call	0x2170	; 0x2170 <Timer1_stop>
+    g_sec = 0;
+    4606:	10 92 5b 01 	sts	0x015B, r1
+    460a:	10 92 5c 01 	sts	0x015C, r1
+    460e:	10 92 5d 01 	sts	0x015D, r1
+    4612:	10 92 5e 01 	sts	0x015E, r1
+}
+    4616:	cf 91       	pop	r28
+    4618:	df 91       	pop	r29
+    461a:	08 95       	ret
+
+0000461c <alert>:
+ * @brief Initiates an alert mode with a 60-second lockdown.
+ *
+ * During lockdown, the LCD displays a countdown, the buzzer is turned on, and
+ * Timer1 counts 60 seconds before allowing any further access attempts.
+ */
+void alert() {
+    461c:	df 93       	push	r29
+    461e:	cf 93       	push	r28
+    4620:	cd b7       	in	r28, 0x3d	; 61
+    4622:	de b7       	in	r29, 0x3e	; 62
+    LCD_clearScreen();
+    4624:	0e 94 17 20 	call	0x402e	; 0x402e <LCD_clearScreen>
+    LCD_displayString("====LOCKDOWN====");
+    4628:	82 e1       	ldi	r24, 0x12	; 18
+    462a:	91 e0       	ldi	r25, 0x01	; 1
+    462c:	0e 94 5e 1f 	call	0x3ebc	; 0x3ebc <LCD_displayString>
+    LCD_displayStringRowColumn(1, 0, "TRY AFTER");
+    4630:	23 e2       	ldi	r18, 0x23	; 35
+    4632:	31 e0       	ldi	r19, 0x01	; 1
+    4634:	81 e0       	ldi	r24, 0x01	; 1
+    4636:	60 e0       	ldi	r22, 0x00	; 0
+    4638:	a9 01       	movw	r20, r18
+    463a:	0e 94 db 1f 	call	0x3fb6	; 0x3fb6 <LCD_displayStringRowColumn>
+
+    Reset_Timer1Counter();
+    463e:	0e 94 fd 22 	call	0x45fa	; 0x45fa <Reset_Timer1Counter>
+    Timer1_resume();
+    4642:	0e 94 ca 10 	call	0x2194	; 0x2194 <Timer1_resume>
+    CTRL_buzzer_on();
+    4646:	0e 94 6f 15 	call	0x2ade	; 0x2ade <CTRL_buzzer_on>
+
+    LCD_moveCursor(1, 10);
+    464a:	81 e0       	ldi	r24, 0x01	; 1
+    464c:	6a e0       	ldi	r22, 0x0A	; 10
+    464e:	0e 94 99 1f 	call	0x3f32	; 0x3f32 <LCD_moveCursor>
+    4652:	2f c0       	rjmp	.+94     	; 0x46b2 <alert+0x96>
+    while (g_sec < 60) {
+        LCD_moveCursor(1, 10);
+    4654:	81 e0       	ldi	r24, 0x01	; 1
+    4656:	6a e0       	ldi	r22, 0x0A	; 10
+    4658:	0e 94 99 1f 	call	0x3f32	; 0x3f32 <LCD_moveCursor>
+        LCD_intgerToString(60 - g_sec);
+    465c:	80 91 5b 01 	lds	r24, 0x015B
+    4660:	90 91 5c 01 	lds	r25, 0x015C
+    4664:	a0 91 5d 01 	lds	r26, 0x015D
+    4668:	b0 91 5e 01 	lds	r27, 0x015E
+    466c:	9c 01       	movw	r18, r24
+    466e:	8c e3       	ldi	r24, 0x3C	; 60
+    4670:	90 e0       	ldi	r25, 0x00	; 0
+    4672:	82 1b       	sub	r24, r18
+    4674:	93 0b       	sbc	r25, r19
+    4676:	0e 94 f4 1f 	call	0x3fe8	; 0x3fe8 <LCD_intgerToString>
+
+        if ((60 - g_sec) == 10) {
+    467a:	20 91 5b 01 	lds	r18, 0x015B
+    467e:	30 91 5c 01 	lds	r19, 0x015C
+    4682:	40 91 5d 01 	lds	r20, 0x015D
+    4686:	50 91 5e 01 	lds	r21, 0x015E
+    468a:	8c e3       	ldi	r24, 0x3C	; 60
+    468c:	90 e0       	ldi	r25, 0x00	; 0
+    468e:	a0 e0       	ldi	r26, 0x00	; 0
+    4690:	b0 e0       	ldi	r27, 0x00	; 0
+    4692:	82 1b       	sub	r24, r18
+    4694:	93 0b       	sbc	r25, r19
+    4696:	a4 0b       	sbc	r26, r20
+    4698:	b5 0b       	sbc	r27, r21
+    469a:	8a 30       	cpi	r24, 0x0A	; 10
+    469c:	91 05       	cpc	r25, r1
+    469e:	a1 05       	cpc	r26, r1
+    46a0:	b1 05       	cpc	r27, r1
+    46a2:	39 f4       	brne	.+14     	; 0x46b2 <alert+0x96>
+            LCD_displayStringRowColumn(1, 10, "    ");
+    46a4:	2d e2       	ldi	r18, 0x2D	; 45
+    46a6:	31 e0       	ldi	r19, 0x01	; 1
+    46a8:	81 e0       	ldi	r24, 0x01	; 1
+    46aa:	6a e0       	ldi	r22, 0x0A	; 10
+    46ac:	a9 01       	movw	r20, r18
+    46ae:	0e 94 db 1f 	call	0x3fb6	; 0x3fb6 <LCD_displayStringRowColumn>
+    Reset_Timer1Counter();
+    Timer1_resume();
+    CTRL_buzzer_on();
+
+    LCD_moveCursor(1, 10);
+    while (g_sec < 60) {
+    46b2:	80 91 5b 01 	lds	r24, 0x015B
+    46b6:	90 91 5c 01 	lds	r25, 0x015C
+    46ba:	a0 91 5d 01 	lds	r26, 0x015D
+    46be:	b0 91 5e 01 	lds	r27, 0x015E
+    46c2:	8c 33       	cpi	r24, 0x3C	; 60
+    46c4:	91 05       	cpc	r25, r1
+    46c6:	a1 05       	cpc	r26, r1
+    46c8:	b1 05       	cpc	r27, r1
+    46ca:	20 f2       	brcs	.-120    	; 0x4654 <alert+0x38>
+        if ((60 - g_sec) == 10) {
+            LCD_displayStringRowColumn(1, 10, "    ");
+        }
+    }
+
+    Reset_Timer1Counter();
+    46cc:	0e 94 fd 22 	call	0x45fa	; 0x45fa <Reset_Timer1Counter>
+    CTRL_buzzer_off();
+    46d0:	0e 94 79 15 	call	0x2af2	; 0x2af2 <CTRL_buzzer_off>
+    LCD_clearScreen();
+    46d4:	0e 94 17 20 	call	0x402e	; 0x402e <LCD_clearScreen>
+}
     46d8:	cf 91       	pop	r28
     46da:	df 91       	pop	r29
     46dc:	08 95       	ret
