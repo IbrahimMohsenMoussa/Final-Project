@@ -4,7 +4,7 @@
  *
  * This application uses an HMI (Human-Machine Interface) to handle door operations,
  * including setting and changing passwords, opening and closing the door, and initiating
- * a lockdown if access attempts exceed the limit. It uses a combination of LCD, Keypad, Timer,
+ * a lockdown if access attempts exceed the limit. It uses a combination of LCD, Keypad,
  * Motor, and Buzzer peripherals.
  *
  * @date October 28, 2024
