@@ -8,7 +8,7 @@
  * Motor, and Buzzer peripherals.
  *
  * @date Novemeber 5, 2024
- * @author [Your Name]
+ * @author Ibrahim Mohsen 
  */
 
 #include "../hal/lcd.h"              /**< LCD for user feedback */
